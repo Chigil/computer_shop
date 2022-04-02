@@ -7,6 +7,9 @@ import { Role } from './role/role.model';
 import { RoleModule } from './role/role.module';
 import { Product } from './product/product.model';
 import { ProductModule } from './product/product.module';
+import { ProductSet } from './product/product-set.model';
+import { Set } from './set/set.model';
+import { SetModule } from './set/set.module';
 
 
 @Module({
@@ -23,12 +26,13 @@ import { ProductModule } from './product/product.module';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      models: [User, Role, Product],
+      models: [User, Role, Product, Set, ProductSet],
       autoLoadModels: true,
     }),
     UserModule,
     RoleModule,
-    ProductModule
+    ProductModule,
+    SetModule,
   ],
 })
 export class AppModule {

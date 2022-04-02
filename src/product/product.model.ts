@@ -1,6 +1,8 @@
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import { BelongsToMany, Column, DataType, Model, Table } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
+import { ProductSet } from './product-set.model';
 import { DataTypes } from 'sequelize';
+import { Set } from '../set/set.model';
 
 interface ProductCreationAttributes {
   name: string;
@@ -39,6 +41,6 @@ export class Product extends Model<Product, ProductCreationAttributes> {
   @Column({ type: DataType.INTEGER, allowNull: true, unique: true })
   catalog_id: number;
 
-  // @BelongsToMany(() => Set, () => ProductSet)
-  // sets: Set;
+  @BelongsToMany(() => Set, () => ProductSet)
+  sets: Set;
 }
