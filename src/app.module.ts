@@ -12,6 +12,8 @@ import { Set } from './set/set.model';
 import { SetModule } from './set/set.module';
 import { Order } from './order/order.model';
 import { OrderModule } from './order/order.module';
+import { LoyaltyProgram } from './loyalty-program/loyalty-program.model';
+import { LoyaltyProgramModule } from './loyalty-program/loyalty-program.module';
 
 
 @Module({
@@ -28,7 +30,7 @@ import { OrderModule } from './order/order.module';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      models: [User, Role, Product, Set, ProductSet, Order],
+      models: [User, Role, Product, Set, ProductSet, Order, LoyaltyProgram],
       autoLoadModels: true,
     }),
     UserModule,
@@ -36,6 +38,7 @@ import { OrderModule } from './order/order.module';
     ProductModule,
     SetModule,
     OrderModule,
+    LoyaltyProgramModule
   ],
 })
 export class AppModule {
