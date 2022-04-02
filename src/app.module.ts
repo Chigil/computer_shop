@@ -14,6 +14,10 @@ import { Order } from './order/order.model';
 import { OrderModule } from './order/order.module';
 import { LoyaltyProgram } from './loyalty-program/loyalty-program.model';
 import { LoyaltyProgramModule } from './loyalty-program/loyalty-program.module';
+import { Discount } from './discount/discount.model';
+import { DiscountType } from './discount-type/discount-type.model';
+import { DiscountModule } from './discount/discount.module';
+import { DiscountTypeModule } from './discount-type/discount-type.module';
 
 
 @Module({
@@ -30,7 +34,7 @@ import { LoyaltyProgramModule } from './loyalty-program/loyalty-program.module';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      models: [User, Role, Product, Set, ProductSet, Order, LoyaltyProgram],
+      models: [User, Role, Product, Set, ProductSet, Order, LoyaltyProgram, Discount, DiscountType],
       autoLoadModels: true,
     }),
     UserModule,
@@ -38,7 +42,9 @@ import { LoyaltyProgramModule } from './loyalty-program/loyalty-program.module';
     ProductModule,
     SetModule,
     OrderModule,
-    LoyaltyProgramModule
+    LoyaltyProgramModule,
+    DiscountModule,
+    DiscountTypeModule
   ],
 })
 export class AppModule {
