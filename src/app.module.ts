@@ -10,6 +10,8 @@ import { ProductModule } from './product/product.module';
 import { ProductSet } from './product/product-set.model';
 import { Set } from './set/set.model';
 import { SetModule } from './set/set.module';
+import { Order } from './order/order.model';
+import { OrderModule } from './order/order.module';
 
 
 @Module({
@@ -26,13 +28,14 @@ import { SetModule } from './set/set.module';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      models: [User, Role, Product, Set, ProductSet],
+      models: [User, Role, Product, Set, ProductSet, Order],
       autoLoadModels: true,
     }),
     UserModule,
     RoleModule,
     ProductModule,
     SetModule,
+    OrderModule,
   ],
 })
 export class AppModule {
