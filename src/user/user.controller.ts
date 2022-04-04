@@ -21,14 +21,14 @@ export class UserController {
   @ApiOperation({ summary: 'Получение всех пользователей' })
   @ApiResponse({ status: 200, type: [User] })
   @Get()
-  private getAll(): Promise<User[]>  {
+  private getAll(): Promise<User[]> {
     return this.userService.getAll();
   }
 
   @ApiOperation({ summary: 'Получение одного пользователя по айди' })
   @ApiResponse({ status: 200, type: User })
   @Get(':id')
-  private getOne(@Param('id', ParseUUIDPipe) id: string): Promise<User> {
+  private getOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.userService.getOne(id);
   }
 
@@ -42,7 +42,7 @@ export class UserController {
   @ApiOperation({ summary: 'Удаление пользователя' })
   @ApiResponse({ status: 200, type: '{success: true}' })
   @Delete(':id')
-  private delete(@Param('id', ParseUUIDPipe)  id: string) {
+  private delete(@Param('id', ParseUUIDPipe) id: string) {
     return this.userService.delete(id);
   }
 }

@@ -4,6 +4,7 @@ import { User } from './user.model';
 import { CreateUserRequestDto } from './dto/request/create-user-request.dto';
 import { UpdateUserRequestDto } from './dto/request/update-user-request.dto';
 import { RoleService } from '../role/role.service';
+import { NotFoundExceptionJs } from '../library/exeption/notFound.exception.js';
 
 
 @Injectable()
@@ -26,6 +27,9 @@ export class UserService {
 
   async getOne(id: string) {
     const user = await this.userRepository.findByPk(id);
+    if (!user) {
+      return new NotFoundExceptionJs('user', id);
+    }
     return user;
   }
 
@@ -41,6 +45,6 @@ export class UserService {
     if (deleted != 0) {
       return { success: true };
     }
-    return { success: false};
+    return { success: false };
   }
 }
