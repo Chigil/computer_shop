@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post } from '@nestjs/common';
 import { CreateUserRequestDto } from './dto/request/create-user-request.dto';
 import { UserService } from './user.service';
 import { UpdateUserRequestDto } from './dto/request/update-user-request.dto';
@@ -12,37 +12,37 @@ export class UserController {
   }
 
   @ApiOperation({ summary: 'Создание пользователя' })
-  @ApiResponse({ status: 200, type: User })
+  @ApiResponse({ status: 201, type: User })
   @Post()
-  create(@Body() createUserDto: CreateUserRequestDto) {
-    return this.userService.createUser(createUserDto);
+  private create(@Body() createUserDto: CreateUserRequestDto): Promise<User> {
+    return this.userService.create(createUserDto);
   }
 
   @ApiOperation({ summary: 'Получение всех пользователей' })
   @ApiResponse({ status: 200, type: [User] })
   @Get()
-  getAll() {
-    return this.userService.getAllUsers();
+  private getAll(): Promise<User[]>  {
+    return this.userService.getAll();
   }
 
   @ApiOperation({ summary: 'Получение одного пользователя по айди' })
   @ApiResponse({ status: 200, type: User })
   @Get(':id')
-  getOne(@Param('id') id: string) {
-    return this.userService.getOneUser(+id);
+  private getOne(@Param('id', ParseUUIDPipe) id: string): Promise<User> {
+    return this.userService.getOne(id);
   }
 
   @ApiOperation({ summary: 'Обновление пользователя' })
-  @ApiResponse({ status: 200, type: User })
+  @ApiResponse({ status: 201, type: User })
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserRequestDto) {
-    return this.userService.updateUser(+id, updateUserDto);
+  private update(@Param('id', ParseUUIDPipe) id: string, @Body() updateUserDto: UpdateUserRequestDto): Promise<User> {
+    return this.userService.update(id, updateUserDto);
   }
 
   @ApiOperation({ summary: 'Удаление пользователя' })
-  @ApiResponse({ status: 200, type: '{message: \'Удалено\'}' })
+  @ApiResponse({ status: 200, type: '{success: true}' })
   @Delete(':id')
-  delete(@Param('id') id: string) {
-    return this.userService.deleteUser(+id);
+  private delete(@Param('id', ParseUUIDPipe)  id: string) {
+    return this.userService.delete(id);
   }
 }

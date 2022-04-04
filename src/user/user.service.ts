@@ -12,30 +12,35 @@ export class UserService {
               private roleService: RoleService) {
   }
 
-  async createUser(dto: CreateUserRequestDto) {
+  async create(dto: CreateUserRequestDto): Promise<User> {
     const user = await this.userRepository.create(dto);
-    return user;
+    if (user) {
+      return user;
+    }
   }
 
-  async getAllUsers() {
+  async getAll() {
     const users = await this.userRepository.findAll({ include: { all: true } });
     return users;
   }
 
-  async getOneUser(id: number) {
+  async getOne(id: string) {
     const user = await this.userRepository.findByPk(id);
     return user;
   }
 
-  async updateUser(id: number, dto: UpdateUserRequestDto) {
+  async update(id: string, dto: UpdateUserRequestDto) {
     const user = await this.userRepository.findByPk(id);
     await user.update(dto);
     await user.save();
     return user;
   }
 
-  async deleteUser(id: number) {
-    await this.userRepository.destroy({ where: { id: id } });
-    return { message: `user witch id = ${id} deleted` };
+  async delete(id: string) {
+    const deleted = await this.userRepository.destroy({ where: { id: id } });
+    if (deleted != 0) {
+      return { success: true };
+    }
+    return { success: false};
   }
 }
