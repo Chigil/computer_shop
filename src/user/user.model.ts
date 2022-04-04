@@ -1,6 +1,7 @@
-import { Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript';
-import { ApiProperty } from '@nestjs/swagger';
+import { BelongsTo, Column, DataType, Model, Table } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
+import { Role } from '../role/role.model';
+import { LoyaltyProgram } from '../loyalty-program/loyalty-program.model';
 
 interface UserCreationAttributes {
   email: string;
@@ -19,13 +20,12 @@ export class User extends Model<User, UserCreationAttributes> {
   @Column({ type: DataType.STRING, allowNull: false })
   password: string;
 
-  //@ForeignKey(() => Role)
-  @Column({ type: DataType.UUID, allowNull: false, defaultValue: "a128073f-1692-475f-a4b2-04599983d496"})
-  role_id: string;
-
   @Column({ type: DataType.STRING, allowNull: true })
   username: string;
 
-  @Column({ type: DataType.INTEGER, allowNull: true })
-  loyalty_program_id: number;
+  @BelongsTo( () => LoyaltyProgram, 'loyalty_id')
+  loyaltyProgram: string;
+
+  @BelongsTo( () => Role, 'role_id')
+  role: Role;
 }

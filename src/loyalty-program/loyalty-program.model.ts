@@ -6,7 +6,7 @@ interface LoyaltyProgramCreationAttributes {
   discount_id: string;
 }
 
-@Table({ tableName: 'order' })
+@Table({ tableName: 'loyalty_program' })
 export class LoyaltyProgram extends Model<LoyaltyProgram, LoyaltyProgramCreationAttributes> {
   @Column({ type: DataType.UUID, unique: true, defaultValue: DataTypes.UUIDV4, primaryKey: true })
   id: string;
