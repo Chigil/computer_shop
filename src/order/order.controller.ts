@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { OrderService } from './order.service';
-import { CreateOrderDto } from './dto/create-order.dto';
+import { CreateOrderRequestDto } from './dto/request/create-order-request.dto';
 import { Order } from './order.model';
 
 
@@ -14,7 +14,7 @@ export class OrderController {
   @ApiOperation({ summary: 'Создание заказа' })
   @ApiResponse({ status: 200, type: Order })
   @Post()
-  create(@Body() createOrderDto: CreateOrderDto) {
+  create(@Body() createOrderDto: CreateOrderRequestDto) {
     return this.orderService.createOrder(createOrderDto);
   }
 
@@ -35,7 +35,7 @@ export class OrderController {
   @ApiOperation({ summary: 'Обновление заказа' })
   @ApiResponse({ status: 200, type: Order })
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateOrderDto: CreateOrderDto) {
+  update(@Param('id') id: string, @Body() updateOrderDto: CreateOrderRequestDto) {
     return this.orderService.updateOrder(id, updateOrderDto);
   }
 

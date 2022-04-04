@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Order } from './order.model';
-import { CreateOrderDto } from './dto/create-order.dto';
+import { CreateOrderRequestDto } from './dto/request/create-order-request.dto';
 
 @Injectable()
 export class OrderService {
   constructor(@InjectModel(Order) private orderRepository: typeof Order) {
   }
 
-  async createOrder(dto: CreateOrderDto) {
+  async createOrder(dto: CreateOrderRequestDto) {
     const order = await this.orderRepository.create(dto);
     return order;
   }
@@ -23,7 +23,7 @@ export class OrderService {
     return order;
   }
 
-  async updateOrder(id: string, dto: CreateOrderDto) {
+  async updateOrder(id: string, dto: CreateOrderRequestDto) {
     const order = await this.orderRepository.findByPk(id);
     await order.update(dto);
     await order.save();

@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Set } from './set.model';
-import { CreateSetDto } from './dto/create-set.dto';
+import { CreateSetRequestDto } from './dto/request/create-set-request.dto';
 
 @Injectable()
 export class SetService {
   constructor(@InjectModel(Set) private setRepository: typeof Set) {
   }
 
-  async createSet(dto: CreateSetDto) {
+  async createSet(dto: CreateSetRequestDto) {
     const set = await this.setRepository.create(dto);
     return set;
   }
@@ -23,7 +23,7 @@ export class SetService {
     return set;
   }
 
-  async updateSet(id: string, dto: CreateSetDto) {
+  async updateSet(id: string, dto: CreateSetRequestDto) {
     const set = await this.setRepository.findByPk(id);
     await set.update(dto);
     await set.save();

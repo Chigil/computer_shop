@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { User } from './user.model';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { CreateUserRequestDto } from './dto/request/create-user-request.dto';
+import { UpdateUserRequestDto } from './dto/request/update-user-request.dto';
 import { RoleService } from '../role/role.service';
 
 
@@ -12,7 +12,7 @@ export class UserService {
               private roleService: RoleService) {
   }
 
-  async createUser(dto: CreateUserDto) {
+  async createUser(dto: CreateUserRequestDto) {
     const user = await this.userRepository.create(dto);
     return user;
   }
@@ -27,7 +27,7 @@ export class UserService {
     return user;
   }
 
-  async updateUser(id: number, dto: UpdateUserDto) {
+  async updateUser(id: number, dto: UpdateUserRequestDto) {
     const user = await this.userRepository.findByPk(id);
     await user.update(dto);
     await user.save();

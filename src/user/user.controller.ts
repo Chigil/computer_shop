@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserRequestDto } from './dto/request/create-user-request.dto';
 import { UserService } from './user.service';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateUserRequestDto } from './dto/request/update-user-request.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { User } from './user.model';
 
@@ -14,7 +14,7 @@ export class UserController {
   @ApiOperation({ summary: 'Создание пользователя' })
   @ApiResponse({ status: 200, type: User })
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
+  create(@Body() createUserDto: CreateUserRequestDto) {
     return this.userService.createUser(createUserDto);
   }
 
@@ -35,7 +35,7 @@ export class UserController {
   @ApiOperation({ summary: 'Обновление пользователя' })
   @ApiResponse({ status: 200, type: User })
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserRequestDto) {
     return this.userService.updateUser(+id, updateUserDto);
   }
 

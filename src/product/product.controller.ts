@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/commo
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ProductService } from './product.service';
 import { Product } from './product.model';
-import { CreateProductDto } from './dto/create-product.dto';
+import { CreateProductRequestDto } from './dto/request/create-product-request.dto';
 
 @ApiTags('Товар')
 @Controller('product')
@@ -13,7 +13,7 @@ export class ProductController {
   @ApiOperation({ summary: 'Создание товара' })
   @ApiResponse({ status: 200, type: Product })
   @Post()
-  create(@Body() createProductDto: CreateProductDto) {
+  create(@Body() createProductDto: CreateProductRequestDto) {
     return this.productService.createProduct(createProductDto);
   }
 
@@ -34,7 +34,7 @@ export class ProductController {
   @ApiOperation({ summary: 'Обновление товара' })
   @ApiResponse({ status: 200, type: Product })
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: CreateProductDto) {
+  update(@Param('id') id: string, @Body() updateProductDto: CreateProductRequestDto) {
     return this.productService.updateProduct(id, updateProductDto);
   }
 

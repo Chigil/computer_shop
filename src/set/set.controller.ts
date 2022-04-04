@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Set } from './set.model';
-import { CreateSetDto } from './dto/create-set.dto';
+import { CreateSetRequestDto } from './dto/request/create-set-request.dto';
 import { SetService } from './set.service';
 
 @ApiTags('Комплект')
@@ -13,7 +13,7 @@ export class SetController {
   @ApiOperation({ summary: 'Создание комплекта' })
   @ApiResponse({ status: 200, type: Set })
   @Post()
-  create(@Body() createSetDto: CreateSetDto) {
+  create(@Body() createSetDto: CreateSetRequestDto) {
     return this.setService.createSet(createSetDto);
   }
 
@@ -34,7 +34,7 @@ export class SetController {
   @ApiOperation({ summary: 'Обновление комплекта' })
   @ApiResponse({ status: 200, type: Set })
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSetDto: CreateSetDto) {
+  update(@Param('id') id: string, @Body() updateSetDto: CreateSetRequestDto) {
     return this.setService.updateSet(id, updateSetDto);
   }
 

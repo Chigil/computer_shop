@@ -1,4 +1,4 @@
-export class CreateSetDto {
+export class CreateSetRequestDto {
   readonly name: string;
   readonly description: string;
   readonly price: number;
