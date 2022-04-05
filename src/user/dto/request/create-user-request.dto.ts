@@ -20,5 +20,5 @@ export class CreateUserRequestDto {
     description: 'Идентификатор роли пользователя',
   })
   @IsUUID('all', { message: 'Должно быть UUID' })
-  readonly role_id: string;
+  readonly roleId: string;
 }

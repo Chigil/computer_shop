@@ -4,20 +4,22 @@ import { User } from './model/user.model';
 import { CreateUserRequestDto } from './dto/request/create-user-request.dto';
 import { UpdateUserRequestDto } from './dto/request/update-user-request.dto';
 import { NotFoundException } from '../library/exeption/not-found.exception';
+import { toSnakeCase } from '../common/to-snake-case';
 
 @Injectable()
 export class UserService {
   constructor(@InjectModel(User) private userRepository: typeof User) {}
 
   public async create(dto: CreateUserRequestDto): Promise<object> {
-    const user = await this.userRepository.create(dto);
+    const user = await this.userRepository.create(toSnakeCase(dto));
     if (user) {
       return { id: user.id };
     }
   }
 
   public async getAll() {
-    return await this.userRepository.findAll({ include: { all: true } });
+    const users = await this.userRepository.findAll({ include: { all: true } });
+    return users;
   }
 
   public async getOne(id: string) {
