@@ -10,17 +10,17 @@ export class RoleController {
   constructor(private roleService: RoleService) {
   }
 
-  @ApiOperation({summary:'Создание роли'})
-  @ApiResponse({status: 200, type: User})
+  @ApiOperation({ summary: 'Создание роли' })
+  @ApiResponse({ status: 201, type: User })
   @Post()
-  create(@Body() createRoleDto: CreateRoleRequestDto) {
-    return this.roleService.createRole(createRoleDto);
+  private create(@Body() createRoleDto: CreateRoleRequestDto) {
+    return this.roleService.create(createRoleDto);
   }
 
-  @ApiOperation({summary:'Получение всех ролей'})
-  @ApiResponse({status: 200, type: [User]})
+  @ApiOperation({ summary: 'Получение всех ролей' })
+  @ApiResponse({ status: 200, type: [User] })
   @Get()
-  getAll() {
-    return this.roleService.getAllRoles();
+  private getAll() {
+    return this.roleService.getAll();
   }
 }

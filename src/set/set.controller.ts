@@ -11,37 +11,37 @@ export class SetController {
   }
 
   @ApiOperation({ summary: 'Создание комплекта' })
-  @ApiResponse({ status: 200, type: Set })
+  @ApiResponse({ status: 201, type: Set })
   @Post()
-  create(@Body() createSetDto: CreateSetRequestDto) {
-    return this.setService.createSet(createSetDto);
+  private create(@Body() createSetDto: CreateSetRequestDto) {
+    return this.setService.create(createSetDto);
   }
 
   @ApiOperation({ summary: 'Получение всех комплектов' })
   @ApiResponse({ status: 200, type: [Set] })
   @Get()
-  getAll() {
-    return this.setService.getAllSets();
+  private getAll() {
+    return this.setService.getAll();
   }
 
   @ApiOperation({ summary: 'Получение одного комплекта по айди' })
   @ApiResponse({ status: 200, type: Set })
   @Get(':id')
-  getOne(@Param('id') id: string) {
-    return this.setService.getOneSet(id);
+  private getOne(@Param('id') id: string) {
+    return this.setService.getOne(id);
   }
 
   @ApiOperation({ summary: 'Обновление комплекта' })
   @ApiResponse({ status: 200, type: Set })
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSetDto: CreateSetRequestDto) {
-    return this.setService.updateSet(id, updateSetDto);
+  private update(@Param('id') id: string, @Body() updateSetDto: CreateSetRequestDto) {
+    return this.setService.update(id, updateSetDto);
   }
 
   @ApiOperation({ summary: 'Удаление комплекта' })
-  @ApiResponse({ status: 200, type: '{message: \'Удалено\'}' })
+  @ApiResponse({ status: 200, type: '{ success: true }' })
   @Delete(':id')
-  delete(@Param('id') id: string) {
-    return this.setService.deleteSet(id);
+  private delete(@Param('id') id: string) {
+    return this.setService.delete(id);
   }
 }

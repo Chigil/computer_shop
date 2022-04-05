@@ -2,36 +2,45 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Discount } from './model/discount.model';
 import { CreateDiscountDto } from './dto/create-discount.dto';
+import { NotFoundException } from '../library/exeption/not-found.exception';
 
 @Injectable()
 export class DiscountService {
   constructor(@InjectModel(Discount) private discountRepository: typeof Discount) {
   }
 
-  async createDiscount(dto: CreateDiscountDto) {
+  public async create(dto: CreateDiscountDto) {
     const discount = await this.discountRepository.create(dto);
-    return discount;
+    if (discount) {
+      return { id: discount.id };
+    }
   }
 
-  async getAllDiscounts() {
+  public async getAll() {
     const discounts = await this.discountRepository.findAll({ include: { all: true } });
     return discounts;
   }
 
-  async getOneDiscount(id: string) {
+  public async getOne(id: string) {
     const discount = await this.discountRepository.findByPk(id);
+    if (!discount) {
+      return new NotFoundException('discount', id);
+    }
     return discount;
   }
 
-  async updateDiscount(id: string, dto: CreateDiscountDto) {
+  public async update(id: string, dto: CreateDiscountDto) {
     const discount = await this.discountRepository.findByPk(id);
     await discount.update(dto);
     await discount.save();
     return discount;
   }
 
-  async deleteDiscount(id: string) {
-    await this.discountRepository.destroy({ where: { id: id } });
-    return { message: `discount witch id = ${id} deleted` };
+  public async delete(id: string) {
+    const deleted = await this.discountRepository.destroy({ where: { id: id } });
+    if (deleted != 0) {
+      return { success: true };
+    }
+    return { success: false };
   }
 }

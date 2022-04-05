@@ -8,30 +8,35 @@ export class SetService {
   constructor(@InjectModel(Set) private setRepository: typeof Set) {
   }
 
-  async createSet(dto: CreateSetRequestDto) {
+  public async create(dto: CreateSetRequestDto) {
     const set = await this.setRepository.create(dto);
-    return set;
+    if (set) {
+      return { id: set.id };
+    }
   }
 
-  async getAllSets() {
+  public async getAll() {
     const sets = await this.setRepository.findAll({ include: { all: true } });
     return sets;
   }
 
-  async getOneSet(id: string) {
+  public async getOne(id: string) {
     const set = await this.setRepository.findByPk(id);
     return set;
   }
 
-  async updateSet(id: string, dto: CreateSetRequestDto) {
+  public async update(id: string, dto: CreateSetRequestDto) {
     const set = await this.setRepository.findByPk(id);
     await set.update(dto);
     await set.save();
     return set;
   }
 
-  async deleteSet(id: string) {
-    await this.setRepository.destroy({ where: { id: id } });
-    return { message: `Set witch id = ${id} deleted` };
+  public async delete(id: string) {
+    const deleted = await this.setRepository.destroy({ where: { id: id } });
+    if (deleted != 0) {
+      return { success: true };
+    }
+    return { success: false };
   }
 }

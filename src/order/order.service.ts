@@ -2,36 +2,44 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Order } from './model/order.model';
 import { CreateOrderRequestDto } from './dto/request/create-order-request.dto';
+import { NotFoundException } from '../library/exeption/not-found.exception';
 
 @Injectable()
 export class OrderService {
   constructor(@InjectModel(Order) private orderRepository: typeof Order) {
   }
 
-  async createOrder(dto: CreateOrderRequestDto) {
+  public async create(dto: CreateOrderRequestDto) {
     const order = await this.orderRepository.create(dto);
-    return order;
+    if (order) {
+      return { id: order.id };
+    }
   }
 
-  async getAllOrders() {
+  public async getAll() {
     const orders = await this.orderRepository.findAll({ include: { all: true } });
     return orders;
   }
 
-  async getOneOrder(id: string) {
+  public async getOne(id: string) {
     const order = await this.orderRepository.findByPk(id);
-    return order;
+    if (!order) {
+      return new NotFoundException('order', id);
+    };
   }
 
-  async updateOrder(id: string, dto: CreateOrderRequestDto) {
+  public async update(id: string, dto: CreateOrderRequestDto) {
     const order = await this.orderRepository.findByPk(id);
     await order.update(dto);
     await order.save();
     return order;
   }
 
-  async deleteOrder(id: string) {
-    await this.orderRepository.destroy({ where: { id: id } });
-    return { message: `order witch id = ${id} deleted` };
+  public async delete(id: string) {
+    const deleted = await this.orderRepository.destroy({ where: { id: id } });
+    if (deleted != 0) {
+      return { success: true };
+    }
+    return { success: false };
   }
 }

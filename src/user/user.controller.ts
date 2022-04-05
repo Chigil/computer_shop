@@ -42,7 +42,7 @@ export class UserController {
   }
 
   @ApiOperation({ summary: 'Удаление пользователя' })
-  @ApiResponse({ status: 200, type: '{success: true}' })
+  @ApiResponse({ status: 200, type: '{ success: true }' })
   @Delete(':id')
   private delete(@Param('id', ParseUUIDPipe) id: string) {
     return this.userService.delete(id);

@@ -11,38 +11,38 @@ export class ProductController {
   }
 
   @ApiOperation({ summary: 'Создание товара' })
-  @ApiResponse({ status: 200, type: Product })
+  @ApiResponse({ status: 201, type: Product })
   @Post()
-  create(@Body() createProductDto: CreateProductRequestDto) {
-    return this.productService.createProduct(createProductDto);
+  private create(@Body() createProductDto: CreateProductRequestDto) {
+    return this.productService.create(createProductDto);
   }
 
   @ApiOperation({ summary: 'Получение всех товаров' })
   @ApiResponse({ status: 200, type: [Product] })
   @Get()
-  getAll() {
-    return this.productService.getAllProducts();
+  private getAll() {
+    return this.productService.getAll();
   }
 
   @ApiOperation({ summary: 'Получение одного товара по айди' })
   @ApiResponse({ status: 200, type: Product })
   @Get(':id')
-  getOne(@Param('id') id: string) {
-    return this.productService.getOneProduct(id);
+  private getOne(@Param('id') id: string) {
+    return this.productService.getOne(id);
   }
 
   @ApiOperation({ summary: 'Обновление товара' })
   @ApiResponse({ status: 200, type: Product })
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: CreateProductRequestDto) {
-    return this.productService.updateProduct(id, updateProductDto);
+  private update(@Param('id') id: string, @Body() updateProductDto: CreateProductRequestDto) {
+    return this.productService.update(id, updateProductDto);
   }
 
   @ApiOperation({ summary: 'Удаление товара' })
-  @ApiResponse({ status: 200, type: '{message: \'Удалено\'}' })
+  @ApiResponse({ status: 200, type: '{ success: false }'})
   @Delete(':id')
-  delete(@Param('id') id: string) {
-    return this.productService.deleteProduct(id);
+  private delete(@Param('id') id: string) {
+    return this.productService.delete(id);
   }
 }
 

@@ -2,36 +2,44 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { CreateProductRequestDto } from './dto/request/create-product-request.dto';
 import { Product } from './model/product.model';
+import { NotFoundException } from '../library/exeption/not-found.exception';
 
 @Injectable()
 export class ProductService {
   constructor(@InjectModel(Product) private productRepository: typeof Product) {
   }
 
-  async createProduct(dto: CreateProductRequestDto) {
+  public async create(dto: CreateProductRequestDto) {
     const product = await this.productRepository.create(dto);
-    return product;
+    if (product) {
+      return { id: product.id };
+    }
   }
 
-  async getAllProducts() {
+  public async getAll() {
     const products = await this.productRepository.findAll({ include: { all: true } });
     return products;
   }
 
-  async getOneProduct(id: string) {
+  public async getOne(id: string) {
     const product = await this.productRepository.findByPk(id);
-    return product;
+    if (!product) {
+      return new NotFoundException('product', id);
+    }
   }
 
-  async updateProduct(id: string, dto: CreateProductRequestDto) {
+  public async update(id: string, dto: CreateProductRequestDto) {
     const product = await this.productRepository.findByPk(id);
     await product.update(dto);
     await product.save();
     return product;
   }
 
-  async deleteProduct(id: string) {
-    await this.productRepository.destroy({ where: { id: id } });
-    return { message: `product witch id = ${id} deleted` };
+  public async delete(id: string) {
+    const deleted = await this.productRepository.destroy({ where: { id: id } });
+    if (deleted != 0) {
+      return { success: true };
+    }
+    return { success: false };
   }
 }

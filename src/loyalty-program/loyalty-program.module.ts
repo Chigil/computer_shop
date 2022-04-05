@@ -6,5 +6,4 @@ import { LoyaltyProgramController } from './loyalty-program.controller';
   providers: [LoyaltyProgramService],
   controllers: [LoyaltyProgramController],
 })
-export class LoyaltyProgramModule {
-}
+export class LoyaltyProgramModule {}

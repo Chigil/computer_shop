@@ -12,37 +12,37 @@ export class OrderController {
   }
 
   @ApiOperation({ summary: 'Создание заказа' })
-  @ApiResponse({ status: 200, type: Order })
+  @ApiResponse({ status: 201, type: Order })
   @Post()
-  create(@Body() createOrderDto: CreateOrderRequestDto) {
-    return this.orderService.createOrder(createOrderDto);
+  private create(@Body() createOrderDto: CreateOrderRequestDto) {
+    return this.orderService.create(createOrderDto);
   }
 
   @ApiOperation({ summary: 'Получение всех заказов' })
   @ApiResponse({ status: 200, type: [Order] })
   @Get()
-  getAll() {
-    return this.orderService.getAllOrders();
+  private getAll() {
+    return this.orderService.getAll();
   }
 
   @ApiOperation({ summary: 'Получение одного заказа по айди' })
   @ApiResponse({ status: 200, type: Order })
   @Get(':id')
-  getOne(@Param('id') id: string) {
-    return this.orderService.getOneOrder(id);
+  private getOne(@Param('id') id: string) {
+    return this.orderService.getOne(id);
   }
 
   @ApiOperation({ summary: 'Обновление заказа' })
   @ApiResponse({ status: 200, type: Order })
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateOrderDto: CreateOrderRequestDto) {
-    return this.orderService.updateOrder(id, updateOrderDto);
+  private update(@Param('id') id: string, @Body() updateOrderDto: CreateOrderRequestDto) {
+    return this.orderService.update(id, updateOrderDto);
   }
 
   @ApiOperation({ summary: 'Удаление заказа' })
-  @ApiResponse({ status: 200, type: '{message: \'Удалено\'}' })
+  @ApiResponse({ status: 200, type: '{ success: false }'})
   @Delete(':id')
-  delete(@Param('id') id: string) {
-    return this.orderService.deleteOrder(id);
+  private delete(@Param('id') id: string) {
+    return this.orderService.delete(id);
   }
 }
