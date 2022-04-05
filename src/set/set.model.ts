@@ -36,9 +36,9 @@ export class Set extends Model<Set, SetCreationAttributes> {
   @Column({ type: DataType.INTEGER, allowNull: false, defaultValue: 0 })
   amount: number;
 
-  @ApiProperty({ example: '4', description: 'Идентификатор каталога' })
-  @Column({ type: DataType.INTEGER, allowNull: true, unique: true })
-  catalog_id: number;
+  @ApiProperty({ example: 'Информация о каталоге', description: 'Каталог' })
+    //@BelongsTo( () => Catalog, 'catalog_id')
+  catalog: string;
 
   @BelongsToMany(() => Product, () => ProductSet)
   products: Product[];

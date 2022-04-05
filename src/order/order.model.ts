@@ -1,8 +1,9 @@
-import { Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript';
+import { BelongsTo, Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript';
 import { Role } from '../role/role.model';
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../user/user.model';
 import { DataTypes } from 'sequelize';
+import { Discount } from '../discount/discount.model';
 
 interface OrderCreationAttributes {
   user_id: string;
@@ -19,25 +20,23 @@ export class Order extends Model<Order, OrderCreationAttributes> {
   id: string;
 
   @ForeignKey(() => User)
-  @ApiProperty({ example: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', description: 'Уникальный идентификатор клиента' })
-  @Column({ type: DataType.STRING, unique: true, allowNull: false })
-  user_id: string;
+  @ApiProperty({ example: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', description: 'Пользователь' })
+  @BelongsTo(() => User, 'user_id')
+  user: string;
 
-  //@ForeignKey(() => DiscountType)
-  @ApiProperty({ example: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', description: 'Уникальный идентификатор скидки' })
-  @Column({ type: DataType.STRING, allowNull: false })
-  discount_id: string;
 
-  //@ForeignKey(() => OrderStatus)
+  @ApiProperty({ example: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', description: 'Скидка' })
+  @BelongsTo(() => Discount, 'discount_id')
+  discount: string;
+
   @ApiProperty({
     example: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
-    description: 'Уникальный идентификатор статуса заказа',
+    description: 'Статус заказа',
   })
-  @Column({ type: DataType.STRING, allowNull: true })
-  status_id: string;
+    //@BelongsTo( () => Status, 'status_id')
+  status: string;
 
   @ApiProperty({ example: 2391.55, description: 'Общая цена заказа' })
-  @ForeignKey(() => Role)
   @Column({ type: DataType.FLOAT, allowNull: false, defaultValue: 2 })
   total_price: number;
 

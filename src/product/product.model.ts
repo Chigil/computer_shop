@@ -21,7 +21,6 @@ export class Product extends Model<Product, ProductCreationAttributes> {
   @Column({ type: DataType.STRING, unique: true, allowNull: false })
   name: string;
 
-
   @ApiProperty({
     example: '15.6" 1920 x 1080 IPS, 60 Гц, несенсорный, AMD Athlon Silver 3050U 2300 МГц, 8 ГБ DDR4, SSD 256 ГБ, видеокарта встроенная, без ОС, цвет крышки серебристый',
     description: 'Описание товара',
@@ -37,9 +36,9 @@ export class Product extends Model<Product, ProductCreationAttributes> {
   @Column({ type: DataType.INTEGER, allowNull: false, defaultValue: 0 })
   amount: number;
 
-  @ApiProperty({ example: '4', description: 'Идентификатор каталога' })
-  @Column({ type: DataType.INTEGER, allowNull: true, unique: true })
-  catalog_id: number;
+  @ApiProperty({ example: 'Информация о каталоге', description: 'Каталог' })
+    //@BelongsTo( () => Catalog, 'catalog_id')
+  catalog: string;
 
   @BelongsToMany(() => Set, () => ProductSet)
   sets: Set;
