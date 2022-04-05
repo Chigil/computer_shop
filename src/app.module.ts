@@ -18,6 +18,7 @@ import { Discount } from './discount/discount.model';
 import { DiscountType } from './discount-type/discount-type.model';
 import { DiscountModule } from './discount/discount.module';
 import { DiscountTypeModule } from './discount-type/discount-type.module';
+import { CatalogItemModule } from './catalog-item/catalog-item.module';
 
 
 @Module({
@@ -44,7 +45,8 @@ import { DiscountTypeModule } from './discount-type/discount-type.module';
     OrderModule,
     LoyaltyProgramModule,
     DiscountModule,
-    DiscountTypeModule
+    DiscountTypeModule,
+    CatalogItemModule,
   ],
 })
 export class AppModule {
