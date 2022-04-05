@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/commo
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { OrderService } from './order.service';
 import { CreateOrderRequestDto } from './dto/request/create-order-request.dto';
-import { Order } from './order.model';
+import { Order } from './model/order.model';
 
 
 @ApiTags('Заказ')

@@ -1,7 +1,7 @@
 import { BelongsTo, Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript';
 import {ApiProperty, ApiTags} from "@nestjs/swagger";
 import {DataTypes} from "sequelize";
-import {DiscountType} from "../discount-type/discount-type.model";
+import {DiscountType} from "../../discount-type/model/discount-type.model";
 
 interface DiscountCreationAttributes   {
     discountId: string;

@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ProductService } from './product.service';
-import { Product } from './product.model';
+import { Product } from './model/product.model';
 import { CreateProductRequestDto } from './dto/request/create-product-request.dto';
 
 @ApiTags('Товар')

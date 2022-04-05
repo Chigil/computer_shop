@@ -1,7 +1,7 @@
 import { BelongsTo, Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
 import { DataTypes } from 'sequelize';
-import { Discount } from '../discount/discount.model';
+import { Discount } from '../../discount/model/discount.model';
 
 interface LoyaltyProgramCreationAttributes {
   discount_id: string;

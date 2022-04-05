@@ -1,9 +1,9 @@
 import { BelongsTo, Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript';
-import { Role } from '../role/role.model';
+import { Role } from '../../role/model/role.model';
 import { ApiProperty } from '@nestjs/swagger';
-import { User } from '../user/user.model';
+import { User } from '../../user/model/user.model';
 import { DataTypes } from 'sequelize';
-import { Discount } from '../discount/discount.model';
+import { Discount } from '../../discount/model/discount.model';
 
 interface OrderCreationAttributes {
   user_id: string;

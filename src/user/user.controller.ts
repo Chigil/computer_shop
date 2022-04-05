@@ -3,7 +3,7 @@ import { CreateUserRequestDto } from './dto/request/create-user-request.dto';
 import { UserService } from './user.service';
 import { UpdateUserRequestDto } from './dto/request/update-user-request.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { User } from './user.model';
+import { User } from './model/user.model';
 
 @ApiTags('Пользователь')
 @Controller('user')

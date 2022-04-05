@@ -1,7 +1,7 @@
 import { BelongsTo, Column, DataType, Model, Table } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
-import { Role } from '../role/role.model';
-import { LoyaltyProgram } from '../loyalty-program/loyalty-program.model';
+import { Role } from '../../role/model/role.model';
+import { LoyaltyProgram } from '../../loyalty-program/model/loyalty-program.model';
 
 interface UserCreationAttributes {
   email: string;

@@ -1,6 +1,6 @@
 import { Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
-import { Set } from '../set/set.model';
+import { Set } from '../../set/model/set.model';
 import { Product } from './product.model';
 import { DataTypes } from 'sequelize';
 

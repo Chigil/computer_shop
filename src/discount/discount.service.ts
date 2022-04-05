@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { Discount } from './discount.model';
+import { Discount } from './model/discount.model';
 import { CreateDiscountDto } from './dto/create-discount.dto';
 
 @Injectable()

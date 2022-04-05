@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DiscountService } from './discount.service';
-import { Discount } from './discount.model';
+import { Discount } from './model/discount.model';
 import { CreateDiscountDto } from './dto/create-discount.dto';
 
 @ApiTags('Скидка')

@@ -1,8 +1,8 @@
 import { BelongsToMany, Column, DataType, Model, Table } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
-import { ProductSet } from '../product/product-set.model';
+import { ProductSet } from '../../product/model/product-set.model';
 import { DataTypes } from 'sequelize';
-import { Product } from '../product/product.model';
+import { Product } from '../../product/model/product.model';
 
 interface SetCreationAttributes {
   name: string;

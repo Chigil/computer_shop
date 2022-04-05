@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { Order } from './order.model';
+import { Order } from './model/order.model';
 import { CreateOrderRequestDto } from './dto/request/create-order-request.dto';
 
 @Injectable()
