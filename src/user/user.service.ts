@@ -7,8 +7,7 @@ import { NotFoundException } from '../library/exeption/not-found.exception';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User) private userRepository: typeof User) {
-  }
+  constructor(@InjectModel(User) private userRepository: typeof User) {}
 
   public async create(dto: CreateUserRequestDto): Promise<object> {
     const user = await this.userRepository.create(dto);

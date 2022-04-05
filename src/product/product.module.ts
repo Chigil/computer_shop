@@ -9,9 +9,6 @@ import { ProductSet } from './model/product-set.model';
 @Module({
   providers: [ProductService],
   controllers: [ProductController],
-  imports: [
-    SequelizeModule.forFeature([Product, Set, ProductSet]),
-  ],
+  imports: [SequelizeModule.forFeature([Product, Set, ProductSet])],
 })
-export class ProductModule {
-}
+export class ProductModule {}

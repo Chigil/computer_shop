@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ProductService } from './product.service';
 import { Product } from './model/product.model';
@@ -7,8 +15,7 @@ import { CreateProductRequestDto } from './dto/request/create-product-request.dt
 @ApiTags('Товар')
 @Controller('product')
 export class ProductController {
-  constructor(private productService: ProductService) {
-  }
+  constructor(private productService: ProductService) {}
 
   @ApiOperation({ summary: 'Создание товара' })
   @ApiResponse({ status: 201, type: Product })
@@ -34,16 +41,17 @@ export class ProductController {
   @ApiOperation({ summary: 'Обновление товара' })
   @ApiResponse({ status: 200, type: Product })
   @Patch(':id')
-  private update(@Param('id') id: string, @Body() updateProductDto: CreateProductRequestDto) {
+  private update(
+    @Param('id') id: string,
+    @Body() updateProductDto: CreateProductRequestDto,
+  ) {
     return this.productService.update(id, updateProductDto);
   }
 
   @ApiOperation({ summary: 'Удаление товара' })
-  @ApiResponse({ status: 200, type: '{ success: false }'})
+  @ApiResponse({ status: 200, type: '{ success: false }' })
   @Delete(':id')
   private delete(@Param('id') id: string) {
     return this.productService.delete(id);
   }
 }
-
-

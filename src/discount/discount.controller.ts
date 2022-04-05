@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DiscountService } from './discount.service';
 import { Discount } from './model/discount.model';
@@ -7,8 +15,7 @@ import { CreateDiscountDto } from './dto/create-discount.dto';
 @ApiTags('Скидка')
 @Controller('discount')
 export class DiscountController {
-  constructor(private discountService: DiscountService) {
-  }
+  constructor(private discountService: DiscountService) {}
 
   @ApiOperation({ summary: 'Создание скидки' })
   @ApiResponse({ status: 201, type: Discount })
@@ -34,7 +41,10 @@ export class DiscountController {
   @ApiOperation({ summary: 'Обновление скидки' })
   @ApiResponse({ status: 200, type: Discount })
   @Patch(':id')
-  private update(@Param('id') id: string, @Body() updateDiscountDto: CreateDiscountDto) {
+  private update(
+    @Param('id') id: string,
+    @Body() updateDiscountDto: CreateDiscountDto,
+  ) {
     return this.discountService.update(id, updateDiscountDto);
   }
 

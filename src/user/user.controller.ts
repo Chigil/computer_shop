@@ -1,4 +1,13 @@
-import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { CreateUserRequestDto } from './dto/request/create-user-request.dto';
 import { UserService } from './user.service';
 import { UpdateUserRequestDto } from './dto/request/update-user-request.dto';
@@ -10,8 +19,7 @@ import { GetAllUserResponse } from './dto/response/get-all-user-response';
 @ApiTags('Пользователь')
 @Controller('user')
 export class UserController {
-  constructor(private userService: UserService) {
-  }
+  constructor(private userService: UserService) {}
 
   @ApiOperation({ summary: 'Создание пользователя' })
   @ApiResponse({ status: 201, type: CreateUserResponseDto })
@@ -37,7 +45,10 @@ export class UserController {
   @ApiOperation({ summary: 'Обновление пользователя' })
   @ApiResponse({ status: 201, type: User })
   @Patch(':id')
-  private update(@Param('id', ParseUUIDPipe) id: string, @Body() updateUserDto: UpdateUserRequestDto): Promise<User> {
+  private update(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updateUserDto: UpdateUserRequestDto,
+  ): Promise<User> {
     return this.userService.update(id, updateUserDto);
   }
 

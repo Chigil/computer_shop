@@ -1,15 +1,21 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { OrderService } from './order.service';
 import { CreateOrderRequestDto } from './dto/request/create-order-request.dto';
 import { Order } from './model/order.model';
 
-
 @ApiTags('Заказ')
 @Controller('order')
 export class OrderController {
-  constructor(private orderService: OrderService) {
-  }
+  constructor(private orderService: OrderService) {}
 
   @ApiOperation({ summary: 'Создание заказа' })
   @ApiResponse({ status: 201, type: Order })
@@ -35,12 +41,15 @@ export class OrderController {
   @ApiOperation({ summary: 'Обновление заказа' })
   @ApiResponse({ status: 200, type: Order })
   @Patch(':id')
-  private update(@Param('id') id: string, @Body() updateOrderDto: CreateOrderRequestDto) {
+  private update(
+    @Param('id') id: string,
+    @Body() updateOrderDto: CreateOrderRequestDto,
+  ) {
     return this.orderService.update(id, updateOrderDto);
   }
 
   @ApiOperation({ summary: 'Удаление заказа' })
-  @ApiResponse({ status: 200, type: '{ success: false }'})
+  @ApiResponse({ status: 200, type: '{ success: false }' })
   @Delete(':id')
   private delete(@Param('id') id: string) {
     return this.orderService.delete(id);

@@ -6,8 +6,9 @@ import { NotFoundException } from '../library/exeption/not-found.exception';
 
 @Injectable()
 export class ProductService {
-  constructor(@InjectModel(Product) private productRepository: typeof Product) {
-  }
+  constructor(
+    @InjectModel(Product) private productRepository: typeof Product,
+  ) {}
 
   public async create(dto: CreateProductRequestDto) {
     const product = await this.productRepository.create(dto);
@@ -17,7 +18,9 @@ export class ProductService {
   }
 
   public async getAll() {
-    const products = await this.productRepository.findAll({ include: { all: true } });
+    const products = await this.productRepository.findAll({
+      include: { all: true },
+    });
     return products;
   }
 

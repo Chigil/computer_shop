@@ -5,8 +5,7 @@ import { CreateRoleRequestDto } from './dto/request/create-role-request.dto';
 
 @Injectable()
 export class RoleService {
-  constructor(@InjectModel(Role) private roleRepository: typeof Role) {
-  }
+  constructor(@InjectModel(Role) private roleRepository: typeof Role) {}
 
   public async create(dto: CreateRoleRequestDto) {
     const role = await this.roleRepository.create(dto);
@@ -19,6 +18,4 @@ export class RoleService {
     const roles = await this.roleRepository.findAll();
     return roles;
   }
-
-
 }

@@ -6,8 +6,7 @@ import { NotFoundException } from '../library/exeption/not-found.exception';
 
 @Injectable()
 export class OrderService {
-  constructor(@InjectModel(Order) private orderRepository: typeof Order) {
-  }
+  constructor(@InjectModel(Order) private orderRepository: typeof Order) {}
 
   public async create(dto: CreateOrderRequestDto) {
     const order = await this.orderRepository.create(dto);
@@ -17,7 +16,9 @@ export class OrderService {
   }
 
   public async getAll() {
-    const orders = await this.orderRepository.findAll({ include: { all: true } });
+    const orders = await this.orderRepository.findAll({
+      include: { all: true },
+    });
     return orders;
   }
 
@@ -25,7 +26,7 @@ export class OrderService {
     const order = await this.orderRepository.findByPk(id);
     if (!order) {
       return new NotFoundException('order', id);
-    };
+    }
   }
 
   public async update(id: string, dto: CreateOrderRequestDto) {

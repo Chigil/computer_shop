@@ -7,8 +7,7 @@ import { User } from '../user/model/user.model';
 @ApiTags('Роль')
 @Controller('role')
 export class RoleController {
-  constructor(private roleService: RoleService) {
-  }
+  constructor(private roleService: RoleService) {}
 
   @ApiOperation({ summary: 'Создание роли' })
   @ApiResponse({ status: 201, type: User })

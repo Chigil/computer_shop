@@ -6,8 +6,9 @@ import { NotFoundException } from '../library/exeption/not-found.exception';
 
 @Injectable()
 export class DiscountService {
-  constructor(@InjectModel(Discount) private discountRepository: typeof Discount) {
-  }
+  constructor(
+    @InjectModel(Discount) private discountRepository: typeof Discount,
+  ) {}
 
   public async create(dto: CreateDiscountDto) {
     const discount = await this.discountRepository.create(dto);
@@ -17,7 +18,9 @@ export class DiscountService {
   }
 
   public async getAll() {
-    const discounts = await this.discountRepository.findAll({ include: { all: true } });
+    const discounts = await this.discountRepository.findAll({
+      include: { all: true },
+    });
     return discounts;
   }
 
@@ -37,7 +40,9 @@ export class DiscountService {
   }
 
   public async delete(id: string) {
-    const deleted = await this.discountRepository.destroy({ where: { id: id } });
+    const deleted = await this.discountRepository.destroy({
+      where: { id: id },
+    });
     if (deleted != 0) {
       return { success: true };
     }

@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Set } from './model/set.model';
 import { CreateSetRequestDto } from './dto/request/create-set-request.dto';
@@ -7,8 +15,7 @@ import { SetService } from './set.service';
 @ApiTags('Комплект')
 @Controller('set')
 export class SetController {
-  constructor(private setService: SetService) {
-  }
+  constructor(private setService: SetService) {}
 
   @ApiOperation({ summary: 'Создание комплекта' })
   @ApiResponse({ status: 201, type: Set })
@@ -34,7 +41,10 @@ export class SetController {
   @ApiOperation({ summary: 'Обновление комплекта' })
   @ApiResponse({ status: 200, type: Set })
   @Patch(':id')
-  private update(@Param('id') id: string, @Body() updateSetDto: CreateSetRequestDto) {
+  private update(
+    @Param('id') id: string,
+    @Body() updateSetDto: CreateSetRequestDto,
+  ) {
     return this.setService.update(id, updateSetDto);
   }
 

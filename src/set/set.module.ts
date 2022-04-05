@@ -7,9 +7,6 @@ import { Set } from './model/set.model';
 @Module({
   providers: [SetService],
   controllers: [SetController],
-  imports: [
-    SequelizeModule.forFeature([Set]),
-  ],
+  imports: [SequelizeModule.forFeature([Set])],
 })
-export class SetModule {
-}
+export class SetModule {}

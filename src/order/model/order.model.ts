@@ -1,5 +1,11 @@
-import { BelongsTo, Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript';
-import { Role } from '../../role/model/role.model';
+import {
+  BelongsTo,
+  Column,
+  DataType,
+  ForeignKey,
+  Model,
+  Table,
+} from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../../user/model/user.model';
 import { DataTypes } from 'sequelize';
@@ -16,16 +22,26 @@ interface OrderCreationAttributes {
 
 @Table({ tableName: 'order' })
 export class Order extends Model<Order, OrderCreationAttributes> {
-  @Column({ type: DataType.UUID, unique: true, defaultValue: DataTypes.UUIDV4, primaryKey: true })
+  @Column({
+    type: DataType.UUID,
+    unique: true,
+    defaultValue: DataTypes.UUIDV4,
+    primaryKey: true,
+  })
   id: string;
 
   @ForeignKey(() => User)
-  @ApiProperty({ example: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', description: 'Пользователь' })
+  @ApiProperty({
+    example: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
+    description: 'Пользователь',
+  })
   @BelongsTo(() => User, 'user_id')
   user: string;
 
-
-  @ApiProperty({ example: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', description: 'Скидка' })
+  @ApiProperty({
+    example: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
+    description: 'Скидка',
+  })
   @BelongsTo(() => Discount, 'discount_id')
   discount: string;
 
@@ -33,15 +49,17 @@ export class Order extends Model<Order, OrderCreationAttributes> {
     example: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
     description: 'Статус заказа',
   })
-    //@BelongsTo( () => Status, 'status_id')
+  //@BelongsTo( () => Status, 'status_id')
   status: string;
 
   @ApiProperty({ example: 2391.55, description: 'Общая цена заказа' })
   @Column({ type: DataType.FLOAT, allowNull: false, defaultValue: 2 })
   total_price: number;
 
-  @ApiProperty({ example: 'Оперативная память, Материнская плата', description: 'Товары заказа' })
+  @ApiProperty({
+    example: 'Оперативная память, Материнская плата',
+    description: 'Товары заказа',
+  })
   @Column({ type: DataType.STRING, allowNull: true })
   items: string;
-
 }

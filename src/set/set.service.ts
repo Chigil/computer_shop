@@ -5,8 +5,7 @@ import { CreateSetRequestDto } from './dto/request/create-set-request.dto';
 
 @Injectable()
 export class SetService {
-  constructor(@InjectModel(Set) private setRepository: typeof Set) {
-  }
+  constructor(@InjectModel(Set) private setRepository: typeof Set) {}
 
   public async create(dto: CreateSetRequestDto) {
     const set = await this.setRepository.create(dto);

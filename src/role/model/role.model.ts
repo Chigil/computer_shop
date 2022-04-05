@@ -7,7 +7,12 @@ interface RoleCreationAttributes {
 
 @Table({ tableName: 'role' })
 export class Role extends Model<Role, RoleCreationAttributes> {
-  @Column({ type: DataType.UUID, unique: true, defaultValue: DataTypes.UUIDV4, primaryKey: true })
+  @Column({
+    type: DataType.UUID,
+    unique: true,
+    defaultValue: DataTypes.UUIDV4,
+    primaryKey: true,
+  })
   id: string;
 
   @Column({ type: DataType.STRING, unique: true, allowNull: false })

@@ -20,7 +20,6 @@ import { DiscountModule } from './discount/discount.module';
 import { DiscountTypeModule } from './discount-type/discount-type.module';
 import { CatalogItemModule } from './catalog-item/catalog-item.module';
 
-
 @Module({
   controllers: [],
   providers: [],
@@ -35,7 +34,17 @@ import { CatalogItemModule } from './catalog-item/catalog-item.module';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      models: [User, Role, Product, Set, ProductSet, Order, LoyaltyProgram, Discount, DiscountType],
+      models: [
+        User,
+        Role,
+        Product,
+        Set,
+        ProductSet,
+        Order,
+        LoyaltyProgram,
+        Discount,
+        DiscountType,
+      ],
       autoLoadModels: true,
     }),
     UserModule,
@@ -49,6 +58,4 @@ import { CatalogItemModule } from './catalog-item/catalog-item.module';
     CatalogItemModule,
   ],
 })
-export class AppModule {
-
-}
+export class AppModule {}

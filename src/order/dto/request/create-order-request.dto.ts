@@ -1,3 +1,1 @@
-export class CreateOrderRequestDto {
-
-}
+export class CreateOrderRequestDto {}

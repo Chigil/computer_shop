@@ -1,4 +1,10 @@
-import { BelongsTo, Column, DataType, Model, Table } from 'sequelize-typescript';
+import {
+  BelongsTo,
+  Column,
+  DataType,
+  Model,
+  Table,
+} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 import { Role } from '../../role/model/role.model';
 import { LoyaltyProgram } from '../../loyalty-program/model/loyalty-program.model';
@@ -11,7 +17,12 @@ interface UserCreationAttributes {
 
 @Table({ tableName: 'user' })
 export class User extends Model<User, UserCreationAttributes> {
-  @Column({ type: DataType.UUID, unique: true, defaultValue: DataTypes.UUIDV4, primaryKey: true })
+  @Column({
+    type: DataType.UUID,
+    unique: true,
+    defaultValue: DataTypes.UUIDV4,
+    primaryKey: true,
+  })
   id: string;
 
   @Column({ type: DataType.STRING, unique: true, allowNull: false })
@@ -23,9 +34,9 @@ export class User extends Model<User, UserCreationAttributes> {
   @Column({ type: DataType.STRING, allowNull: true })
   username: string;
 
-  @BelongsTo( () => LoyaltyProgram, 'loyalty_program_id')
+  @BelongsTo(() => LoyaltyProgram, 'loyalty_program_id')
   loyaltyProgram: string;
 
-  @BelongsTo( () => Role, 'role_id')
+  @BelongsTo(() => Role, 'role_id')
   role: Role;
 }
