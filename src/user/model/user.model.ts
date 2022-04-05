@@ -6,7 +6,7 @@ import { LoyaltyProgram } from '../../loyalty-program/model/loyalty-program.mode
 interface UserCreationAttributes {
   email: string;
   password: string;
-  role_id: number;
+  role_id: string;
 }
 
 @Table({ tableName: 'user' })
@@ -23,7 +23,7 @@ export class User extends Model<User, UserCreationAttributes> {
   @Column({ type: DataType.STRING, allowNull: true })
   username: string;
 
-  @BelongsTo( () => LoyaltyProgram, 'loyalty_id')
+  @BelongsTo( () => LoyaltyProgram, 'loyalty_program_id')
   loyaltyProgram: string;
 
   @BelongsTo( () => Role, 'role_id')

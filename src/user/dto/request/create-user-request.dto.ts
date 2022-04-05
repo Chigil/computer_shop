@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsString, Length } from 'class-validator';
+import { IsEmail, IsString, IsUUID, Length } from 'class-validator';
 
 export class CreateUserRequestDto {
 
@@ -14,6 +14,6 @@ export class CreateUserRequestDto {
   readonly password: string;
 
   @ApiProperty({ example: '01091f63-3860-4c65-a13b-1c6529194410', description: 'Идентификатор роли пользователя' })
-  @IsString({ message: 'Должно быть UUID' })
-  readonly roleId: string;
+  @IsUUID('all',{ message: 'Должно быть UUID' })
+  readonly role_id: string;
 }

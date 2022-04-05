@@ -8,7 +8,7 @@ import { Discount } from '../../discount/model/discount.model';
 interface OrderCreationAttributes {
   user_id: string;
   discount_id: string;
-  role_id: number;
+  role_id: string;
   status_id: string;
   total_price: number;
   items: string;

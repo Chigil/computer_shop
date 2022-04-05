@@ -4,6 +4,8 @@ import { UserService } from './user.service';
 import { UpdateUserRequestDto } from './dto/request/update-user-request.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { User } from './model/user.model';
+import { CreateUserResponseDto } from './dto/response/create-user-response.dto';
+import { GetAllUserResponse } from './dto/response/get-all-user-response';
 
 @ApiTags('Пользователь')
 @Controller('user')
@@ -12,14 +14,14 @@ export class UserController {
   }
 
   @ApiOperation({ summary: 'Создание пользователя' })
-  @ApiResponse({ status: 201, type: User })
+  @ApiResponse({ status: 201, type: CreateUserResponseDto })
   @Post()
-  private create(@Body() createUserDto: CreateUserRequestDto): Promise<User> {
+  private create(@Body() createUserDto: CreateUserRequestDto): Promise<object> {
     return this.userService.create(createUserDto);
   }
 
   @ApiOperation({ summary: 'Получение всех пользователей' })
-  @ApiResponse({ status: 200, type: [User] })
+  @ApiResponse({ status: 200, type: [GetAllUserResponse] })
   @Get()
   private getAll(): Promise<User[]> {
     return this.userService.getAll();
