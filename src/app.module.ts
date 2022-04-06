@@ -19,6 +19,9 @@ import { DiscountType } from './discount-type/model/discount-type.model';
 import { DiscountModule } from './discount/discount.module';
 import { DiscountTypeModule } from './discount-type/discount-type.module';
 import { CatalogItemModule } from './catalog-item/catalog-item.module';
+import { AutomapperModule } from '@automapper/nestjs';
+import { sequelize } from '@automapper/sequelize';
+import { CamelCaseNamingConvention, SnakeCaseNamingConvention } from '@automapper/core';
 
 @Module({
   controllers: [],
@@ -46,6 +49,13 @@ import { CatalogItemModule } from './catalog-item/catalog-item.module';
         DiscountType,
       ],
       autoLoadModels: true,
+    }),
+    AutomapperModule.forRoot({
+      strategyInitializer: sequelize(),
+      namingConventions: {
+        source: new CamelCaseNamingConvention(),
+        destination: new SnakeCaseNamingConvention(),
+      },
     }),
     UserModule,
     RoleModule,
