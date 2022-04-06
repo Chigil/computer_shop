@@ -12,7 +12,7 @@ export class UserService {
   constructor(@InjectModel(User) private userRepository: typeof User) {}
 
   public async create(dto: CreateUserRequestDto): Promise<CreateUserResponseDto> {
-    const user = await this.userRepository.create(dto);
+    const user = await this.userRepository.create(toSnakeCase(dto));
     if (user) {
       return user
     }
