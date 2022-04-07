@@ -13,10 +13,10 @@ import { AutoMap } from '@automapper/classes';
 interface UserCreationAttributes {
   email: string;
   password: string;
-  role_id: string;
+  roleId: string;
 }
 
-@Table({ tableName: 'user' })
+@Table({ tableName: 'user', underscored: true })
 export class User extends Model<User, UserCreationAttributes> {
   @Column({
     type: DataType.UUID,
@@ -38,11 +38,11 @@ export class User extends Model<User, UserCreationAttributes> {
   @AutoMap()
   username: string;
 
-  @BelongsTo(() => LoyaltyProgram, 'loyalty_program_id')
+  @BelongsTo(() => LoyaltyProgram, 'loyaltyProgramId')
   @AutoMap(() => LoyaltyProgram)
   loyaltyProgram: string;
 
-  @BelongsTo(() => Role, 'role_id')
+  @BelongsTo(() => Role, 'roleId')
   @AutoMap(() => Role)
   role: Role;
 }

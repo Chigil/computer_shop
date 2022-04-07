@@ -12,30 +12,30 @@ export class GetUserResponseDto {
   id: string;
 
   @ApiProperty({
-      example: 'coolemail@gmail.com',
-      description: 'Почтовый адрес',
-    })
+    example: 'coolemail@gmail.com',
+    description: 'Почтовый адрес',
+  })
   @AutoMap()
   email: string;
 
   @ApiProperty({
-      example: 'Андрюша Валерьевич',
-      description: 'ФИО пользователя',
-    })
+    example: 'Андрюша Валерьевич',
+    description: 'ФИО пользователя',
+  })
   @AutoMap()
   username: string;
 
   @ApiProperty({
-      example: '01091f63-3860-4c65-a13b-1c6529194410',
-      description: 'Идентификатор роли пользователя',
-    })
+    example: '01091f63-3860-4c65-a13b-1c6529194410',
+    description: 'Идентификатор роли пользователя',
+  })
   @AutoMap(() => Role)
   roleId: string;
 
   @ApiProperty({
-      example: '01091f63-3860-4c65-a13b-1c6529194410',
-      description: 'Идентификатор программы лояальности пользователя',
-    })
-  @AutoMap( () => LoyaltyProgram)
+    example: '01091f63-3860-4c65-a13b-1c6529194410',
+    description: 'Идентификатор программы лояальности пользователя',
+  })
+  @AutoMap(() => LoyaltyProgram)
   loyaltyProgramId: string;
 }

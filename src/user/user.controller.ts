@@ -7,7 +7,7 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
-  UseInterceptors
+  UseInterceptors,
 } from '@nestjs/common';
 import { CreateUserRequestDto } from './dto/request/create-user-request.dto';
 import { UserService } from './user.service';
@@ -17,19 +17,20 @@ import { User } from './model/user.model';
 import { CreateUserResponseDto } from './dto/response/create-user-response.dto';
 import { MapInterceptor } from '@automapper/nestjs';
 import { GetUserResponseDto } from './dto/response/get-user-response.dto';
-import { namingConventions, SnakeCaseNamingConvention } from '@automapper/core';
+import { DeleteUserResponseDto } from './dto/response/delete-user-response.dto';
 
 @ApiTags('Пользователь')
 @Controller('user')
 export class UserController {
-  constructor(private userService: UserService) {
-  }
+  constructor(private userService: UserService) {}
 
   @ApiOperation({ summary: 'Создание пользователя' })
   @ApiResponse({ status: 201, type: CreateUserResponseDto })
   @Post()
   @UseInterceptors(MapInterceptor(User, CreateUserResponseDto))
-  private create(@Body() createUserDto: CreateUserRequestDto): Promise<CreateUserResponseDto> {
+  private create(
+    @Body() createUserDto: CreateUserRequestDto,
+  ): Promise<CreateUserResponseDto> {
     return this.userService.create(createUserDto);
   }
 
@@ -41,7 +42,6 @@ export class UserController {
     return this.userService.getAll();
   }
 
-
   @ApiOperation({ summary: 'Получение одного пользователя по айди' })
   @ApiResponse({ status: 200, type: GetUserResponseDto })
   @Get(':id')
@@ -51,7 +51,7 @@ export class UserController {
   }
 
   @ApiOperation({ summary: 'Обновление пользователя' })
-  @ApiResponse({ status: 201, type: User })
+  @ApiResponse({ status: 201, type: CreateUserResponseDto })
   @Patch(':id')
   private update(
     @Param('id', ParseUUIDPipe) id: string,
@@ -61,7 +61,7 @@ export class UserController {
   }
 
   @ApiOperation({ summary: 'Удаление пользователя' })
-  @ApiResponse({ status: 200, type: '{ success: true }' })
+  @ApiResponse({ status: 200, type: DeleteUserResponseDto })
   @Delete(':id')
   private delete(@Param('id', ParseUUIDPipe) id: string) {
     return this.userService.delete(id);

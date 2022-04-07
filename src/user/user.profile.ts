@@ -3,7 +3,7 @@ import type { Mapper } from '@automapper/core';
 import { Injectable } from '@nestjs/common';
 import { GetUserResponseDto } from './dto/response/get-user-response.dto';
 import { User } from './model/user.model';
-import { CamelCaseNamingConvention, createMap, namingConventions, SnakeCaseNamingConvention } from '@automapper/core';
+import { createMap } from '@automapper/core';
 import { CreateUserRequestDto } from './dto/request/create-user-request.dto';
 import { CreateUserResponseDto } from './dto/response/create-user-response.dto';
 
@@ -15,7 +15,7 @@ export class UserProfile extends AutomapperProfile {
 
   get profile() {
     return (mapper) => {
-      createMap(mapper, User, GetUserResponseDto, namingConventions(new CamelCaseNamingConvention()));
+      createMap(mapper, User, GetUserResponseDto);
       createMap(mapper, User, CreateUserRequestDto);
       createMap(mapper, User, CreateUserResponseDto);
     };

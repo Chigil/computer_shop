@@ -21,7 +21,10 @@ import { DiscountTypeModule } from './discount-type/discount-type.module';
 import { CatalogItemModule } from './catalog-item/catalog-item.module';
 import { AutomapperModule } from '@automapper/nestjs';
 import { sequelize } from '@automapper/sequelize';
-import { CamelCaseNamingConvention, SnakeCaseNamingConvention } from '@automapper/core';
+import {
+  CamelCaseNamingConvention,
+  SnakeCaseNamingConvention,
+} from '@automapper/core';
 
 @Module({
   controllers: [],
