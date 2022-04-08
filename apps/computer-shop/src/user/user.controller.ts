@@ -6,7 +6,7 @@ import {
   Param,
   ParseUUIDPipe,
   Patch,
-  Post,
+  Post, UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { CreateUserRequestDto } from './dto/request/create-user-request.dto';
@@ -18,6 +18,7 @@ import { CreateUserResponseDto } from './dto/response/create-user-response.dto';
 import { MapInterceptor } from '@automapper/nestjs';
 import { GetUserResponseDto } from './dto/response/get-user-response.dto';
 import { DeleteUserResponseDto } from './dto/response/delete-user-response.dto';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @ApiTags('Пользователь')
 @Controller('user')
@@ -38,6 +39,7 @@ export class UserController {
   @ApiResponse({ status: 200, type: [GetUserResponseDto] })
   @Get()
   @UseInterceptors(MapInterceptor(User, GetUserResponseDto, { isArray: true }))
+  @UseGuards(JwtAuthGuard)
   private getAll() {
     return this.userService.getAll();
   }
