@@ -19,9 +19,12 @@ import { MapInterceptor } from '@automapper/nestjs';
 import { GetUserResponseDto } from './dto/response/get-user-response.dto';
 import { DeleteUserResponseDto } from './dto/response/delete-user-response.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { RoleGuard } from '../auth/role.guard';
+import { Role } from '../auth/roles-auth.decorators';
 
 @ApiTags('Пользователь')
 @Controller('user')
+@UseGuards(JwtAuthGuard, RoleGuard)
 export class UserController {
   constructor(private userService: UserService) {}
 
@@ -37,9 +40,10 @@ export class UserController {
 
   @ApiOperation({ summary: 'Получение всех пользователей' })
   @ApiResponse({ status: 200, type: [GetUserResponseDto] })
+  @Role('ADMIN')
+  @UseGuards(RoleGuard)
   @Get()
   @UseInterceptors(MapInterceptor(User, GetUserResponseDto, { isArray: true }))
-  @UseGuards(JwtAuthGuard)
   private getAll() {
     return this.userService.getAll();
   }
