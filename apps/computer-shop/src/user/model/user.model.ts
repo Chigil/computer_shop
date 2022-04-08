@@ -44,5 +44,5 @@ export class User extends Model<User, UserCreationAttributes> {
 
   @BelongsTo(() => Role, 'roleId')
   @AutoMap(() => Role)
-  role: Role;
+  role: Role[];
 }

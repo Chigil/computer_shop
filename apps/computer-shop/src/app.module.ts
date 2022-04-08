@@ -25,6 +25,8 @@ import {
   CamelCaseNamingConvention,
   SnakeCaseNamingConvention,
 } from '@automapper/core';
+import { AuthModule } from './auth/auth.module';
+
 
 @Module({
   controllers: [],
@@ -69,6 +71,7 @@ import {
     DiscountModule,
     DiscountTypeModule,
     CatalogItemModule,
+    AuthModule
   ],
 })
 export class AppModule {}

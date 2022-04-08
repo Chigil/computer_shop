@@ -5,16 +5,22 @@ import { CreateUserRequestDto } from './dto/request/create-user-request.dto';
 import { UpdateUserRequestDto } from './dto/request/update-user-request.dto';
 import { NotFoundException } from '../../../../libs/common/src/exeption/not-found.exception';
 import { CreateUserResponseDto } from './dto/response/create-user-response.dto';
+import { RoleService } from '../role/role.service';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User) private userRepository: typeof User) {}
+  constructor(@InjectModel(User) private userRepository: typeof User,
+              private roleService: RoleService) {
+  }
 
   public async create(
     dto: CreateUserRequestDto,
-  ): Promise<CreateUserResponseDto> {
+  ) {
     const user = await this.userRepository.create(dto);
     if (user) {
+      const role = await this.roleService.getByValue('ADMIN');
+      // await user.$set('role', [role.id]);
+      user.role = [role];
       return user;
     }
   }
@@ -47,5 +53,10 @@ export class UserService {
       return { success: true };
     }
     return { success: false };
+  }
+
+  public async getUserByEmail(email: string) {
+    const user = await this.userRepository.findOne({ where: { email }, include: { all: true } });
+    return user;
   }
 }

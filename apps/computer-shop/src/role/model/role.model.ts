@@ -5,7 +5,7 @@ interface RoleCreationAttributes {
   ident: string;
 }
 
-@Table({ tableName: 'role' })
+@Table({ tableName: 'role', underscored: true })
 export class Role extends Model<Role, RoleCreationAttributes> {
   @Column({
     type: DataType.UUID,
