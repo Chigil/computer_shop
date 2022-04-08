@@ -30,7 +30,7 @@ export class ProductSet extends Model<ProductSet> {
     description: 'Уникальный идентификатор товара',
   })
   @Column({ type: DataType.UUID })
-  product_id: string;
+  productId: string;
 
   @ForeignKey(() => Set)
   @ApiProperty({
@@ -38,5 +38,5 @@ export class ProductSet extends Model<ProductSet> {
     description: 'Уникальный идентификатор комплекта',
   })
   @Column({ type: DataType.UUID })
-  set_id: string;
+  setId: string;
 }

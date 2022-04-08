@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { User } from './model/user.model';
 import { CreateUserRequestDto } from './dto/request/create-user-request.dto';
@@ -17,6 +17,7 @@ export class UserService {
     if (user) {
       return user;
     }
+    throw new HttpException('Not crated', 418)
   }
 
   public async getAll() {
