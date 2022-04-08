@@ -1,4 +1,4 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { CreateProductRequestDto } from './dto/request/create-product-request.dto';
 import { Product } from './model/product.model';
@@ -15,7 +15,7 @@ export class ProductService {
     if (product) {
       return { id: product.id };
     }
-    throw new HttpException('Not crated', 418)
+    throw new HttpException('Not crated', HttpStatus.BAD_REQUEST)
   }
 
   public async getAll() {

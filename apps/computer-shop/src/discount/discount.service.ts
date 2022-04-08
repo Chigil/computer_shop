@@ -1,4 +1,4 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Discount } from './model/discount.model';
 import { CreateDiscountDto } from './dto/create-discount.dto';
@@ -15,7 +15,7 @@ export class DiscountService {
     if (discount) {
       return { id: discount.id };
     }
-    throw new HttpException('Not crated', 418)
+    throw new HttpException('Not crated', HttpStatus.BAD_REQUEST)
   }
 
   public async getAll() {
