@@ -27,31 +27,21 @@ export class Product extends Model<Product, ProductCreationAttributes> {
   })
   id: string;
 
-  @ApiProperty({
-    example: 'Ноутбук HP 255 G8 34P23ES',
-    description: 'Название товара',
-  })
   @Column({ type: DataType.STRING, unique: true, allowNull: false })
   name: string;
 
-  @ApiProperty({
-    example:
-      '15.6" 1920 x 1080 IPS, 60 Гц, несенсорный, AMD Athlon Silver 3050U 2300 МГц, 8 ГБ DDR4, SSD 256 ГБ, видеокарта встроенная, без ОС, цвет крышки серебристый',
-    description: 'Описание товара',
-  })
   @Column({ type: DataType.STRING, allowNull: false })
   description: string;
 
-  @ApiProperty({ example: 1599.5, description: 'Цена товара' })
+
   @Column({ type: DataType.FLOAT, allowNull: false, defaultValue: 0 })
   price: number;
 
-  @ApiProperty({ example: 15, description: 'Количество товара' })
+
   @Column({ type: DataType.INTEGER, allowNull: false, defaultValue: 0 })
   amount: number;
 
-  @ApiProperty({ example: 'Информация о каталоге', description: 'Каталог' })
-  //@BelongsTo( () => Catalog, 'catalog_id')
+  //@BelongsTo( () => Catalog, 'catalogId')
   catalog: string;
 
   @BelongsToMany(() => Set, () => ProductSet)

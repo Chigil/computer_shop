@@ -3,7 +3,7 @@ import {
   Controller,
   Delete,
   Get,
-  Param,
+  Param, ParseUUIDPipe,
   Patch,
   Post,
 } from '@nestjs/common';
@@ -20,7 +20,7 @@ export class DiscountController {
   @ApiOperation({ summary: 'Создание скидки' })
   @ApiResponse({ status: 201, type: Discount })
   @Post()
-  private create(@Body() createDiscountDto: CreateDiscountDto) {
+  private create(@Body() createDiscountDto: CreateDiscountDto): Promise<CreateDiscountDto> {
     return this.discountService.create(createDiscountDto);
   }
 
@@ -34,7 +34,7 @@ export class DiscountController {
   @ApiOperation({ summary: 'Получение одной скидки по айди' })
   @ApiResponse({ status: 200, type: Discount })
   @Get(':id')
-  private getOne(@Param('id') id: string) {
+  private getOne(@Param('id',  ParseUUIDPipe) id: string) {
     return this.discountService.getOne(id);
   }
 
@@ -42,7 +42,7 @@ export class DiscountController {
   @ApiResponse({ status: 200, type: Discount })
   @Patch(':id')
   private update(
-    @Param('id') id: string,
+    @Param('id',  ParseUUIDPipe) id: string,
     @Body() updateDiscountDto: CreateDiscountDto,
   ) {
     return this.discountService.update(id, updateDiscountDto);
@@ -51,7 +51,7 @@ export class DiscountController {
   @ApiOperation({ summary: 'Удаление скидки' })
   @ApiResponse({ status: 200, type: '{ success: true }' })
   @Delete(':id')
-  private delete(@Param('id') id: string) {
+  private delete(@Param('id',  ParseUUIDPipe) id: string) {
     return this.discountService.delete(id);
   }
 }

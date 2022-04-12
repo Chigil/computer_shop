@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Discount } from './model/discount.model';
 import { CreateDiscountDto } from './dto/create-discount.dto';
@@ -10,11 +10,12 @@ export class DiscountService {
     @InjectModel(Discount) private discountRepository: typeof Discount,
   ) {}
 
-  public async create(dto: CreateDiscountDto) {
+  public async create(dto: CreateDiscountDto): Promise<CreateDiscountDto> {
     const discount = await this.discountRepository.create(dto);
     if (discount) {
       return { id: discount.id };
     }
+    throw new HttpException('Not crated', HttpStatus.BAD_REQUEST)
   }
 
   public async getAll() {

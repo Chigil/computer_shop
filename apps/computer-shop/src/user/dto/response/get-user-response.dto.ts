@@ -9,33 +9,33 @@ export class GetUserResponseDto {
     description: 'Индентификатор пользователя',
   })
   @AutoMap()
-  id: string;
+  public readonly id: string;
 
   @ApiProperty({
     example: 'coolemail@gmail.com',
     description: 'Почтовый адрес',
   })
   @AutoMap()
-  email: string;
+  public readonly email: string;
 
   @ApiProperty({
     example: 'Андрюша Валерьевич',
     description: 'ФИО пользователя',
   })
   @AutoMap()
-  username: string;
+  public readonly username: string;
 
   @ApiProperty({
     example: '01091f63-3860-4c65-a13b-1c6529194410',
     description: 'Идентификатор роли пользователя',
   })
   @AutoMap(() => Role)
-  roleId: string;
+  public readonly roleId: string;
 
   @ApiProperty({
     example: '01091f63-3860-4c65-a13b-1c6529194410',
     description: 'Идентификатор программы лояальности пользователя',
   })
   @AutoMap(() => LoyaltyProgram)
-  loyaltyProgramId: string;
+  public readonly loyaltyProgramId: string;
 }

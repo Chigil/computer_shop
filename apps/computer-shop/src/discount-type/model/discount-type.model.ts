@@ -1,12 +1,10 @@
 import { Column, DataType, Model, Table } from 'sequelize-typescript';
-import { ApiProperty, ApiTags } from '@nestjs/swagger';
 import { DataTypes } from 'sequelize';
 
 interface DiscountTypeCreationAttributes {
   type: string;
 }
 
-@ApiTags('Тип скидки')
 @Table({ tableName: 'discount_type' })
 export class DiscountType extends Model<
   DiscountType,
@@ -20,10 +18,6 @@ export class DiscountType extends Model<
   })
   id: string;
 
-  @ApiProperty({
-    example: 'Скидка постоянного покупателя',
-    description: 'Тип скидки',
-  })
   @Column({ type: DataType.STRING, allowNull: false, unique: true })
   type: string;
 }

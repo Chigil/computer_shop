@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Set } from './model/set.model';
 import { CreateSetRequestDto } from './dto/request/create-set-request.dto';
@@ -12,6 +12,7 @@ export class SetService {
     if (set) {
       return { id: set.id };
     }
+    throw new HttpException('Not crated', HttpStatus.BAD_REQUEST)
   }
 
   public async getAll() {

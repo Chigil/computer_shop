@@ -12,11 +12,11 @@ import { DataTypes } from 'sequelize';
 import { Discount } from '../../discount/model/discount.model';
 
 interface OrderCreationAttributes {
-  user_id: string;
-  discount_id: string;
-  role_id: string;
-  status_id: string;
-  total_price: number;
+  userId: string;
+  discountId: string;
+  roleId: string;
+  statusId: string;
+  totalPrice: number;
   items: string;
 }
 
@@ -31,35 +31,20 @@ export class Order extends Model<Order, OrderCreationAttributes> {
   id: string;
 
   @ForeignKey(() => User)
-  @ApiProperty({
-    example: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
-    description: 'Пользователь',
-  })
-  @BelongsTo(() => User, 'user_id')
+  @BelongsTo(() => User, 'userId')
   user: string;
 
-  @ApiProperty({
-    example: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
-    description: 'Скидка',
-  })
-  @BelongsTo(() => Discount, 'discount_id')
+
+  @BelongsTo(() => Discount, 'discountId')
   discount: string;
 
-  @ApiProperty({
-    example: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
-    description: 'Статус заказа',
-  })
-  //@BelongsTo( () => Status, 'status_id')
+  //@BelongsTo( () => Status, 'statusId')
   status: string;
 
   @ApiProperty({ example: 2391.55, description: 'Общая цена заказа' })
   @Column({ type: DataType.FLOAT, allowNull: false, defaultValue: 2 })
   total_price: number;
 
-  @ApiProperty({
-    example: 'Оперативная память, Материнская плата',
-    description: 'Товары заказа',
-  })
   @Column({ type: DataType.STRING, allowNull: true })
   items: string;
 }
