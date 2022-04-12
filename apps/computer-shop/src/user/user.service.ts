@@ -4,21 +4,19 @@ import { User } from './model/user.model';
 import { CreateUserRequestDto } from './dto/request/create-user-request.dto';
 import { UpdateUserRequestDto } from './dto/request/update-user-request.dto';
 import { NotFoundException } from '../../../../libs/common/src/exeption/not-found.exception';
-import { CreateUserResponseDto } from './dto/response/create-user-response.dto';
 import { RoleService } from '../role/role.service';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User) private userRepository: typeof User,
-              private roleService: RoleService) {
-  }
+  constructor(
+    @InjectModel(User) private userRepository: typeof User,
+    private roleService: RoleService,
+  ) {}
 
-  public async create(
-    dto: CreateUserRequestDto,
-  ) {
+  public async create(dto: CreateUserRequestDto) {
     const user = await this.userRepository.create(dto);
     if (user) {
-      const role = await this.roleService.getByValue('ADMIN');
+      const role = await this.roleService.getByValue('CLIENT');
       await user.$set('role', role.id); // create TRIGGER
       user.role = [role];
       return user;
@@ -35,7 +33,7 @@ export class UserService {
       include: { all: true },
     });
     if (!user) {
-      return new NotFoundException('user', id);
+      throw new NotFoundException('user', id);
     }
     return user;
   }
@@ -56,7 +54,10 @@ export class UserService {
   }
 
   public async getUserByEmail(email: string) {
-    const user = await this.userRepository.findOne({ where: { email }, include: { all: true } });
+    const user = await this.userRepository.findOne({
+      where: { email },
+      include: { all: true },
+    });
     return user;
   }
 }

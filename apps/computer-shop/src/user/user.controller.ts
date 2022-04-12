@@ -6,7 +6,8 @@ import {
   Param,
   ParseUUIDPipe,
   Patch,
-  Post, UseGuards,
+  Post,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { CreateUserRequestDto } from './dto/request/create-user-request.dto';
@@ -18,18 +19,18 @@ import { CreateUserResponseDto } from './dto/response/create-user-response.dto';
 import { MapInterceptor } from '@automapper/nestjs';
 import { GetUserResponseDto } from './dto/response/get-user-response.dto';
 import { DeleteUserResponseDto } from './dto/response/delete-user-response.dto';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { RoleGuard } from '../auth/role.guard';
-import { Role } from '../auth/roles-auth.decorators';
+import { RoleGuard } from '../auth/guards/role.guard';
+import { Role } from '../../../../libs/common/src/decorators/roles-auth.decorators';
+import { Public } from '../../../../libs/common/src/decorators/public.decorators';
 
 @ApiTags('Пользователь')
 @Controller('user')
-@UseGuards(JwtAuthGuard, RoleGuard)
 export class UserController {
   constructor(private userService: UserService) {}
 
   @ApiOperation({ summary: 'Создание пользователя' })
   @ApiResponse({ status: 201, type: CreateUserResponseDto })
+  @Public()
   @Post()
   @UseInterceptors(MapInterceptor(User, CreateUserResponseDto))
   private create(
@@ -40,8 +41,9 @@ export class UserController {
 
   @ApiOperation({ summary: 'Получение всех пользователей' })
   @ApiResponse({ status: 200, type: [GetUserResponseDto] })
-  @Role('ADMIN')
+  @Public()
   @UseGuards(RoleGuard)
+  @Role('ADMIN')
   @Get()
   @UseInterceptors(MapInterceptor(User, GetUserResponseDto, { isArray: true }))
   private getAll() {

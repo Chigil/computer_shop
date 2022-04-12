@@ -26,11 +26,17 @@ import {
   SnakeCaseNamingConvention,
 } from '@automapper/core';
 import { AuthModule } from './auth/auth.module';
-
+import { APP_GUARD } from '@nestjs/core';
+import { AuthJwtGuard } from './auth/guards/auth.jwt.guard';
 
 @Module({
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AuthJwtGuard,
+    },
+  ],
   imports: [
     ConfigModule.forRoot({
       envFilePath: '.env',
@@ -71,7 +77,7 @@ import { AuthModule } from './auth/auth.module';
     DiscountModule,
     DiscountTypeModule,
     CatalogItemModule,
-    AuthModule
+    AuthModule,
   ],
 })
 export class AppModule {}
