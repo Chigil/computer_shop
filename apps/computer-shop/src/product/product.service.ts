@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { CreateProductRequestDto } from './dto/request/create-product-request.dto';
 import { Product } from './model/product.model';
 import { NotFoundException } from '../../../../libs/common/src/exeption/not-found.exception';
+import { CreateProductResponseDto } from './dto/response/create-product-response.dto';
 
 @Injectable()
 export class ProductService {
@@ -10,10 +11,10 @@ export class ProductService {
     @InjectModel(Product) private productRepository: typeof Product,
   ) {}
 
-  public async create(dto: CreateProductRequestDto) {
+  public async create(dto: CreateProductRequestDto): Promise<CreateProductResponseDto> {
     const product = await this.productRepository.create(dto);
     if (product) {
-      return { id: product.id };
+      return product;
     }
     throw new HttpException('Not crated', HttpStatus.BAD_REQUEST);
   }
