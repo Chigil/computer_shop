@@ -1,5 +1,5 @@
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { validateOrReject } from 'class-validator';
 import { UserService } from '../../user/user.service';
@@ -16,11 +16,12 @@ export class AuthJwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: any){
-    const validateUser = plainToClass(JwtTokenDto, payload)
-    console.log(validateUser)
+  logger = new Logger(PassportStrategy.name);
+
+  async validate(payload: any) {
+    const validateUser = plainToClass(JwtTokenDto, payload);
     validateOrReject(validateUser).catch((errors) => {
-      console.log(errors)
+      this.logger.log(`errors: ${JSON.stringify(errors)}`);
     });
     const user = await this.userService.getUserByEmail(payload.email);
     if (user) {

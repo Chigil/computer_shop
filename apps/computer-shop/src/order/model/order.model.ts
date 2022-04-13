@@ -34,7 +34,6 @@ export class Order extends Model<Order, OrderCreationAttributes> {
   @BelongsTo(() => User, 'userId')
   user: string;
 
-
   @BelongsTo(() => Discount, 'discountId')
   discount: string;
 

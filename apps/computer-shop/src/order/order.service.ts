@@ -13,7 +13,7 @@ export class OrderService {
     if (order) {
       return { id: order.id };
     }
-    throw new HttpException('Not crated', HttpStatus.BAD_REQUEST)
+    throw new HttpException('Not crated', HttpStatus.BAD_REQUEST);
   }
 
   public async getAll() {

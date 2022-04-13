@@ -5,7 +5,7 @@ export class UpdateUserRequestDto {
   @ApiProperty({
     example: 'coolemail@gmail.com',
     description: 'Почтовый адрес',
-    required: false
+    required: false,
   })
   @IsOptional()
   @IsEmail({}, { message: 'Некорректный email' })

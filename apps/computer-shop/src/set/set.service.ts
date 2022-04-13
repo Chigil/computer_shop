@@ -12,7 +12,7 @@ export class SetService {
     if (set) {
       return { id: set.id };
     }
-    throw new HttpException('Not crated', HttpStatus.BAD_REQUEST)
+    throw new HttpException('Not crated', HttpStatus.BAD_REQUEST);
   }
 
   public async getAll() {

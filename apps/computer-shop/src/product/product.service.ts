@@ -15,7 +15,7 @@ export class ProductService {
     if (product) {
       return { id: product.id };
     }
-    throw new HttpException('Not crated', HttpStatus.BAD_REQUEST)
+    throw new HttpException('Not crated', HttpStatus.BAD_REQUEST);
   }
 
   public async getAll() {

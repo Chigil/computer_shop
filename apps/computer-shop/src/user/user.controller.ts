@@ -7,7 +7,6 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
-  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { CreateUserRequestDto } from './dto/request/create-user-request.dto';
@@ -19,7 +18,6 @@ import { CreateUserResponseDto } from './dto/response/create-user-response.dto';
 import { MapInterceptor } from '@automapper/nestjs';
 import { GetUserResponseDto } from './dto/response/get-user-response.dto';
 import { DeleteUserResponseDto } from './dto/response/delete-user-response.dto';
-import { RoleGuard } from '../auth/guards/role.guard';
 import { Role } from '../../../../libs/common/src/decorators/roles-auth.decorators';
 
 @ApiTags('Пользователь')
@@ -39,7 +37,6 @@ export class UserController {
 
   @ApiOperation({ summary: 'Получение всех пользователей' })
   @ApiResponse({ status: 200, type: [GetUserResponseDto] })
-  @UseGuards(RoleGuard)
   @Role('ADMIN')
   @Get()
   @UseInterceptors(MapInterceptor(User, GetUserResponseDto, { isArray: true }))

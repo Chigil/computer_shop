@@ -5,7 +5,6 @@ import {
   Model,
   Table,
 } from 'sequelize-typescript';
-import { ApiProperty } from '@nestjs/swagger';
 import { ProductSet } from './product-set.model';
 import { DataTypes } from 'sequelize';
 import { Set } from '../../set/model/set.model';
@@ -33,10 +32,8 @@ export class Product extends Model<Product, ProductCreationAttributes> {
   @Column({ type: DataType.STRING, allowNull: false })
   description: string;
 
-
   @Column({ type: DataType.FLOAT, allowNull: false, defaultValue: 0 })
   price: number;
-
 
   @Column({ type: DataType.INTEGER, allowNull: false, defaultValue: 0 })
   amount: number;
