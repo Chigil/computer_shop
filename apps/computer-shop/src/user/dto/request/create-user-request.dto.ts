@@ -13,11 +13,4 @@ export class CreateUserRequestDto {
   @IsString({ message: 'Должно быть строкой' })
   @Length(4, 16, { message: 'Должно не меньше 4 и не больше 16' })
   public readonly password: string;
-
-  @ApiProperty({
-    example: '01091f63-3860-4c65-a13b-1c6529194410',
-    description: 'Идентификатор роли пользователя',
-  })
-  @IsUUID('all', { message: 'Должно быть UUID' })
-  public readonly roleId: string;
 }
