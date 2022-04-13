@@ -29,6 +29,7 @@ import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthJwtGuard } from './auth/guards/auth.jwt.guard';
 import { RoleGuard } from './auth/guards/role.guard';
+import { CatalogItem } from './catalog-item/model/catalog-item.model';
 
 @Module({
   controllers: [],
@@ -63,6 +64,7 @@ import { RoleGuard } from './auth/guards/role.guard';
         LoyaltyProgram,
         Discount,
         DiscountType,
+        CatalogItem
       ],
       autoLoadModels: true,
     }),

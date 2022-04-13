@@ -1,4 +1,5 @@
 import {
+  BelongsTo,
   BelongsToMany,
   Column,
   DataType,
@@ -8,6 +9,7 @@ import {
 import { ProductSet } from './product-set.model';
 import { DataTypes } from 'sequelize';
 import { Set } from '../../set/model/set.model';
+import { CatalogItem } from '../../catalog-item/model/catalog-item.model';
 
 interface ProductCreationAttributes {
   name: string;
@@ -16,7 +18,7 @@ interface ProductCreationAttributes {
   amount: number;
 }
 
-@Table({ tableName: 'product' })
+@Table({ tableName: 'product',  underscored: true })
 export class Product extends Model<Product, ProductCreationAttributes> {
   @Column({
     type: DataType.UUID,
@@ -38,8 +40,8 @@ export class Product extends Model<Product, ProductCreationAttributes> {
   @Column({ type: DataType.INTEGER, allowNull: false, defaultValue: 0 })
   amount: number;
 
-  //@BelongsTo( () => Catalog, 'catalogId')
-  catalog: string;
+  @BelongsTo( () => CatalogItem, 'catalogItemId')
+  catalog: CatalogItem;
 
   @BelongsToMany(() => Set, () => ProductSet)
   sets: Set;
