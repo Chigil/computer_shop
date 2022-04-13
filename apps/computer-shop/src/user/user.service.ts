@@ -17,7 +17,7 @@ export class UserService {
     const user = await this.userRepository.create(dto);
     if (user) {
       const role = await this.roleService.getByValue('CLIENT');
-      await user.$set('role', role.id); // create TRIGGER
+      await user.$set('role', role.id);
       user.role = [role];
       return user;
     }

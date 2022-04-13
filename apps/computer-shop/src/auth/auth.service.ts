@@ -10,13 +10,15 @@ import { JwtService } from '@nestjs/jwt';
 import { User } from '../user/model/user.model';
 import * as bcrypt from 'bcryptjs';
 import { NotFoundException } from '../../../../libs/common/src/exeption/not-found.exception';
+import { NotUniqueValueException } from '../../../../libs/common/src/exeption/not-unique-value.exception';
 
 @Injectable()
 export class AuthService {
   constructor(
     private userService: UserService,
     private jwtService: JwtService,
-  ) {}
+  ) {
+  }
 
   public async login(userDto: CreateUserRequestDto) {
     const user = await this.validateUser(userDto);
@@ -26,10 +28,7 @@ export class AuthService {
   public async registration(userDto: CreateUserRequestDto) {
     const candidate = await this.userService.getUserByEmail(userDto.email);
     if (candidate) {
-      throw new HttpException(
-        'User witch this email busy',
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new NotUniqueValueException(userDto.email);
     }
     const hashPassword = await bcrypt.hash(userDto.password, 5);
     const user = await this.userService.create({
@@ -46,6 +45,7 @@ export class AuthService {
       access_token: this.jwtService.sign(payload),
     };
   }
+
   public async validateUser(userDto: CreateUserRequestDto) {
     const user = await this.userService.getUserByEmail(userDto.email);
     if (!user) {

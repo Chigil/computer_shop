@@ -6,6 +6,7 @@ export class JwtTokenDto {
   @IsEmail({}, { message: 'Некорректный email' })
   email: string;
 
+  @IsObject( { message: 'Должено быть объектом' })
   role: Role;
 
   @IsUUID('all', { message: 'Должно быть UUID' })

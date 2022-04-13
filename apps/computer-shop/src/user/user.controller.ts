@@ -21,7 +21,6 @@ import { GetUserResponseDto } from './dto/response/get-user-response.dto';
 import { DeleteUserResponseDto } from './dto/response/delete-user-response.dto';
 import { RoleGuard } from '../auth/guards/role.guard';
 import { Role } from '../../../../libs/common/src/decorators/roles-auth.decorators';
-import { Public } from '../../../../libs/common/src/decorators/public.decorators';
 
 @ApiTags('Пользователь')
 @Controller('user')
@@ -30,7 +29,6 @@ export class UserController {
 
   @ApiOperation({ summary: 'Создание пользователя' })
   @ApiResponse({ status: 201, type: CreateUserResponseDto })
-  @Public()
   @Post()
   @UseInterceptors(MapInterceptor(User, CreateUserResponseDto))
   private create(
@@ -41,7 +39,6 @@ export class UserController {
 
   @ApiOperation({ summary: 'Получение всех пользователей' })
   @ApiResponse({ status: 200, type: [GetUserResponseDto] })
-  @Public()
   @UseGuards(RoleGuard)
   @Role('ADMIN')
   @Get()
