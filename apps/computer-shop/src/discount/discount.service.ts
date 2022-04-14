@@ -15,7 +15,7 @@ export class DiscountService {
     if (discount) {
       return { id: discount.id };
     }
-    throw new HttpException('Not crated', HttpStatus.BAD_REQUEST)
+    throw new HttpException('Not crated', HttpStatus.BAD_REQUEST);
   }
 
   public async getAll() {

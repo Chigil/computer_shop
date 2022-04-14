@@ -3,7 +3,8 @@ import {
   Controller,
   Delete,
   Get,
-  Param, ParseUUIDPipe,
+  Param,
+  ParseUUIDPipe,
   Patch,
   Post,
 } from '@nestjs/common';
@@ -34,7 +35,7 @@ export class ProductController {
   @ApiOperation({ summary: 'Получение одного товара по айди' })
   @ApiResponse({ status: 200, type: Product })
   @Get(':id')
-  private getOne(@Param('id',  ParseUUIDPipe) id: string) {
+  private getOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.productService.getOne(id);
   }
 
@@ -42,7 +43,7 @@ export class ProductController {
   @ApiResponse({ status: 200, type: Product })
   @Patch(':id')
   private update(
-    @Param('id',  ParseUUIDPipe) id: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() updateProductDto: CreateProductRequestDto,
   ) {
     return this.productService.update(id, updateProductDto);
@@ -51,7 +52,7 @@ export class ProductController {
   @ApiOperation({ summary: 'Удаление товара' })
   @ApiResponse({ status: 200, type: '{ success: false }' })
   @Delete(':id')
-  private delete(@Param('id',  ParseUUIDPipe) id: string) {
+  private delete(@Param('id', ParseUUIDPipe) id: string) {
     return this.productService.delete(id);
   }
 }

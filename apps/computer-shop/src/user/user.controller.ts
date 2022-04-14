@@ -18,6 +18,7 @@ import { CreateUserResponseDto } from './dto/response/create-user-response.dto';
 import { MapInterceptor } from '@automapper/nestjs';
 import { GetUserResponseDto } from './dto/response/get-user-response.dto';
 import { DeleteUserResponseDto } from './dto/response/delete-user-response.dto';
+import { Role } from '../../../../libs/common/src/decorators/roles-auth.decorators';
 
 @ApiTags('Пользователь')
 @Controller('user')
@@ -36,6 +37,7 @@ export class UserController {
 
   @ApiOperation({ summary: 'Получение всех пользователей' })
   @ApiResponse({ status: 200, type: [GetUserResponseDto] })
+  @Role('ADMIN')
   @Get()
   @UseInterceptors(MapInterceptor(User, GetUserResponseDto, { isArray: true }))
   private getAll() {
