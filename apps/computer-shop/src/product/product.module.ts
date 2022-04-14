@@ -11,6 +11,9 @@ import { CatalogItemModule } from '../catalog-item/catalog-item.module';
 @Module({
   providers: [ProductService],
   controllers: [ProductController],
-  imports: [SequelizeModule.forFeature([Product, Set, ProductSet, CatalogItem]), CatalogItemModule],
+  imports: [
+    SequelizeModule.forFeature([Product, Set, ProductSet, CatalogItem]),
+    CatalogItemModule,
+  ],
 })
 export class ProductModule {}

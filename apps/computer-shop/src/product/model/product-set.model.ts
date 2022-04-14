@@ -9,7 +9,12 @@ import { Set } from '../../set/model/set.model';
 import { Product } from './product.model';
 import { DataTypes } from 'sequelize';
 
-@Table({ tableName: 'product_set', createdAt: false, updatedAt: false, underscored: true })
+@Table({
+  tableName: 'product_set',
+  createdAt: false,
+  updatedAt: false,
+  underscored: true,
+})
 export class ProductSet extends Model<ProductSet> {
   @Column({
     type: DataType.UUID,

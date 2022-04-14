@@ -64,7 +64,7 @@ import { CatalogItem } from './catalog-item/model/catalog-item.model';
         LoyaltyProgram,
         Discount,
         DiscountType,
-        CatalogItem
+        CatalogItem,
       ],
       autoLoadModels: true,
     }),

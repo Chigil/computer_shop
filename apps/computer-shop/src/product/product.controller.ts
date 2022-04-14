@@ -1,10 +1,21 @@
-import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Patch,
+  Post,
+  UseInterceptors,
+} from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ProductService } from './product.service';
 import { Product } from './model/product.model';
 import { CreateProductRequestDto } from './dto/request/create-product-request.dto';
 import { MapInterceptor } from '@automapper/nestjs';
 import { CreateProductResponseDto } from './dto/response/create-product-response.dto';
+import { GetProductsDto } from './dto/request/get-products.dto';
 
 @ApiTags('Товар')
 @Controller('product')
@@ -15,15 +26,17 @@ export class ProductController {
   @ApiResponse({ status: 201, type: CreateProductResponseDto })
   @UseInterceptors(MapInterceptor(Product, CreateProductResponseDto))
   @Post()
-  private create(@Body() createProductDto: CreateProductRequestDto) {
+  private create(
+    @Body() createProductDto: CreateProductRequestDto,
+  ): Promise<CreateProductResponseDto> {
     return this.productService.create(createProductDto);
   }
 
   @ApiOperation({ summary: 'Получение всех товаров' })
   @ApiResponse({ status: 200, type: [Product] })
-  @Get()
-  private getAll() {
-    return this.productService.getAll();
+  @Post('all')
+  private getAll(@Body() getProductsDto: GetProductsDto) {
+    return this.productService.getAll(getProductsDto);
   }
 
   @ApiOperation({ summary: 'Получение одного товара по айди' })

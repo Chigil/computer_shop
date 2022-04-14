@@ -2,13 +2,16 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNumber, IsString, IsUUID } from 'class-validator';
 
 export class CreateProductRequestDto {
-
-  @ApiProperty({ example: 'Клавиатура Logitech MX Keys', description: 'Название' })
+  @ApiProperty({
+    example: 'Клавиатура Logitech MX Keys',
+    description: 'Название',
+  })
   @IsString({ message: 'Должно быть строкой' })
   readonly name: string;
 
   @ApiProperty({
-    example: 'стандартная для ПК/для компьютеров Apple/для iPad/для устройств Android/для планшетов Windows, мембранная, пластик, интерфейс подключения - радио/Bluetooth, подсветка, цвет черный',
+    example:
+      'стандартная для ПК/для компьютеров Apple/для iPad/для устройств Android/для планшетов Windows, мембранная, пластик, интерфейс подключения - радио/Bluetooth, подсветка, цвет черный',
     description: 'Описание',
   })
   @IsString({ message: 'Должно быть строкой' })
@@ -21,7 +24,6 @@ export class CreateProductRequestDto {
   @ApiProperty({ example: 5, description: 'Количество в наличии' })
   @IsNumber({}, { message: 'Должно быть строкой' })
   readonly amount: number;
-
 
   @ApiProperty({
     example: '01091f63-3860-4c65-a13b-1c6529194410',

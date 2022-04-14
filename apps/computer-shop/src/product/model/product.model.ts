@@ -19,7 +19,7 @@ interface ProductCreationAttributes {
   amount: number;
 }
 
-@Table({ tableName: 'product',  underscored: true })
+@Table({ tableName: 'product', underscored: true })
 export class Product extends Model<Product, ProductCreationAttributes> {
   @Column({
     type: DataType.UUID,
@@ -46,7 +46,7 @@ export class Product extends Model<Product, ProductCreationAttributes> {
   @AutoMap()
   amount: number;
 
-  @BelongsTo( () => CatalogItem, 'catalogItemId')
+  @BelongsTo(() => CatalogItem, 'catalogItemId')
   @AutoMap()
   catalog: CatalogItem;
 

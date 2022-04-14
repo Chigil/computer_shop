@@ -1,13 +1,15 @@
 import { Column, DataType, Model, Table } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
-
-interface CatalogItemCreationAttributes  {
+interface CatalogItemCreationAttributes {
   title: string;
 }
 
 @Table({ tableName: 'catalog_item', underscored: true })
-export class CatalogItem extends Model<CatalogItem, CatalogItemCreationAttributes> {
+export class CatalogItem extends Model<
+  CatalogItem,
+  CatalogItemCreationAttributes
+> {
   @Column({
     type: DataType.UUID,
     unique: true,
