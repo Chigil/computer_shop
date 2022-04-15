@@ -1,4 +1,5 @@
 import { IsEnum, IsOptional, IsString } from 'class-validator';
+import { ApiPropertyOptional } from '@nestjs/swagger';
 
 export enum Sort {
   DESCENDING = 'DESC',
@@ -6,11 +7,13 @@ export enum Sort {
 }
 
 export class SortingDto {
+  @ApiPropertyOptional({ description: 'Sorting order' })
   @IsOptional()
   @IsEnum(Sort)
-  readonly sortingOrder?: Sort;
+  public readonly sortingOrder?: Sort;
 
+  @ApiPropertyOptional({ description: 'Sorting field' })
   @IsOptional()
   @IsString()
-  readonly field?: string;
+  public readonly field?: string;
 }

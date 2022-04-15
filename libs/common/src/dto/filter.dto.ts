@@ -1,4 +1,5 @@
 import { IsEnum, IsOptional, IsString } from 'class-validator';
+import { ApiPropertyOptional } from '@nestjs/swagger';
 
 export enum FilterType {
   I_LIKE = '[Op.iLike]',
@@ -6,14 +7,18 @@ export enum FilterType {
 }
 
 export class FilterDto {
-  @IsOptional()
-  readonly field?: string;
-
-  @IsOptional()
-  @IsEnum(FilterType)
-  readonly option?: FilterType;
-
+  @ApiPropertyOptional({ description: 'Filter field' })
   @IsOptional()
   @IsString()
-  readonly value?: string[] | string;
+  public readonly field?: string;
+
+  @ApiPropertyOptional({ description: 'Filter option' })
+  @IsOptional()
+  @IsEnum(FilterType)
+  public readonly option?: FilterType;
+
+  @ApiPropertyOptional({ description: 'Filter value' })
+  @IsOptional()
+  @IsString()
+  public readonly value?: string[] | string;
 }

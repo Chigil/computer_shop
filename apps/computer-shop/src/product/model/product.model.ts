@@ -1,5 +1,4 @@
 import {
-  BelongsTo,
   BelongsToMany,
   Column,
   DataType,
@@ -9,7 +8,6 @@ import {
 import { ProductSet } from './product-set.model';
 import { DataTypes } from 'sequelize';
 import { Set } from '../../set/model/set.model';
-import { CatalogItem } from '../../catalog-item/model/catalog-item.model';
 import { AutoMap } from '@automapper/classes';
 
 interface ProductCreationAttributes {
@@ -45,10 +43,6 @@ export class Product extends Model<Product, ProductCreationAttributes> {
   @Column({ type: DataType.INTEGER, allowNull: false, defaultValue: 0 })
   @AutoMap()
   amount: number;
-
-  @BelongsTo(() => CatalogItem, 'catalogItemId')
-  @AutoMap()
-  catalog: CatalogItem;
 
   @BelongsToMany(() => Set, () => ProductSet)
   @AutoMap()

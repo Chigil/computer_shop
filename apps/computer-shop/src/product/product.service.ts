@@ -27,10 +27,9 @@ export class ProductService {
 
   public async getAll(body: GetProductsDto) {
     const products = await this.productRepository.findAll({
-      include: { all: true },
       where: search(body.filter),
+      ...paginate(body.pagination),
       ...sort(body.sorting),
-      ...paginate(body.pagination?.page || 0, body.pagination?.size || 10),
     });
     return products;
   }

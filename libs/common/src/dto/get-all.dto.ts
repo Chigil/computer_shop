@@ -10,17 +10,17 @@ export abstract class GetAllDto {
   @IsOptional()
   @Type(() => PaginationDto)
   @ValidateNested()
-  readonly pagination?: PaginationDto = new PaginationDto();
+  public readonly pagination?: PaginationDto = new PaginationDto();
 
   @ApiPropertyOptional({ description: 'Sorting' })
   @IsOptional()
   @Type(() => SortingDto)
   @ValidateNested({ each: true })
-  readonly sorting?: SortingDto[] = [];
+  public readonly sorting?: SortingDto[] = [];
 
   @ApiPropertyOptional({ description: 'Filter' })
   @IsOptional()
   @Type(() => FilterDto)
   @ValidateNested()
-  readonly filter?: FilterDto;
+  public readonly filter?: FilterDto;
 }

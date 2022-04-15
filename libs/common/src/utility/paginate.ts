@@ -1,6 +1,10 @@
-export const paginate = (page: number, pageSize: number): object => {
-  const limit = pageSize;
-  const offset = page ? page * pageSize : null;
+import { PaginationDto } from '../dto/pagination.dto';
+
+export const paginate = (
+  pagination: PaginationDto,
+): { offset: number; limit: number } => {
+  const limit = pagination?.page || 10;
+  const offset = pagination?.page ? pagination?.page * pagination?.size : null;
 
   return {
     offset,

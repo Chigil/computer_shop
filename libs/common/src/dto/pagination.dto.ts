@@ -7,11 +7,11 @@ export class PaginationDto {
   @IsOptional()
   @Type(() => Number)
   @IsNumber()
-  readonly page?: number;
+  public readonly page?: number = 0;
 
   @ApiPropertyOptional({ description: 'Page size' })
   @IsOptional()
   @Type(() => Number)
   @IsNumber()
-  readonly size?: number;
+  public readonly size?: number = 10;
 }

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsString, IsUUID } from 'class-validator';
+import { IsNumber, IsString } from 'class-validator';
 
 export class CreateProductRequestDto {
   @ApiProperty({
@@ -7,7 +7,7 @@ export class CreateProductRequestDto {
     description: 'Название',
   })
   @IsString({ message: 'Должно быть строкой' })
-  readonly name: string;
+  public readonly name: string;
 
   @ApiProperty({
     example:
@@ -15,7 +15,7 @@ export class CreateProductRequestDto {
     description: 'Описание',
   })
   @IsString({ message: 'Должно быть строкой' })
-  readonly description: string;
+  public readonly description: string;
 
   @ApiProperty({ example: 155.45, description: 'Цена' })
   @IsNumber({}, { message: 'Должно быть строкой' })
@@ -23,12 +23,5 @@ export class CreateProductRequestDto {
 
   @ApiProperty({ example: 5, description: 'Количество в наличии' })
   @IsNumber({}, { message: 'Должно быть строкой' })
-  readonly amount: number;
-
-  @ApiProperty({
-    example: '01091f63-3860-4c65-a13b-1c6529194410',
-    description: 'Идентификатор каталога товара',
-  })
-  @IsUUID('all', { message: 'Должно быть UUID' })
-  readonly catalogItemId: string;
+  public readonly amount: number;
 }
