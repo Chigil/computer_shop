@@ -16,6 +16,8 @@ import { CreateProductRequestDto } from './dto/request/create-product-request.dt
 import { MapInterceptor } from '@automapper/nestjs';
 import { CreateProductResponseDto } from './dto/response/create-product-response.dto';
 import { GetProductsDto } from './dto/request/get-products.dto';
+import { Role } from '../../../../libs/common/src/decorators/roles-auth.decorators';
+
 
 @ApiTags('Товар')
 @Controller('product')
@@ -25,6 +27,7 @@ export class ProductController {
   @ApiOperation({ summary: 'Создание товара' })
   @ApiResponse({ status: 201, type: CreateProductResponseDto })
   @UseInterceptors(MapInterceptor(Product, CreateProductResponseDto))
+  @Role('ADMIN')
   @Post()
   private create(
     @Body() createProductDto: CreateProductRequestDto,
@@ -49,6 +52,7 @@ export class ProductController {
   @ApiOperation({ summary: 'Обновление товара' })
   @ApiResponse({ status: 200, type: Product })
   @Patch(':id')
+  @Role('ADMIN')
   private update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateProductDto: CreateProductRequestDto,
@@ -58,6 +62,7 @@ export class ProductController {
 
   @ApiOperation({ summary: 'Удаление товара' })
   @ApiResponse({ status: 200, type: '{ success: false }' })
+  @Role('ADMIN')
   @Delete(':id')
   private delete(@Param('id', ParseUUIDPipe) id: string) {
     return this.productService.delete(id);
