@@ -1,13 +1,6 @@
-import {
-  BelongsToMany,
-  Column,
-  DataType,
-  Model,
-  Table,
-} from 'sequelize-typescript';
-import { ProductSet } from './product-set.model';
+import { Column, DataType, Model, Table } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
-import { Set } from '../../set/model/set.model';
+import { AutoMap } from '@automapper/classes';
 
 interface ProductCreationAttributes {
   name: string;
@@ -16,7 +9,7 @@ interface ProductCreationAttributes {
   amount: number;
 }
 
-@Table({ tableName: 'product' })
+@Table({ tableName: 'product', underscored: true })
 export class Product extends Model<Product, ProductCreationAttributes> {
   @Column({
     type: DataType.UUID,
@@ -24,23 +17,22 @@ export class Product extends Model<Product, ProductCreationAttributes> {
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   })
+  @AutoMap()
   id: string;
 
   @Column({ type: DataType.STRING, unique: true, allowNull: false })
+  @AutoMap()
   name: string;
 
   @Column({ type: DataType.STRING, allowNull: false })
+  @AutoMap()
   description: string;
 
   @Column({ type: DataType.FLOAT, allowNull: false, defaultValue: 0 })
+  @AutoMap()
   price: number;
 
   @Column({ type: DataType.INTEGER, allowNull: false, defaultValue: 0 })
+  @AutoMap()
   amount: number;
-
-  //@BelongsTo( () => Catalog, 'catalogId')
-  catalog: string;
-
-  @BelongsToMany(() => Set, () => ProductSet)
-  sets: Set;
 }
