@@ -12,6 +12,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Set } from './model/set.model';
 import { CreateSetRequestDto } from './dto/request/create-set-request.dto';
 import { SetService } from './set.service';
+import { Role } from '../../../../libs/common/src/decorators/roles-auth.decorators';
 
 @ApiTags('Комплект')
 @Controller('set')
@@ -20,6 +21,7 @@ export class SetController {
 
   @ApiOperation({ summary: 'Создание комплекта' })
   @ApiResponse({ status: 201, type: Set })
+  @Role('ADMIN')
   @Post()
   private create(@Body() createSetDto: CreateSetRequestDto) {
     return this.setService.create(createSetDto);
@@ -41,6 +43,7 @@ export class SetController {
 
   @ApiOperation({ summary: 'Обновление комплекта' })
   @ApiResponse({ status: 200, type: Set })
+  @Role('ADMIN')
   @Patch(':id')
   private update(
     @Param('id', ParseUUIDPipe) id: string,
@@ -51,6 +54,7 @@ export class SetController {
 
   @ApiOperation({ summary: 'Удаление комплекта' })
   @ApiResponse({ status: 200, type: '{ success: true }' })
+  @Role('ADMIN')
   @Delete(':id')
   private delete(@Param('id', ParseUUIDPipe) id: string) {
     return this.setService.delete(id);

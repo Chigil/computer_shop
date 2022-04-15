@@ -38,9 +38,6 @@ export class Set extends Model<Set, SetCreationAttributes> {
   @Column({ type: DataType.INTEGER, allowNull: false, defaultValue: 0 })
   amount: number;
 
-  //@BelongsTo( () => Catalog, 'catalogId')
-  catalog: string;
-
   @BelongsToMany(() => Product, () => ProductSet)
   products: Product[];
 }
