@@ -18,12 +18,12 @@ import { CreateProductResponseDto } from './dto/response/create-product-response
 import { GetProductsDto } from './dto/request/get-products.dto';
 import { Role } from '../../../../libs/common/src/decorators/roles-auth.decorators';
 
-@ApiTags('Товар')
+@ApiTags('Product')
 @Controller('product')
 export class ProductController {
   constructor(private productService: ProductService) {}
 
-  @ApiOperation({ summary: 'Создание товара' })
+  @ApiOperation({ summary: 'Create product' })
   @ApiResponse({ status: 201, type: CreateProductResponseDto })
   @UseInterceptors(MapInterceptor(Product, CreateProductResponseDto))
   @Role('ADMIN')
@@ -34,21 +34,21 @@ export class ProductController {
     return this.productService.create(createProductDto);
   }
 
-  @ApiOperation({ summary: 'Получение всех товаров' })
+  @ApiOperation({ summary: 'Get all products' })
   @ApiResponse({ status: 200, type: [Product] })
   @Post('all')
   private getAll(@Body() getProductsDto: GetProductsDto) {
     return this.productService.getAll(getProductsDto);
   }
 
-  @ApiOperation({ summary: 'Получение одного товара по айди' })
+  @ApiOperation({ summary: 'Get one product on id' })
   @ApiResponse({ status: 200, type: Product })
   @Get(':id')
   private getOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.productService.getOne(id);
   }
 
-  @ApiOperation({ summary: 'Обновление товара' })
+  @ApiOperation({ summary: 'Update product' })
   @ApiResponse({ status: 200, type: Product })
   @Patch(':id')
   @Role('ADMIN')
@@ -59,7 +59,7 @@ export class ProductController {
     return this.productService.update(id, updateProductDto);
   }
 
-  @ApiOperation({ summary: 'Удаление товара' })
+  @ApiOperation({ summary: 'Delete product' })
   @ApiResponse({ status: 200, type: '{ success: false }' })
   @Role('ADMIN')
   @Delete(':id')
