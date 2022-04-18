@@ -2,6 +2,10 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Set } from './model/set.model';
 import { CreateSetRequestDto } from './dto/request/create-set-request.dto';
+import { search } from '../../../../libs/common/src/utility/search';
+import { paginate } from '../../../../libs/common/src/utility/paginate';
+import { sort } from '../../../../libs/common/src/utility/sort';
+import { GetSetDto } from './dto/request/get-set.dto';
 
 @Injectable()
 export class SetService {
@@ -15,8 +19,13 @@ export class SetService {
     throw new HttpException('Not crated', HttpStatus.BAD_REQUEST);
   }
 
-  public async getAll() {
-    const sets = await this.setRepository.findAll({ include: { all: true } });
+  public async getAll(body: GetSetDto) {
+    const sets = await this.setRepository.findAll({
+      include: { all: true },
+      where: search(body.filter),
+      ...paginate(body.pagination),
+      ...sort(body.sorting),
+    });
     return sets;
   }
 

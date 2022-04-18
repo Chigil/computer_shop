@@ -5,7 +5,6 @@ import {
   Model,
   Table,
 } from 'sequelize-typescript';
-import { ProductSet } from '../../product/model/product-set.model';
 import { DataTypes } from 'sequelize';
 import { Product } from '../../product/model/product.model';
 
@@ -16,7 +15,7 @@ interface SetCreationAttributes {
   amount: number;
 }
 
-@Table({ tableName: 'set' })
+@Table({ tableName: 'set', underscored: true })
 export class Set extends Model<Set, SetCreationAttributes> {
   @Column({
     type: DataType.UUID,
@@ -38,6 +37,6 @@ export class Set extends Model<Set, SetCreationAttributes> {
   @Column({ type: DataType.INTEGER, allowNull: false, defaultValue: 0 })
   amount: number;
 
-  @BelongsToMany(() => Product, () => ProductSet)
+  @BelongsToMany(() => Product, 'product_set', 'setId', 'productId')
   products: Product[];
 }

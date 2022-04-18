@@ -18,7 +18,6 @@ import { CreateProductResponseDto } from './dto/response/create-product-response
 import { GetProductsDto } from './dto/request/get-products.dto';
 import { Role } from '../../../../libs/common/src/decorators/roles-auth.decorators';
 
-
 @ApiTags('Товар')
 @Controller('product')
 export class ProductController {

@@ -13,6 +13,7 @@ import { Set } from './model/set.model';
 import { CreateSetRequestDto } from './dto/request/create-set-request.dto';
 import { SetService } from './set.service';
 import { Role } from '../../../../libs/common/src/decorators/roles-auth.decorators';
+import { GetSetDto } from './dto/request/get-set.dto';
 
 @ApiTags('Комплект')
 @Controller('set')
@@ -29,9 +30,9 @@ export class SetController {
 
   @ApiOperation({ summary: 'Получение всех комплектов' })
   @ApiResponse({ status: 200, type: [Set] })
-  @Get()
-  private getAll() {
-    return this.setService.getAll();
+  @Post('all')
+  private getAll(@Body() getSetDto: GetSetDto) {
+    return this.setService.getAll(getSetDto);
   }
 
   @ApiOperation({ summary: 'Получение одного комплекта по айди' })
