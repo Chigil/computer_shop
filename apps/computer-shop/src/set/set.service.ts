@@ -21,6 +21,7 @@ export class SetService {
 
   public async getAll(body: GetSetDto) {
     const sets = await this.setRepository.findAll({
+      include: { all: true },
       where: search(body.filter),
       ...paginate(body.pagination),
       ...sort(body.sorting),
