@@ -33,7 +33,7 @@ export class SetController {
     return this.setService.getAll(getSetDto);
   }
 
-  @ApiOperation({ summary: 'Get one set on id' })
+  @ApiOperation({ summary: 'Get one set by id' })
   @ApiResponse({ status: 200, type: Set })
   @Get(':id')
   private getOne(@Param('id', ParseUUIDPipe) id: string) {

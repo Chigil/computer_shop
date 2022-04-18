@@ -41,7 +41,7 @@ export class ProductController {
     return this.productService.getAll(getProductsDto);
   }
 
-  @ApiOperation({ summary: 'Get one product on id' })
+  @ApiOperation({ summary: 'Get one product by id' })
   @ApiResponse({ status: 200, type: Product })
   @Get(':id')
   private getOne(@Param('id', ParseUUIDPipe) id: string) {

@@ -32,14 +32,14 @@ export class OrderController {
     return this.orderService.getAll();
   }
 
-  @ApiOperation({ summary: 'Get one order on id' })
+  @ApiOperation({ summary: 'Get one order by id' })
   @ApiResponse({ status: 200, type: Order })
   @Get(':id')
   private getOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.orderService.getOne(id);
   }
 
-  @ApiOperation({ summary: 'Update order on id' })
+  @ApiOperation({ summary: 'Update order' })
   @ApiResponse({ status: 200, type: Order })
   @Patch(':id')
   private update(
@@ -49,7 +49,7 @@ export class OrderController {
     return this.orderService.update(id, updateOrderDto);
   }
 
-  @ApiOperation({ summary: 'Delete order on id' })
+  @ApiOperation({ summary: 'Delete order' })
   @ApiResponse({ status: 200, type: '{ success: false }' })
   @Delete(':id')
   private delete(@Param('id', ParseUUIDPipe) id: string) {

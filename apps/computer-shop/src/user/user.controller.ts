@@ -44,7 +44,7 @@ export class UserController {
     return this.userService.getAll();
   }
 
-  @ApiOperation({ summary: 'Get one user on id' })
+  @ApiOperation({ summary: 'Get one user by id' })
   @ApiResponse({ status: 200, type: GetUserResponseDto })
   @Get(':id')
   @UseInterceptors(MapInterceptor(User, GetUserResponseDto))

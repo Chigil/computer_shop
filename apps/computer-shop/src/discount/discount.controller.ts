@@ -34,7 +34,7 @@ export class DiscountController {
     return this.discountService.getAll();
   }
 
-  @ApiOperation({ summary: 'Get one discount oi id' })
+  @ApiOperation({ summary: 'Get one discount by id' })
   @ApiResponse({ status: 200, type: Discount })
   @Get(':id')
   private getOne(@Param('id', ParseUUIDPipe) id: string) {
