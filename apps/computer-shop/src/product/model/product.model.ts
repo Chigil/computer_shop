@@ -1,5 +1,4 @@
 import {
-  BelongsToMany,
   Column,
   DataType,
   Model,
@@ -7,7 +6,6 @@ import {
 } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 import { AutoMap } from '@automapper/classes';
-import { Set } from '../../set/model/set.model';
 
 interface ProductCreationAttributes {
   name: string;
@@ -42,7 +40,4 @@ export class Product extends Model<Product, ProductCreationAttributes> {
   @Column({ type: DataType.INTEGER, allowNull: false, defaultValue: 0 })
   @AutoMap()
   amount: number;
-
-  @BelongsToMany(() => Set, 'product_set', 'productId', 'setId')
-  sets: Set;
 }
