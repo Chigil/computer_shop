@@ -3,13 +3,13 @@ import { Type } from 'class-transformer';
 import { UserRoleDto } from '../../role/dto/user-role.dto';
 
 export class JwtTokenDto {
-  @IsEmail({}, { message: 'Некорректный email' })
+  @IsEmail({}, { message: 'Incorrect email address' })
   email: string;
 
-  @ValidateNested({ message: 'Дожно быть классом Role' })
+  @ValidateNested({ message: 'Must be a Role class' })
   @Type(() => UserRoleDto)
   role: UserRoleDto;
 
-  @IsUUID('all', { message: 'Должно быть UUID' })
+  @IsUUID('all', { message: 'Must be UUID' })
   id: string;
 }

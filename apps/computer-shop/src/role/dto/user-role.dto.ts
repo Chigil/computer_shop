@@ -1,9 +1,9 @@
 import { IsString, IsUUID } from 'class-validator';
 
 export class UserRoleDto {
-  @IsUUID('all', { message: 'Должно быть UUID' })
+  @IsUUID('all', { message: 'Must be UUID' })
   id: string;
 
-  @IsString({ message: 'Должно быть String' })
+  @IsString({ message: 'Must be String' })
   ident: string;
 }

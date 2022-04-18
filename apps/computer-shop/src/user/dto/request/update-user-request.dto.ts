@@ -4,16 +4,16 @@ import { IsEmail, IsOptional, IsString, Length } from 'class-validator';
 export class UpdateUserRequestDto {
   @ApiProperty({
     example: 'coolemail@gmail.com',
-    description: 'Почтовый адрес',
+    description: 'Mailing address',
     required: false,
   })
   @IsOptional()
-  @IsEmail({}, { message: 'Некорректный email' })
+  @IsEmail({}, { message: 'Incorrect email' })
   public readonly email?: string;
 
   @IsOptional()
-  @ApiProperty({ example: '12345', description: 'Пароль', required: false })
-  @IsString({ message: 'Должно быть строкой' })
-  @Length(4, 16, { message: 'Должно не меньше 4 и не больше 16' })
+  @ApiProperty({ example: '12345', description: 'Password', required: false })
+  @IsString({ message: 'Must be a string' })
+  @Length(4, 16, { message: 'Must be at least 4 and no more than 16' })
   public readonly password?: string;
 }

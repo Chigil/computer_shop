@@ -7,7 +7,6 @@ import { Role } from './role/model/role.model';
 import { RoleModule } from './role/role.module';
 import { Product } from './product/model/product.model';
 import { ProductModule } from './product/product.module';
-import { ProductSet } from './product/model/product-set.model';
 import { Set } from './set/model/set.model';
 import { SetModule } from './set/set.module';
 import { Order } from './order/model/order.model';
@@ -59,7 +58,6 @@ import { CatalogItem } from './catalog-item/model/catalog-item.model';
         Role,
         Product,
         Set,
-        ProductSet,
         Order,
         LoyaltyProgram,
         Discount,
