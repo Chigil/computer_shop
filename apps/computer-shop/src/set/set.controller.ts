@@ -12,15 +12,15 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Set } from './model/set.model';
 import { CreateSetRequestDto } from './dto/request/create-set-request.dto';
 import { SetService } from './set.service';
-import { Role } from '../../../../libs/common/src/decorators/roles-auth.decorators';
 import { GetSetDto } from './dto/request/get-set.dto';
+import { Role } from '../../../../libs/common/src/decorators/roles-auth.decorators';
 
-@ApiTags('Комплект')
+@ApiTags('Set')
 @Controller('set')
 export class SetController {
   constructor(private setService: SetService) {}
 
-  @ApiOperation({ summary: 'Создание комплекта' })
+  @ApiOperation({ summary: 'Create set' })
   @ApiResponse({ status: 201, type: Set })
   @Role('ADMIN')
   @Post()
@@ -28,21 +28,21 @@ export class SetController {
     return this.setService.create(createSetDto);
   }
 
-  @ApiOperation({ summary: 'Получение всех комплектов' })
+  @ApiOperation({ summary: 'Get all sets' })
   @ApiResponse({ status: 200, type: [Set] })
   @Post('all')
   private getAll(@Body() getSetDto: GetSetDto) {
     return this.setService.getAll(getSetDto);
   }
 
-  @ApiOperation({ summary: 'Получение одного комплекта по айди' })
+  @ApiOperation({ summary: 'Get one set by id' })
   @ApiResponse({ status: 200, type: Set })
   @Get(':id')
   private getOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.setService.getOne(id);
   }
 
-  @ApiOperation({ summary: 'Обновление комплекта' })
+  @ApiOperation({ summary: 'Update set' })
   @ApiResponse({ status: 200, type: Set })
   @Role('ADMIN')
   @Patch(':id')
@@ -53,7 +53,7 @@ export class SetController {
     return this.setService.update(id, updateSetDto);
   }
 
-  @ApiOperation({ summary: 'Удаление комплекта' })
+  @ApiOperation({ summary: 'Delete set' })
   @ApiResponse({ status: 200, type: '{ success: true }' })
   @Role('ADMIN')
   @Delete(':id')

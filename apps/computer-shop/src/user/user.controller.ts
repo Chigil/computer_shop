@@ -20,12 +20,12 @@ import { GetUserResponseDto } from './dto/response/get-user-response.dto';
 import { DeleteUserResponseDto } from './dto/response/delete-user-response.dto';
 import { Role } from '../../../../libs/common/src/decorators/roles-auth.decorators';
 
-@ApiTags('Пользователь')
+@ApiTags('User')
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
 
-  @ApiOperation({ summary: 'Создание пользователя' })
+  @ApiOperation({ summary: 'Create user' })
   @ApiResponse({ status: 201, type: CreateUserResponseDto })
   @Post()
   @UseInterceptors(MapInterceptor(User, CreateUserResponseDto))
@@ -35,7 +35,7 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
-  @ApiOperation({ summary: 'Получение всех пользователей' })
+  @ApiOperation({ summary: 'Get all users' })
   @ApiResponse({ status: 200, type: [GetUserResponseDto] })
   @Role('ADMIN')
   @Get()
@@ -44,7 +44,7 @@ export class UserController {
     return this.userService.getAll();
   }
 
-  @ApiOperation({ summary: 'Получение одного пользователя по айди' })
+  @ApiOperation({ summary: 'Get one user by id' })
   @ApiResponse({ status: 200, type: GetUserResponseDto })
   @Get(':id')
   @UseInterceptors(MapInterceptor(User, GetUserResponseDto))
@@ -52,7 +52,7 @@ export class UserController {
     return this.userService.getOne(id);
   }
 
-  @ApiOperation({ summary: 'Обновление пользователя' })
+  @ApiOperation({ summary: 'Update user' })
   @ApiResponse({ status: 201, type: CreateUserResponseDto })
   @Patch(':id')
   private update(
@@ -62,7 +62,7 @@ export class UserController {
     return this.userService.update(id, updateUserDto);
   }
 
-  @ApiOperation({ summary: 'Удаление пользователя' })
+  @ApiOperation({ summary: 'Delete user' })
   @ApiResponse({ status: 200, type: DeleteUserResponseDto })
   @Delete(':id')
   private delete(@Param('id', ParseUUIDPipe) id: string) {
