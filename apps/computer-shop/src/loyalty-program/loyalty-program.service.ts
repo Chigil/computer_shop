@@ -19,7 +19,7 @@ export class LoyaltyProgramService {
     if (!program || !discount) {
       throw new HttpException('Not created', HttpStatus.BAD_REQUEST);
     }
-    await program.$set('discount', discount.id);
+    await program.$set('discount', dto.discountId);
     return program;
   }
 
@@ -46,7 +46,7 @@ export class LoyaltyProgramService {
     if (!program || !discount) {
       throw new HttpException('Not created', HttpStatus.BAD_REQUEST);
     }
-    await program.$set('discount', discount.id);
+    await program.$set('discount', dto.discountId);
     return program;
   }
 
