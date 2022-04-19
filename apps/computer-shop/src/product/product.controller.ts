@@ -17,6 +17,7 @@ import { MapInterceptor } from '@automapper/nestjs';
 import { CreateProductResponseDto } from './dto/response/create-product-response.dto';
 import { GetProductsDto } from './dto/request/get-products.dto';
 import { Role } from '../../../../libs/common/src/decorators/roles-auth.decorators';
+import { SuccessOperationDto } from '../../../../libs/common/src/dto/success-operation.dto';
 
 @ApiTags('Product')
 @Controller('product')
@@ -60,7 +61,7 @@ export class ProductController {
   }
 
   @ApiOperation({ summary: 'Delete product' })
-  @ApiResponse({ status: 200, type: '{ success: false }' })
+  @ApiResponse({ status: 200, type: SuccessOperationDto })
   @Role('ADMIN')
   @Delete(':id')
   private delete(@Param('id', ParseUUIDPipe) id: string) {

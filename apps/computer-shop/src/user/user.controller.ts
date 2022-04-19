@@ -17,8 +17,8 @@ import { User } from './model/user.model';
 import { CreateUserResponseDto } from './dto/response/create-user-response.dto';
 import { MapInterceptor } from '@automapper/nestjs';
 import { GetUserResponseDto } from './dto/response/get-user-response.dto';
-import { DeleteUserResponseDto } from './dto/response/delete-user-response.dto';
 import { Role } from '../../../../libs/common/src/decorators/roles-auth.decorators';
+import { SuccessOperationDto } from '../../../../libs/common/src/dto/success-operation.dto';
 
 @ApiTags('User')
 @Controller('user')
@@ -53,7 +53,7 @@ export class UserController {
   }
 
   @ApiOperation({ summary: 'Update user' })
-  @ApiResponse({ status: 201, type: CreateUserResponseDto })
+  @ApiResponse({ status: 201, type: UpdateUserRequestDto })
   @Patch(':id')
   private update(
     @Param('id', ParseUUIDPipe) id: string,
@@ -63,7 +63,7 @@ export class UserController {
   }
 
   @ApiOperation({ summary: 'Delete user' })
-  @ApiResponse({ status: 200, type: DeleteUserResponseDto })
+  @ApiResponse({ status: 200, type: SuccessOperationDto })
   @Delete(':id')
   private delete(@Param('id', ParseUUIDPipe) id: string) {
     return this.userService.delete(id);

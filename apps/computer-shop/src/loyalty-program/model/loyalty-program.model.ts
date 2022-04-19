@@ -7,12 +7,13 @@ import {
 } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 import { Discount } from '../../discount/model/discount.model';
+import { AutoMap } from '@automapper/classes';
 
 interface LoyaltyProgramCreationAttributes {
   discountId: string;
 }
 
-@Table({ tableName: 'loyalty_program', underscored: true })
+@Table({ tableName: 'loyaltyProgram', underscored: true })
 export class LoyaltyProgram extends Model<
   LoyaltyProgram,
   LoyaltyProgramCreationAttributes
@@ -23,8 +24,10 @@ export class LoyaltyProgram extends Model<
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   })
+  @AutoMap()
   id: string;
 
+  @AutoMap(() => Discount)
   @BelongsTo(() => Discount, 'discountId')
-  discount: string;
+  discount: Discount;
 }

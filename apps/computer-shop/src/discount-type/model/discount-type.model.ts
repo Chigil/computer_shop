@@ -1,11 +1,12 @@
 import { Column, DataType, Model, Table } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
+import { AutoMap } from '@automapper/classes';
 
 interface DiscountTypeCreationAttributes {
   type: string;
 }
 
-@Table({ tableName: 'discount_type' })
+@Table({ tableName: 'discount_type', underscored: true })
 export class DiscountType extends Model<
   DiscountType,
   DiscountTypeCreationAttributes
@@ -16,8 +17,10 @@ export class DiscountType extends Model<
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   })
+  @AutoMap()
   id: string;
 
   @Column({ type: DataType.STRING, allowNull: false, unique: true })
+  @AutoMap()
   type: string;
 }
