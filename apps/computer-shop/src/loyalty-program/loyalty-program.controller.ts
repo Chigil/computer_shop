@@ -8,7 +8,7 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Role } from '../../../../libs/common/src/decorators/roles-auth.decorators';
 import { LoyaltyProgramService } from './loyalty-program.service';
 import { GetLoyaltyProgramResponseDto } from './dto/response/get-loyalty-program-response.dto';
@@ -16,6 +16,7 @@ import { SuccessOperationDto } from '../../../../libs/common/src/dto/success-ope
 import { CreateLoyaltyProgramRequestDto } from './dto/request/create-loyalty-program-request.dto';
 import { LoyaltyProgram } from './model/loyalty-program.model';
 
+@ApiTags('Loyalty Program')
 @Controller('loyalty-program')
 @Role('ADMIN')
 export class LoyaltyProgramController {
