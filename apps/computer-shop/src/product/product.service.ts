@@ -22,7 +22,7 @@ export class ProductService {
     if (product) {
       return product;
     }
-    throw new HttpException('Not crated', HttpStatus.BAD_REQUEST);
+    throw new HttpException('Not created', HttpStatus.BAD_REQUEST);
   }
 
   public async getAll(body: GetProductsDto) {

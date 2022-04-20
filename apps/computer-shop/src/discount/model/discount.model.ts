@@ -8,6 +8,7 @@ import {
 
 import { DataTypes } from 'sequelize';
 import { DiscountType } from '../../discount-type/model/discount-type.model';
+import { AutoMap } from '@automapper/classes';
 
 interface DiscountCreationAttributes {
   discountId: string;
@@ -21,11 +22,14 @@ export class Discount extends Model<Discount, DiscountCreationAttributes> {
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   })
+  @AutoMap()
   id: string;
 
   @BelongsTo(() => DiscountType, 'discountTypeId')
-  discountType: string;
+  @AutoMap(() => DiscountType)
+  discountType: DiscountType;
 
   @Column({ type: DataType.FLOAT, allowNull: false, unique: true })
+  @AutoMap()
   amount: number;
 }

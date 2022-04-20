@@ -1,0 +1,21 @@
+import { ApiProperty } from '@nestjs/swagger';
+import { IsString } from 'class-validator';
+import { AutoMap } from '@automapper/classes';
+import { GetDiscountTypeResponseDto } from '../../../discount-type/dto/response/get-discount-type-response.dto';
+
+export class GetDiscountResponseDto {
+  @ApiProperty({
+    example: '12.5',
+    description: 'Discount amount',
+  })
+  @IsString({ message: 'Must be a number' })
+  @AutoMap()
+  public readonly amount: number;
+
+  @ApiProperty({
+    example: GetDiscountResponseDto,
+    description: 'Discount Type',
+  })
+  @AutoMap(() => GetDiscountTypeResponseDto)
+  public readonly discountType: GetDiscountTypeResponseDto;
+}

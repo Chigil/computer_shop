@@ -3,9 +3,10 @@ import { DiscountTypeService } from './discount-type.service';
 import { DiscountTypeController } from './discount-type.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { DiscountType } from './model/discount-type.model';
+import { DiscountTypeProfile } from './discount-type.profile';
 
 @Module({
-  providers: [DiscountTypeService],
+  providers: [DiscountTypeService, DiscountTypeProfile],
   controllers: [DiscountTypeController],
   imports: [SequelizeModule.forFeature([DiscountType])],
 })
