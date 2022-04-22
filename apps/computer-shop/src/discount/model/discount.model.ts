@@ -14,7 +14,7 @@ interface DiscountCreationAttributes {
   discountId: string;
 }
 
-@Table({ tableName: 'discount', underscored: true })
+@Table({ tableName: 'discount', underscored: true, createdAt: false, updatedAt: false  })
 export class Discount extends Model<Discount, DiscountCreationAttributes> {
   @Column({
     type: DataType.UUID,

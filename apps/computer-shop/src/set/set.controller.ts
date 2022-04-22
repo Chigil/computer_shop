@@ -6,7 +6,7 @@ import {
   Param,
   ParseUUIDPipe,
   Patch,
-  Post,
+  Post, UseInterceptors,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Set } from './model/set.model';
@@ -14,6 +14,11 @@ import { CreateSetRequestDto } from './dto/request/create-set-request.dto';
 import { SetService } from './set.service';
 import { GetSetDto } from './dto/request/get-set.dto';
 import { Role } from '../../../../libs/common/src/decorators/roles-auth.decorators';
+import { MapInterceptor } from '@automapper/nestjs';
+import { CatalogItem } from '../catalog-item/model/catalog-item.model';
+import { GetCatalogItemResponseDto } from '../catalog-item/dto/response/get-catalog-item-response.dto';
+import { GetSetResponseDto } from './dto/response/get-set-response.dto';
+import { SuccessOperationDto } from '../../../../libs/common/src/dto/success-operation.dto';
 
 @ApiTags('Set')
 @Controller('set')
@@ -29,21 +34,22 @@ export class SetController {
   }
 
   @ApiOperation({ summary: 'Get all sets' })
-  @ApiResponse({ status: 200, type: [Set] })
+  @ApiResponse({ status: 200, type: [GetSetResponseDto] })
+  @UseInterceptors(MapInterceptor(Set, GetSetResponseDto, { isArray: true }))
   @Post('all')
   private getAll(@Body() getSetDto: GetSetDto) {
     return this.setService.getAll(getSetDto);
   }
 
   @ApiOperation({ summary: 'Get one set by id' })
-  @ApiResponse({ status: 200, type: Set })
+  @ApiResponse({ status: 200, type: GetSetResponseDto })
   @Get(':id')
   private getOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.setService.getOne(id);
   }
 
   @ApiOperation({ summary: 'Update set' })
-  @ApiResponse({ status: 200, type: Set })
+  @ApiResponse({ status: 200, type: GetSetResponseDto })
   @Role('ADMIN')
   @Patch(':id')
   private update(
@@ -54,7 +60,7 @@ export class SetController {
   }
 
   @ApiOperation({ summary: 'Delete set' })
-  @ApiResponse({ status: 200, type: '{ success: true }' })
+  @ApiResponse({ status: 200, type: SuccessOperationDto })
   @Role('ADMIN')
   @Delete(':id')
   private delete(@Param('id', ParseUUIDPipe) id: string) {

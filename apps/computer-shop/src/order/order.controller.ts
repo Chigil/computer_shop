@@ -1,22 +1,18 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  ParseUUIDPipe,
-  Patch,
-  Post,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, UseInterceptors } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { OrderService } from './order.service';
 import { CreateOrderRequestDto } from './dto/request/create-order-request.dto';
 import { Order } from './model/order.model';
+import { SuccessOperationDto } from '../../../../libs/common/src/dto/success-operation.dto';
+import { GetOrderDto } from './dto/request/get-order.dto';
+import { MapInterceptor } from '@automapper/nestjs';
+import { GetOrderResponseDto } from './dto/response/get-order-response.dto';
 
 @ApiTags('Order')
 @Controller('order')
 export class OrderController {
-  constructor(private orderService: OrderService) {}
+  constructor(private orderService: OrderService) {
+  }
 
   @ApiOperation({ summary: 'Create order' })
   @ApiResponse({ status: 201, type: Order })
@@ -27,9 +23,10 @@ export class OrderController {
 
   @ApiOperation({ summary: 'Get all order' })
   @ApiResponse({ status: 200, type: [Order] })
-  @Get()
-  private getAll() {
-    return this.orderService.getAll();
+  @UseInterceptors(MapInterceptor(Order, GetOrderResponseDto, { isArray: true }))
+  @Post('all')
+  private getAll(@Body() getOrderDto: GetOrderDto) {
+    return this.orderService.getAll(getOrderDto);
   }
 
   @ApiOperation({ summary: 'Get one order by id' })
@@ -50,7 +47,7 @@ export class OrderController {
   }
 
   @ApiOperation({ summary: 'Delete order' })
-  @ApiResponse({ status: 200, type: '{ success: false }' })
+  @ApiResponse({ status: 200, type: SuccessOperationDto })
   @Delete(':id')
   private delete(@Param('id', ParseUUIDPipe) id: string) {
     return this.orderService.delete(id);

@@ -1,5 +1,6 @@
 import { Column, DataType, Model, Table } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
+import { AutoMap } from '@automapper/classes';
 
 interface RoleCreationAttributes {
   ident: string;
@@ -15,6 +16,7 @@ export class Role extends Model<Role, RoleCreationAttributes> {
   })
   id: string;
 
+  @AutoMap()
   @Column({ type: DataType.STRING, unique: true, allowNull: false })
   ident: string;
 }

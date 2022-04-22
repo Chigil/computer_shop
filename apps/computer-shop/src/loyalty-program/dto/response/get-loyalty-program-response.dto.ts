@@ -1,6 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { AutoMap } from '@automapper/classes';
 import { GetDiscountResponseDto } from '../../../discount/dto/response/get-discount-response.dto';
+import { Discount } from '../../../discount/model/discount.model';
+import { GetDiscountTypeResponseDto } from '../../../discount-type/dto/response/get-discount-type-response.dto';
 
 export class GetLoyaltyProgramResponseDto {
   @ApiProperty({

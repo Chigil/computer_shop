@@ -4,14 +4,16 @@ import { NotFoundException } from '../../../../libs/common/src/exeption/not-foun
 import { CreateLoyaltyProgramRequestDto } from './dto/request/create-loyalty-program-request.dto';
 import { LoyaltyProgram } from './model/loyalty-program.model';
 import { DiscountService } from '../discount/discount.service';
+import { DiscountType } from '../discount-type/model/discount-type.model';
+import { Discount } from '../discount/model/discount.model';
 
 @Injectable()
 export class LoyaltyProgramService {
   constructor(
-    @InjectModel(LoyaltyProgram)
-    private loyaltyProgramRepository: typeof LoyaltyProgram,
+    @InjectModel(LoyaltyProgram) private loyaltyProgramRepository: typeof LoyaltyProgram,
     private discountRepository: DiscountService,
-  ) {}
+  ) {
+  }
 
   public async create(dto: CreateLoyaltyProgramRequestDto) {
     const discount = await this.discountRepository.getOne(dto.discountId);
@@ -25,7 +27,9 @@ export class LoyaltyProgramService {
 
   public async getAll() {
     const programs = await this.loyaltyProgramRepository.findAll({
-      include: { all: true },
+      include: [
+        { all: true,  nested: true },
+      ],
     });
     return programs;
   }

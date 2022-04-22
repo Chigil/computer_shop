@@ -29,6 +29,8 @@ import { APP_GUARD } from '@nestjs/core';
 import { AuthJwtGuard } from './auth/guards/auth.jwt.guard';
 import { RoleGuard } from './auth/guards/role.guard';
 import { CatalogItem } from './catalog-item/model/catalog-item.model';
+import { StatusModule } from './status/status.module';
+import { Status } from './status/model/status.model';
 
 @Module({
   controllers: [],
@@ -63,6 +65,7 @@ import { CatalogItem } from './catalog-item/model/catalog-item.model';
         Discount,
         DiscountType,
         CatalogItem,
+        Status
       ],
       autoLoadModels: true,
     }),
@@ -83,6 +86,7 @@ import { CatalogItem } from './catalog-item/model/catalog-item.model';
     DiscountTypeModule,
     CatalogItemModule,
     AuthModule,
+    StatusModule,
   ],
 })
 export class AppModule {}

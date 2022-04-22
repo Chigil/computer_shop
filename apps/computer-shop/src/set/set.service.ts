@@ -21,11 +21,12 @@ export class SetService {
 
   public async getAll(body: GetSetDto) {
     const sets = await this.setRepository.findAll({
-      include: { all: true },
+      include: { all: true, nested: true },
       where: search(body.filter),
       ...paginate(body.pagination),
       ...sort(body.sorting),
     });
+    console.log(sets)
     return sets;
   }
 

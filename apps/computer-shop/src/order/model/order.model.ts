@@ -1,15 +1,12 @@
-import {
-  BelongsTo,
-  Column,
-  DataType,
-  ForeignKey,
-  Model,
-  Table,
-} from 'sequelize-typescript';
-import { ApiProperty } from '@nestjs/swagger';
+import { BelongsTo, BelongsToMany, Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript';
 import { User } from '../../user/model/user.model';
 import { DataTypes } from 'sequelize';
 import { Discount } from '../../discount/model/discount.model';
+import { CatalogItem } from '../../catalog-item/model/catalog-item.model';
+import { Status } from '../../status/model/status.model';
+import { GetUserResponseDto } from '../../user/dto/response/get-user-response.dto';
+import { GetDiscountResponseDto } from '../../discount/dto/response/get-discount-response.dto';
+import { AutoMap } from '@automapper/classes';
 
 interface OrderCreationAttributes {
   userId: string;
@@ -17,10 +14,10 @@ interface OrderCreationAttributes {
   roleId: string;
   statusId: string;
   totalPrice: number;
-  items: string;
+  items: CatalogItem;
 }
 
-@Table({ tableName: 'order' })
+@Table({ tableName: 'order', underscored: true })
 export class Order extends Model<Order, OrderCreationAttributes> {
   @Column({
     type: DataType.UUID,
@@ -28,22 +25,27 @@ export class Order extends Model<Order, OrderCreationAttributes> {
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   })
+  @AutoMap()
   id: string;
 
   @ForeignKey(() => User)
   @BelongsTo(() => User, 'userId')
-  user: string;
+  @AutoMap(() => User)
+  user: User;
 
   @BelongsTo(() => Discount, 'discountId')
-  discount: string;
+  @AutoMap(() => Discount)
+  discount: Discount;
 
-  //@BelongsTo( () => Status, 'statusId')
-  status: string;
+  @BelongsTo( () => Status, 'statusId')
+  @AutoMap(() => Status)
+  status: Status;
 
-  @ApiProperty({ example: 2391.55, description: 'Общая цена заказа' })
-  @Column({ type: DataType.FLOAT, allowNull: false, defaultValue: 2 })
-  total_price: number;
+  @Column({ type: DataType.FLOAT, allowNull: false, defaultValue: 0 })
+  @AutoMap()
+  totalPrice: number;
 
-  @Column({ type: DataType.STRING, allowNull: true })
-  items: string;
+  @BelongsToMany(() => CatalogItem, 'order_catalog_item', 'order_id', 'catalog_item')
+  @AutoMap(() => CatalogItem)
+  items: CatalogItem[];
 }

@@ -13,7 +13,7 @@ interface LoyaltyProgramCreationAttributes {
   discountId: string;
 }
 
-@Table({ tableName: 'loyaltyProgram', underscored: true })
+@Table({ tableName: 'loyalty_program', underscored: true, createdAt: false, updatedAt: false  })
 export class LoyaltyProgram extends Model<
   LoyaltyProgram,
   LoyaltyProgramCreationAttributes
