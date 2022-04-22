@@ -9,5 +9,6 @@ import { SetProfile } from './set.profile';
   providers: [SetService, SetProfile],
   controllers: [SetController],
   imports: [SequelizeModule.forFeature([Set])],
+  exports: [SetService]
 })
 export class SetModule {}

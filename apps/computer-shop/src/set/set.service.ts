@@ -6,15 +6,18 @@ import { search } from '../../../../libs/common/src/utility/search';
 import { paginate } from '../../../../libs/common/src/utility/paginate';
 import { sort } from '../../../../libs/common/src/utility/sort';
 import { GetSetDto } from './dto/request/get-set.dto';
+import { Product } from '../product/model/product.model';
 
 @Injectable()
 export class SetService {
-  constructor(@InjectModel(Set) private setRepository: typeof Set) {}
+  constructor(@InjectModel(Set) private setRepository: typeof Set) {
+  }
 
   public async create(dto: CreateSetRequestDto) {
     const set = await this.setRepository.create(dto);
     if (set) {
-      return { id: set.id };
+      await this.updatePrice(set.id);
+      return set;
     }
     throw new HttpException('Not created', HttpStatus.BAD_REQUEST);
   }
@@ -26,7 +29,6 @@ export class SetService {
       ...paginate(body.pagination),
       ...sort(body.sorting),
     });
-    console.log(sets)
     return sets;
   }
 
@@ -38,6 +40,7 @@ export class SetService {
   public async update(id: string, dto: CreateSetRequestDto) {
     const set = await this.setRepository.findByPk(id);
     await set.update(dto);
+    await this.updatePrice(set.id);
     await set.save();
     return set;
   }
@@ -48,5 +51,24 @@ export class SetService {
       return { success: true };
     }
     return { success: false };
+  }
+
+  public async findAllById(ids: string[]) {
+    return await this.setRepository.findAll({
+      where: {
+        id: ids,
+      },
+    });
+  }
+
+  public async updatePrice(setId: string) {
+    const set = await this.setRepository.findByPk(setId, { include: { all: true } });
+    const totalPrice = SetService.calculatePrice(set.products);
+    await set.update({ price: totalPrice });
+    await set.save();
+  }
+
+  private static calculatePrice(products: Product[]) {
+    return products.reduce((n, { price }) => n + price, 0);
   }
 }

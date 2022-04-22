@@ -11,7 +11,7 @@ import { DiscountType } from '../../discount-type/model/discount-type.model';
 import { AutoMap } from '@automapper/classes';
 
 interface DiscountCreationAttributes {
-  discountId: string;
+  amount: number;
 }
 
 @Table({ tableName: 'discount', underscored: true, createdAt: false, updatedAt: false  })
