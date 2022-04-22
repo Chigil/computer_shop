@@ -65,7 +65,7 @@ export class OrderService {
     }
   }
 
-  public async update(id: string, dto: CreateOrderRequestDto) {
+  public async update(id: string, dto) {
     const order = await this.orderRepository.findByPk(id);
     await order.update(dto);
     await order.save();

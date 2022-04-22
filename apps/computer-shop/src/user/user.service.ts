@@ -5,13 +5,18 @@ import { CreateUserRequestDto } from './dto/request/create-user-request.dto';
 import { UpdateUserRequestDto } from './dto/request/update-user-request.dto';
 import { NotFoundException } from '../../../../libs/common/src/exeption/not-found.exception';
 import { RoleService } from '../role/role.service';
+import { search } from '../../../../libs/common/src/utility/search';
+import { paginate } from '../../../../libs/common/src/utility/paginate';
+import { sort } from '../../../../libs/common/src/utility/sort';
+import { GetUserResponseDto } from './dto/response/get-user-response.dto';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel(User) private userRepository: typeof User,
     private roleService: RoleService,
-  ) {}
+  ) {
+  }
 
   public async create(dto: CreateUserRequestDto) {
     const user = await this.userRepository.create(dto);
@@ -24,14 +29,20 @@ export class UserService {
     throw new HttpException('Not created', HttpStatus.BAD_REQUEST);
   }
 
-  public async getAll() {
-    const users = await this.userRepository.findAll({ include: { all: true } });
+  public async getAll(body: GetUserResponseDto) {
+    const users = await this.userRepository.findAll({
+      include: { all: true },
+      where: search(body.filter),
+      ...paginate(body.pagination),
+      ...sort(body.sorting),
+    });
     return users;
   }
 
   public async getOne(id: string) {
     const user = await this.userRepository.findByPk(id, {
       include: { all: true },
+
     });
     if (!user) {
       throw new NotFoundException('user', id);

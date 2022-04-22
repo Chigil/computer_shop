@@ -1,14 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  ParseUUIDPipe,
-  Patch,
-  Post,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, UseInterceptors } from '@nestjs/common';
 import { CreateUserRequestDto } from './dto/request/create-user-request.dto';
 import { UserService } from './user.service';
 import { UpdateUserRequestDto } from './dto/request/update-user-request.dto';
@@ -22,6 +12,7 @@ import { SuccessOperationDto } from '../../../../libs/common/src/dto/success-ope
 
 @ApiTags('User')
 @Controller('user')
+@Role('ADMIN')
 export class UserController {
   constructor(private userService: UserService) {}
 
@@ -37,11 +28,10 @@ export class UserController {
 
   @ApiOperation({ summary: 'Get all users' })
   @ApiResponse({ status: 200, type: [GetUserResponseDto] })
-  @Role('ADMIN')
-  @Get()
+  @Post('all')
   @UseInterceptors(MapInterceptor(User, GetUserResponseDto, { isArray: true }))
-  private getAll() {
-    return this.userService.getAll();
+  private getAll(@Body() getUserResponseDto: GetUserResponseDto) {
+    return this.userService.getAll(getUserResponseDto);
   }
 
   @ApiOperation({ summary: 'Get one user by id' })

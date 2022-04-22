@@ -3,6 +3,7 @@ import { AutomapperProfile, InjectMapper } from '@automapper/nestjs';
 import { createMap, Mapper } from '@automapper/core';
 import { Status } from './model/status.model';
 import { GetStatusResponseDto } from './dto/response/get-status-response.dto';
+import { CreateStatusResponseDto } from './dto/response/create-status-response.dto';
 
 @Injectable()
 export class StatusProfile extends AutomapperProfile {
@@ -13,6 +14,7 @@ export class StatusProfile extends AutomapperProfile {
   get profile() {
     return (mapper) => {
       createMap(mapper, Status, GetStatusResponseDto);
+      createMap(mapper, Status, CreateStatusResponseDto);
     };
   }
 }

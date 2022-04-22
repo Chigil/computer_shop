@@ -17,9 +17,11 @@ import { SuccessOperationDto } from '../../../../libs/common/src/dto/success-ope
 import { GetOrderDto } from './dto/request/get-order.dto';
 import { MapInterceptor } from '@automapper/nestjs';
 import { GetOrderResponseDto } from './dto/response/get-order-response.dto';
+import { Role } from '../../../../libs/common/src/decorators/roles-auth.decorators';
 
 @ApiTags('Order')
 @Controller('order')
+@Role('CLIENT')
 export class OrderController {
   constructor(private orderService: OrderService) {}
 
@@ -35,6 +37,7 @@ export class OrderController {
   @UseInterceptors(
     MapInterceptor(Order, GetOrderResponseDto, { isArray: true }),
   )
+  @Role('ADMIN')
   @Post('all')
   private getAll(@Body() getOrderDto: GetOrderDto) {
     return this.orderService.getAll(getOrderDto);

@@ -1,10 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { GetProductsDto } from '../product/dto/request/get-products.dto';
 import { search } from '../../../../libs/common/src/utility/search';
 import { paginate } from '../../../../libs/common/src/utility/paginate';
 import { sort } from '../../../../libs/common/src/utility/sort';
 import { InjectModel } from '@nestjs/sequelize';
 import { CatalogItem } from './model/catalog-item.model';
+import { NotFoundException } from '../../../../libs/common/src/exeption/not-found.exception';
+import { UpdateUserRequestDto } from '../user/dto/request/update-user-request.dto';
+import { CreateUserRequestDto } from '../user/dto/request/create-user-request.dto';
+import { CreateCatalogItemRequestDto } from './dto/request/create-catalog-item-request.dto';
 
 @Injectable()
 export class CatalogItemService {
@@ -12,6 +16,13 @@ export class CatalogItemService {
     @InjectModel(CatalogItem) private catalogItemRepository: typeof CatalogItem,
   ) {}
 
+  public async create(dto: CreateCatalogItemRequestDto) {
+    const item = await this.catalogItemRepository.create(dto);
+    if (item) {
+      return item;
+    }
+    throw new HttpException('Not created', HttpStatus.BAD_REQUEST);
+  }
   public async getAll(body: GetProductsDto) {
     const items = await this.catalogItemRepository.findAll({
       include: { all: true },
@@ -20,5 +31,31 @@ export class CatalogItemService {
       ...sort(body.sorting),
     });
     return items;
+  }
+
+  public async getOne(id: string) {
+    const item = await this.catalogItemRepository.findByPk(id, {
+      include: { all: true },
+
+    });
+    if (!item) {
+      throw new NotFoundException('user', id);
+    }
+    return item;
+  }
+
+  public async update(id: string, dto) {
+    const item = await this.catalogItemRepository.findByPk(id);
+    await item.update(dto);
+    await item.save();
+    return item;
+  }
+
+  public async delete(id: string) {
+    const deleted = await this.catalogItemRepository.destroy({ where: { id: id } });
+    if (deleted != 0) {
+      return { success: true };
+    }
+    return { success: false };
   }
 }
