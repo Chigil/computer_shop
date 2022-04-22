@@ -25,7 +25,7 @@ export class LoyaltyProgramService {
 
   public async getAll() {
     const programs = await this.loyaltyProgramRepository.findAll({
-      include: { all: true },
+      include: [{ all: true, nested: true }],
     });
     return programs;
   }

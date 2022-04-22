@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsString } from 'class-validator';
+import { IsArray, IsNumber, IsString } from 'class-validator';
 
 export class CreateProductRequestDto {
   @ApiProperty({
@@ -24,4 +24,8 @@ export class CreateProductRequestDto {
   @ApiProperty({ example: 5, description: 'Quantity in stock' })
   @IsNumber({}, { message: 'Must be a number' })
   public readonly amount: number;
+
+  @ApiProperty({ example: ['', ''], description: 'Products arrays' })
+  @IsArray({ message: 'Must be a array' })
+  public readonly products: string[];
 }

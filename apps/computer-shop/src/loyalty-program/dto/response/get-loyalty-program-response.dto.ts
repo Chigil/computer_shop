@@ -11,7 +11,7 @@ export class GetLoyaltyProgramResponseDto {
   public readonly id: string;
 
   @ApiProperty({
-    example: '',
+    example: GetDiscountResponseDto,
     description: 'Discount',
   })
   @AutoMap(() => GetDiscountResponseDto)
