@@ -9,6 +9,6 @@ import { StatusProfile } from './status.profle';
   providers: [StatusService, StatusProfile],
   controllers: [StatusController],
   imports: [SequelizeModule.forFeature([Status])],
-  exports: [StatusService]
+  exports: [StatusService],
 })
 export class StatusModule {}

@@ -6,7 +6,12 @@ interface DiscountTypeCreationAttributes {
   type: string;
 }
 
-@Table({ tableName: 'discount_type', underscored: true, createdAt: false, updatedAt: false  })
+@Table({
+  tableName: 'discount_type',
+  underscored: true,
+  createdAt: false,
+  updatedAt: false,
+})
 export class DiscountType extends Model<
   DiscountType,
   DiscountTypeCreationAttributes

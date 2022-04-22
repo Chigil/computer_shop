@@ -6,7 +6,8 @@ import {
   Param,
   ParseUUIDPipe,
   Patch,
-  Post, UseInterceptors,
+  Post,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Role } from '../../../../libs/common/src/decorators/roles-auth.decorators';
@@ -16,8 +17,6 @@ import { SuccessOperationDto } from '../../../../libs/common/src/dto/success-ope
 import { CreateLoyaltyProgramRequestDto } from './dto/request/create-loyalty-program-request.dto';
 import { LoyaltyProgram } from './model/loyalty-program.model';
 import { MapInterceptor } from '@automapper/nestjs';
-import { Product } from '../product/model/product.model';
-import { CreateProductResponseDto } from '../product/dto/response/create-product-response.dto';
 
 @ApiTags('Loyalty Program')
 @Controller('loyalty-program')
@@ -37,7 +36,11 @@ export class LoyaltyProgramController {
   @ApiOperation({ summary: 'Get all programs' })
   @ApiResponse({ status: 200, type: [GetLoyaltyProgramResponseDto] })
   @Get()
-  @UseInterceptors(MapInterceptor(LoyaltyProgram, GetLoyaltyProgramResponseDto, { isArray: true }))
+  @UseInterceptors(
+    MapInterceptor(LoyaltyProgram, GetLoyaltyProgramResponseDto, {
+      isArray: true,
+    }),
+  )
   private getAll() {
     return this.loyaltyProgramService.getAll();
   }

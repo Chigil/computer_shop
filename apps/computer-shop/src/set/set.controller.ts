@@ -6,7 +6,8 @@ import {
   Param,
   ParseUUIDPipe,
   Patch,
-  Post, UseInterceptors,
+  Post,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Set } from './model/set.model';
@@ -15,8 +16,6 @@ import { SetService } from './set.service';
 import { GetSetDto } from './dto/request/get-set.dto';
 import { Role } from '../../../../libs/common/src/decorators/roles-auth.decorators';
 import { MapInterceptor } from '@automapper/nestjs';
-import { CatalogItem } from '../catalog-item/model/catalog-item.model';
-import { GetCatalogItemResponseDto } from '../catalog-item/dto/response/get-catalog-item-response.dto';
 import { GetSetResponseDto } from './dto/response/get-set-response.dto';
 import { SuccessOperationDto } from '../../../../libs/common/src/dto/success-operation.dto';
 

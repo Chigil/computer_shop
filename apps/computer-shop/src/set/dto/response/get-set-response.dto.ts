@@ -23,6 +23,6 @@ export class GetSetResponseDto {
   @AutoMap()
   public readonly amount?: number;
 
-  @AutoMap(() => GetProductResponseDto,)
+  @AutoMap(() => GetProductResponseDto)
   public readonly products?: GetProductResponseDto[];
 }

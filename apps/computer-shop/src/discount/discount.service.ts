@@ -23,7 +23,9 @@ export class DiscountService {
   }
 
   public async getAll() {
-    const discounts = await this.discountRepository.findAll({ include: { all: true } });
+    const discounts = await this.discountRepository.findAll({
+      include: { all: true },
+    });
     return discounts;
   }
 

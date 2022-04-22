@@ -2,7 +2,6 @@ import { Column, DataType, Model, Table } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 import { AutoMap } from '@automapper/classes';
 
-
 interface StatusCreationAttributes {
   name: string;
 }
@@ -18,7 +17,12 @@ export class Status extends Model<Status, StatusCreationAttributes> {
   @AutoMap()
   id: string;
 
-  @Column({ type: DataType.STRING, allowNull: false, unique: true, defaultValue: "Added. In processing."  })
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+    unique: true,
+    defaultValue: 'Added. In processing.',
+  })
   @AutoMap()
   name: string;
 }

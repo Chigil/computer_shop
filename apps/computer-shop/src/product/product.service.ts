@@ -56,11 +56,11 @@ export class ProductService {
     return { success: false };
   }
 
-  public async findAllById (ids: string[]) {
+  public async findAllById(ids: string[]) {
     return await this.productRepository.findAll({
       where: {
-        id: ids
-      }
-    })
+        id: ids,
+      },
+    });
   }
 }

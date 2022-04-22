@@ -13,6 +13,13 @@ import { StatusModule } from '../status/status.module';
 @Module({
   providers: [OrderService, OrderProfile],
   controllers: [OrderController],
-  imports: [SequelizeModule.forFeature([Order]), UserModule, ProductModule, SetModule, DiscountModule, StatusModule],
+  imports: [
+    SequelizeModule.forFeature([Order]),
+    UserModule,
+    ProductModule,
+    SetModule,
+    DiscountModule,
+    StatusModule,
+  ],
 })
 export class OrderModule {}

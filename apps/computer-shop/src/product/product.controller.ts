@@ -18,7 +18,6 @@ import { CreateProductResponseDto } from './dto/response/create-product-response
 import { GetProductsDto } from './dto/request/get-products.dto';
 import { Role } from '../../../../libs/common/src/decorators/roles-auth.decorators';
 import { SuccessOperationDto } from '../../../../libs/common/src/dto/success-operation.dto';
-import { GetOrderResponseDto } from '../order/dto/response/get-order-response.dto';
 import { GetProductResponseDto } from './dto/response/get-product-response.dto';
 
 @ApiTags('Product')
@@ -39,7 +38,9 @@ export class ProductController {
 
   @ApiOperation({ summary: 'Get all products' })
   @ApiResponse({ status: 200, type: [GetProductResponseDto] })
-  @UseInterceptors(MapInterceptor(Product, GetProductResponseDto, { isArray: true }))
+  @UseInterceptors(
+    MapInterceptor(Product, GetProductResponseDto, { isArray: true }),
+  )
   @Post('all')
   private getAll(@Body() getProductsDto: GetProductsDto) {
     return this.productService.getAll(getProductsDto);

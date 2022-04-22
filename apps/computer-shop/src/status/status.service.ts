@@ -11,44 +11,44 @@ export class StatusService {
   ) {}
 
   public async create(dto) {
-  const status = await this.statusRepository.create(dto);
-  if (status) {
+    const status = await this.statusRepository.create(dto);
+    if (status) {
+      return status;
+    }
+    throw new HttpException('Not created', HttpStatus.BAD_REQUEST);
+  }
+
+  public async getAll() {
+    const statuses = await this.statusRepository.findAll({
+      include: { all: true },
+    });
+    return statuses;
+  }
+
+  public async getOne(id: string) {
+    const status = await this.statusRepository.findByPk(id, {
+      include: { all: true },
+    });
+    if (!status) {
+      throw new NotFoundException('status', id);
+    }
     return status;
   }
-  throw new HttpException('Not created', HttpStatus.BAD_REQUEST);
-}
 
-public async getAll() {
-  const statuses = await this.statusRepository.findAll({
-    include: { all: true },
-  });
-  return statuses;
-}
-
-public async getOne(id: string) {
-  const status = await this.statusRepository.findByPk(id, {
-    include: { all: true },
-  });
-  if (!status) {
-    throw new NotFoundException('status', id);
+  public async update(id: string, dto) {
+    const status = await this.statusRepository.findByPk(id);
+    await status.update(dto);
+    await status.save();
+    return status;
   }
-  return status;
-}
 
-public async update(id: string, dto) {
-  const status = await this.statusRepository.findByPk(id);
-  await status.update(dto);
-  await status.save();
-  return status;
-}
-
-public async delete(id: string) {
-  const deleted = await this.statusRepository.destroy({
-    where: { id: id },
-  });
-  if (deleted != 0) {
-    return { success: true };
+  public async delete(id: string) {
+    const deleted = await this.statusRepository.destroy({
+      where: { id: id },
+    });
+    if (deleted != 0) {
+      return { success: true };
+    }
+    return { success: false };
   }
-  return { success: false };
-}
 }

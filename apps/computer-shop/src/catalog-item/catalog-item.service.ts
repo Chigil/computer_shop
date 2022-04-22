@@ -10,8 +10,7 @@ import { CatalogItem } from './model/catalog-item.model';
 export class CatalogItemService {
   constructor(
     @InjectModel(CatalogItem) private catalogItemRepository: typeof CatalogItem,
-  ) {
-  }
+  ) {}
 
   public async getAll(body: GetProductsDto) {
     const items = await this.catalogItemRepository.findAll({

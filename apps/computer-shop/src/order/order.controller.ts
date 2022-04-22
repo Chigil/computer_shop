@@ -1,4 +1,14 @@
-import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Patch,
+  Post,
+  UseInterceptors,
+} from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { OrderService } from './order.service';
 import { CreateOrderRequestDto } from './dto/request/create-order-request.dto';
@@ -11,8 +21,7 @@ import { GetOrderResponseDto } from './dto/response/get-order-response.dto';
 @ApiTags('Order')
 @Controller('order')
 export class OrderController {
-  constructor(private orderService: OrderService) {
-  }
+  constructor(private orderService: OrderService) {}
 
   @ApiOperation({ summary: 'Create order' })
   @ApiResponse({ status: 201, type: Order })
@@ -23,7 +32,9 @@ export class OrderController {
 
   @ApiOperation({ summary: 'Get all order' })
   @ApiResponse({ status: 200, type: [Order] })
-  @UseInterceptors(MapInterceptor(Order, GetOrderResponseDto, { isArray: true }))
+  @UseInterceptors(
+    MapInterceptor(Order, GetOrderResponseDto, { isArray: true }),
+  )
   @Post('all')
   private getAll(@Body() getOrderDto: GetOrderDto) {
     return this.orderService.getAll(getOrderDto);

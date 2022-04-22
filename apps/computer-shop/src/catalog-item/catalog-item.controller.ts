@@ -12,7 +12,9 @@ export class CatalogItemController {
 
   @ApiOperation({ summary: 'Get all products' })
   @ApiResponse({ status: 200, type: [CatalogItem] })
-  @UseInterceptors(MapInterceptor(CatalogItem, GetCatalogItemResponseDto, { isArray: true }))
+  @UseInterceptors(
+    MapInterceptor(CatalogItem, GetCatalogItemResponseDto, { isArray: true }),
+  )
   @Post('all')
   private getAll(@Body() getProductsDto: GetProductsDto) {
     return this.catalogItemService.getAll(getProductsDto);

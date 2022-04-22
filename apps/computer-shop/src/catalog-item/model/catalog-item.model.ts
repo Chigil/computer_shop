@@ -1,4 +1,10 @@
-import { BelongsTo, Column, DataType, Model, Table } from 'sequelize-typescript';
+import {
+  BelongsTo,
+  Column,
+  DataType,
+  Model,
+  Table,
+} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 import { Product } from '../../product/model/product.model';
 import { Set } from '../../set/model/set.model';
@@ -25,11 +31,11 @@ export class CatalogItem extends Model<
   @Column({ type: DataType.STRING, allowNull: false })
   title: string;
 
-  @AutoMap( () => Product)
+  @AutoMap(() => Product)
   @BelongsTo(() => Product, 'product_id')
   product?: Product;
 
-  @AutoMap( () => Set)
+  @AutoMap(() => Set)
   @BelongsTo(() => Set, 'set_id')
   kit?: Set;
 }

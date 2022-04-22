@@ -1,11 +1,17 @@
-import { BelongsTo, BelongsToMany, Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript';
+import {
+  BelongsTo,
+  BelongsToMany,
+  Column,
+  DataType,
+  ForeignKey,
+  Model,
+  Table,
+} from 'sequelize-typescript';
 import { User } from '../../user/model/user.model';
 import { DataTypes } from 'sequelize';
 import { Discount } from '../../discount/model/discount.model';
 import { CatalogItem } from '../../catalog-item/model/catalog-item.model';
 import { Status } from '../../status/model/status.model';
-import { GetUserResponseDto } from '../../user/dto/response/get-user-response.dto';
-import { GetDiscountResponseDto } from '../../discount/dto/response/get-discount-response.dto';
 import { AutoMap } from '@automapper/classes';
 
 interface OrderCreationAttributes {
@@ -37,7 +43,7 @@ export class Order extends Model<Order, OrderCreationAttributes> {
   @AutoMap(() => Discount)
   discount: Discount;
 
-  @BelongsTo( () => Status, 'statusId')
+  @BelongsTo(() => Status, 'statusId')
   @AutoMap(() => Status)
   status: Status;
 
@@ -45,7 +51,12 @@ export class Order extends Model<Order, OrderCreationAttributes> {
   @AutoMap()
   totalPrice: number;
 
-  @BelongsToMany(() => CatalogItem, 'order_catalog_item', 'order_id', 'catalog_item')
+  @BelongsToMany(
+    () => CatalogItem,
+    'order_catalog_item',
+    'order_id',
+    'catalog_item',
+  )
   @AutoMap(() => CatalogItem)
   items: CatalogItem[];
 }

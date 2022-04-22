@@ -65,7 +65,7 @@ import { Status } from './status/model/status.model';
         Discount,
         DiscountType,
         CatalogItem,
-        Status
+        Status,
       ],
       autoLoadModels: true,
     }),

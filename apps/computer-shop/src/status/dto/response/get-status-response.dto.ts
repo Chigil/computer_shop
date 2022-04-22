@@ -1,7 +1,6 @@
 import { AutoMap } from '@automapper/classes';
 
 export class GetStatusResponseDto {
-
   @AutoMap()
   public readonly id: string;
 

@@ -15,6 +15,6 @@ import { ProductProfile } from './product.profile';
     SequelizeModule.forFeature([Product, Set, CatalogItem]),
     CatalogItemModule,
   ],
-  exports: [ProductService]
+  exports: [ProductService],
 })
 export class ProductModule {}

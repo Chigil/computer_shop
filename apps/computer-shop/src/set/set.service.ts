@@ -10,8 +10,7 @@ import { Product } from '../product/model/product.model';
 
 @Injectable()
 export class SetService {
-  constructor(@InjectModel(Set) private setRepository: typeof Set) {
-  }
+  constructor(@InjectModel(Set) private setRepository: typeof Set) {}
 
   public async create(dto: CreateSetRequestDto) {
     const set = await this.setRepository.create(dto);
@@ -62,7 +61,9 @@ export class SetService {
   }
 
   public async updatePrice(setId: string) {
-    const set = await this.setRepository.findByPk(setId, { include: { all: true } });
+    const set = await this.setRepository.findByPk(setId, {
+      include: { all: true },
+    });
     const totalPrice = SetService.calculatePrice(set.products);
     await set.update({ price: totalPrice });
     await set.save();
