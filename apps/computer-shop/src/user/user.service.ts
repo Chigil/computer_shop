@@ -8,15 +8,14 @@ import { RoleService } from '../role/role.service';
 import { search } from '../../../../libs/common/src/utility/search';
 import { paginate } from '../../../../libs/common/src/utility/paginate';
 import { sort } from '../../../../libs/common/src/utility/sort';
-import { GetUserResponseDto } from './dto/response/get-user-response.dto';
+import { GetUserRequestDto } from './dto/request/get-user-request.dto';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel(User) private userRepository: typeof User,
     private roleService: RoleService,
-  ) {
-  }
+  ) {}
 
   public async create(dto: CreateUserRequestDto) {
     const user = await this.userRepository.create(dto);
@@ -29,7 +28,7 @@ export class UserService {
     throw new HttpException('Not created', HttpStatus.BAD_REQUEST);
   }
 
-  public async getAll(body: GetUserResponseDto) {
+  public async getAll(body: GetUserRequestDto) {
     const users = await this.userRepository.findAll({
       include: { all: true },
       where: search(body.filter),
@@ -42,7 +41,6 @@ export class UserService {
   public async getOne(id: string) {
     const user = await this.userRepository.findByPk(id, {
       include: { all: true },
-
     });
     if (!user) {
       throw new NotFoundException('user', id);

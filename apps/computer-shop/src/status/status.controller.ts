@@ -1,5 +1,15 @@
-import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, UseInterceptors } from '@nestjs/common';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Patch,
+  Post,
+  UseInterceptors,
+} from '@nestjs/common';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SuccessOperationDto } from '../../../../libs/common/src/dto/success-operation.dto';
 import { StatusService } from './status.service';
 import { Status } from './model/status.model';
@@ -10,6 +20,7 @@ import { CreateStatusResponseDto } from './dto/response/create-status-response.d
 import { Role } from '../../../../libs/common/src/decorators/roles-auth.decorators';
 
 @Controller('status')
+@ApiTags('Status')
 @Role('ADMIN')
 export class StatusController {
   constructor(private statusService: StatusService) {}

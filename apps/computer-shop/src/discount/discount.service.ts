@@ -16,6 +16,11 @@ export class DiscountService {
     dto: CreateDiscountRequestDto,
   ): Promise<CreateDiscountResponseDto> {
     const discount = await this.discountRepository.create(dto);
+    if (dto.amount > 100)
+      throw new HttpException(
+        'Discount must not exceed 99% ',
+        HttpStatus.BAD_REQUEST,
+      );
     if (discount) {
       return discount;
     }
@@ -32,7 +37,7 @@ export class DiscountService {
   public async getOne(id: string) {
     const discount = await this.discountRepository.findByPk(id);
     if (!discount) {
-      return new NotFoundException('discount', id);
+      throw new NotFoundException('discount', id);
     }
     return discount;
   }

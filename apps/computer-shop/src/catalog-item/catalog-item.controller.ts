@@ -1,17 +1,26 @@
-import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, UseInterceptors } from '@nestjs/common';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { GetProductsDto } from '../product/dto/request/get-products.dto';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Patch,
+  Post,
+  UseInterceptors,
+} from '@nestjs/common';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CatalogItemService } from './catalog-item.service';
 import { CatalogItem } from './model/catalog-item.model';
 import { MapInterceptor } from '@automapper/nestjs';
 import { GetCatalogItemResponseDto } from './dto/response/get-catalog-item-response.dto';
-import { Role } from '../../../../libs/common/src/decorators/roles-auth.decorators';
 import { SuccessOperationDto } from '../../../../libs/common/src/dto/success-operation.dto';
 import { CreateCatalogItemRequestDto } from './dto/request/create-catalog-item-request.dto';
 import { CreateCatalogItemResponseDto } from './dto/response/create-catalog-item-response.dto';
+import { GetCatalogItemRequestDto } from './dto/request/get-catalog-item-request.dto';
 
 @Controller('catalog-item')
-@Role('ADMIN')
+@ApiTags('Catalog Item')
 export class CatalogItemController {
   constructor(private catalogItemService: CatalogItemService) {}
 
@@ -30,10 +39,9 @@ export class CatalogItemController {
     MapInterceptor(CatalogItem, GetCatalogItemResponseDto, { isArray: true }),
   )
   @Post('all')
-  private getAll(@Body() getProductsDto: GetProductsDto) {
-    return this.catalogItemService.getAll(getProductsDto);
+  private getAll(@Body() getCatalogItemDto: GetCatalogItemRequestDto) {
+    return this.catalogItemService.getAll(getCatalogItemDto);
   }
-
 
   @ApiOperation({ summary: 'Get one catalog item by id' })
   @ApiResponse({ status: 200, type: GetCatalogItemResponseDto })
@@ -59,5 +67,4 @@ export class CatalogItemController {
   private delete(@Param('id', ParseUUIDPipe) id: string) {
     return this.catalogItemService.delete(id);
   }
-
 }

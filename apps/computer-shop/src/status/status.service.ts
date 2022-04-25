@@ -5,7 +5,7 @@ import { Status } from './model/status.model';
 import { search } from '../../../../libs/common/src/utility/search';
 import { paginate } from '../../../../libs/common/src/utility/paginate';
 import { sort } from '../../../../libs/common/src/utility/sort';
-import { GetStatusResponseDto } from './dto/response/get-status-response.dto';
+import { GetStatusRequestDto } from './dto/request/get-status-request.dto';
 
 @Injectable()
 export class StatusService {
@@ -22,7 +22,7 @@ export class StatusService {
     throw new HttpException('Not created', HttpStatus.BAD_REQUEST);
   }
 
-  public async getAll(body: GetStatusResponseDto) {
+  public async getAll(body: GetStatusRequestDto) {
     const statuses = await this.statusRepository.findAll({
       include: { all: true },
       where: search(body.filter),
