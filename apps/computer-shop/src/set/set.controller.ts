@@ -43,6 +43,7 @@ export class SetController {
 
   @ApiOperation({ summary: 'Get one set by id' })
   @ApiResponse({ status: 200, type: GetSetResponseDto })
+  @UseInterceptors(MapInterceptor(Set, GetSetResponseDto))
   @Get(':id')
   private getOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.setService.getOne(id);
