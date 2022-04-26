@@ -26,14 +26,15 @@ export class StatusController {
   constructor(private statusService: StatusService) {}
 
   @ApiOperation({ summary: 'Create status' })
-  @ApiResponse({ status: 201, type: Status })
+  @UseInterceptors(MapInterceptor(Status, CreateStatusResponseDto))
+  @ApiResponse({ status: 201, type: CreateStatusResponseDto })
   @Post()
   private create(@Body() createStatusDto: CreateStatusRequestDto) {
     return this.statusService.create(createStatusDto);
   }
 
-  @ApiOperation({ summary: 'Get all order' })
-  @UseInterceptors(MapInterceptor(Status, GetStatusResponseDto))
+  @ApiOperation({ summary: 'Get all status' })
+  @UseInterceptors(MapInterceptor(Status, GetStatusResponseDto, { isArray: true }))
   @ApiResponse({ status: 200, type: [GetStatusResponseDto] })
   @Post('all')
   private getAll(@Body() getStatusResponseDto: GetStatusResponseDto) {
@@ -41,6 +42,7 @@ export class StatusController {
   }
 
   @ApiOperation({ summary: 'Get one order by id' })
+  @UseInterceptors(MapInterceptor(Status, GetStatusResponseDto))
   @ApiResponse({ status: 200, type: GetStatusResponseDto })
   @Get(':id')
   private getOne(@Param('id', ParseUUIDPipe) id: string) {
@@ -48,6 +50,7 @@ export class StatusController {
   }
 
   @ApiOperation({ summary: 'Update order' })
+  @UseInterceptors(MapInterceptor(Status, CreateStatusResponseDto))
   @ApiResponse({ status: 200, type: CreateStatusResponseDto })
   @Patch(':id')
   private update(
