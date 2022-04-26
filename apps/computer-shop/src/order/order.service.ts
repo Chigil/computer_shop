@@ -70,10 +70,11 @@ export class OrderService {
   }
 
   public async getOne(id: string) {
-    const order = await this.orderRepository.findByPk(id);
+    const order = await this.orderRepository.findByPk(id, { include: { all: true } });
     if (!order) {
-      return new NotFoundException('order', id);
+      throw new NotFoundException('order', id);
     }
+    return order;
   }
 
   public async update(id: string, dto) {

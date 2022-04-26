@@ -54,6 +54,7 @@ export class UserController {
 
   @ApiOperation({ summary: 'Update user' })
   @ApiResponse({ status: 201, type: UpdateUserRequestDto })
+  @UseInterceptors(MapInterceptor(User, CreateUserResponseDto))
   @Patch(':id')
   private update(
     @Param('id', ParseUUIDPipe) id: string,

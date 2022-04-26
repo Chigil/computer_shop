@@ -41,14 +41,15 @@ export class OrderController {
   }
 
   @ApiOperation({ summary: 'Get one order by id' })
-  @ApiResponse({ status: 200, type: Order })
+  @UseInterceptors(MapInterceptor(Order, GetOrderResponseDto))
+  @ApiResponse({ status: 200, type: GetOrderResponseDto })
   @Get(':id')
   private getOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.orderService.getOne(id);
   }
 
   @ApiOperation({ summary: 'Update order' })
-  @ApiResponse({ status: 200, type: Order })
+  @ApiResponse({ status: 200, type: GetOrderResponseDto })
   @Patch(':id')
   private update(
     @Param('id', ParseUUIDPipe) id: string,
