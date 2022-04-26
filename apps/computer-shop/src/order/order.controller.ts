@@ -17,6 +17,7 @@ import { SuccessOperationDto } from '../../../../libs/common/src/dto/success-ope
 import { GetOrderDto } from './dto/request/get-order.dto';
 import { MapInterceptor } from '@automapper/nestjs';
 import { GetOrderResponseDto } from './dto/response/get-order-response.dto';
+import { CreateOrderResponseDto } from './dto/response/create-order-response.dto';
 
 @ApiTags('Order')
 @Controller('order')
@@ -24,7 +25,8 @@ export class OrderController {
   constructor(private orderService: OrderService) {}
 
   @ApiOperation({ summary: 'Create order' })
-  @ApiResponse({ status: 201, type: Order })
+  @ApiResponse({ status: 201, type: CreateOrderResponseDto })
+  @UseInterceptors(MapInterceptor(Order, CreateOrderResponseDto))
   @Post()
   private create(@Body() createOrderDto: CreateOrderRequestDto) {
     return this.orderService.create(createOrderDto);
@@ -49,7 +51,8 @@ export class OrderController {
   }
 
   @ApiOperation({ summary: 'Update order' })
-  @ApiResponse({ status: 200, type: GetOrderResponseDto })
+  @ApiResponse({ status: 200, type: CreateOrderResponseDto })
+  @UseInterceptors(MapInterceptor(Order, CreateOrderResponseDto))
   @Patch(':id')
   private update(
     @Param('id', ParseUUIDPipe) id: string,
