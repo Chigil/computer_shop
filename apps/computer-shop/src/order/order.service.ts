@@ -49,6 +49,10 @@ export class OrderService {
       if (dto.discountId) {
         await order.$set('discount', dto.discountId);
       }
+      const status = await this.statusService.getOne('1ae303b2-efe5-4e12-9db9-10cdb96a9567')
+      if (status) {
+        await order.$set('status', status.id);
+      }
       await order.$set('user', user.id);
       await order.$set('items', dto.items);
 
