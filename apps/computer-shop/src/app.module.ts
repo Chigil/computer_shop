@@ -20,10 +20,7 @@ import { DiscountTypeModule } from './discount-type/discount-type.module';
 import { CatalogItemModule } from './catalog-item/catalog-item.module';
 import { AutomapperModule } from '@automapper/nestjs';
 import { sequelize } from '@automapper/sequelize';
-import {
-  CamelCaseNamingConvention,
-  SnakeCaseNamingConvention,
-} from '@automapper/core';
+import { CamelCaseNamingConvention, SnakeCaseNamingConvention } from '@automapper/core';
 import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthJwtGuard } from './auth/guards/auth.jwt.guard';
@@ -31,6 +28,7 @@ import { RoleGuard } from './auth/guards/role.guard';
 import { CatalogItem } from './catalog-item/model/catalog-item.model';
 import { StatusModule } from './status/status.module';
 import { Status } from './status/model/status.model';
+import { rabbitConfig } from '../../../libs/common/src/rabbit-config/rabbit-config';
 
 @Module({
   controllers: [],
@@ -45,6 +43,7 @@ import { Status } from './status/model/status.model';
     },
   ],
   imports: [
+    rabbitConfig(),
     ConfigModule.forRoot({
       envFilePath: '.env',
     }),
@@ -88,5 +87,7 @@ import { Status } from './status/model/status.model';
     AuthModule,
     StatusModule,
   ],
+
 })
-export class AppModule {}
+export class AppModule {
+}
