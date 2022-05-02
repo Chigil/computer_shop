@@ -10,8 +10,7 @@ import { CreateDiscountResponseDto } from './dto/response/create-discount-respon
 export class DiscountService {
   constructor(
     @InjectModel(Discount) private discountRepository: typeof Discount,
-  ) {
-  }
+  ) {}
 
   public async create(
     dto: CreateDiscountRequestDto,
@@ -36,7 +35,9 @@ export class DiscountService {
   }
 
   public async getOne(id: string) {
-    const discount = await this.discountRepository.findByPk(id, { include: { all: true, nested: true } });
+    const discount = await this.discountRepository.findByPk(id, {
+      include: { all: true, nested: true },
+    });
     if (!discount) {
       throw new NotFoundException('discount', id);
     }

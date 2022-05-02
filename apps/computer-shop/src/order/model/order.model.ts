@@ -21,6 +21,7 @@ interface OrderCreationAttributes {
   statusId: string;
   totalPrice: number;
   items: CatalogItem;
+  orderFile: string;
 }
 
 @Table({ tableName: 'order', underscored: true })
@@ -59,4 +60,8 @@ export class Order extends Model<Order, OrderCreationAttributes> {
   )
   @AutoMap(() => CatalogItem)
   items: CatalogItem[];
+
+  @Column({ type: DataType.STRING, allowNull: true })
+  @AutoMap()
+  orderFile: string;
 }

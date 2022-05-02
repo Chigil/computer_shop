@@ -34,7 +34,9 @@ export class StatusController {
   }
 
   @ApiOperation({ summary: 'Get all status' })
-  @UseInterceptors(MapInterceptor(Status, GetStatusResponseDto, { isArray: true }))
+  @UseInterceptors(
+    MapInterceptor(Status, GetStatusResponseDto, { isArray: true }),
+  )
   @ApiResponse({ status: 200, type: [GetStatusResponseDto] })
   @Post('all')
   private getAll(@Body() getStatusResponseDto: GetStatusResponseDto) {

@@ -2,8 +2,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsString } from 'class-validator';
 import { AutoMap } from '@automapper/classes';
 import { GetDiscountTypeResponseDto } from '../../../discount-type/dto/response/get-discount-type-response.dto';
-import { Column, DataType } from 'sequelize-typescript';
-import { DataTypes } from 'sequelize';
 
 export class GetDiscountResponseDto {
   @ApiProperty({

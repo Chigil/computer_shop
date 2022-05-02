@@ -20,7 +20,10 @@ import { DiscountTypeModule } from './discount-type/discount-type.module';
 import { CatalogItemModule } from './catalog-item/catalog-item.module';
 import { AutomapperModule } from '@automapper/nestjs';
 import { sequelize } from '@automapper/sequelize';
-import { CamelCaseNamingConvention, SnakeCaseNamingConvention } from '@automapper/core';
+import {
+  CamelCaseNamingConvention,
+  SnakeCaseNamingConvention,
+} from '@automapper/core';
 import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthJwtGuard } from './auth/guards/auth.jwt.guard';
@@ -87,7 +90,5 @@ import { rabbitConfig } from '../../../libs/common/src/rabbit-config/rabbit-conf
     AuthModule,
     StatusModule,
   ],
-
 })
-export class AppModule {
-}
+export class AppModule {}

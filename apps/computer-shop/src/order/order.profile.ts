@@ -15,8 +15,8 @@ export class OrderProfile extends AutomapperProfile {
   get profile() {
     return (mapper) => {
       createMap(mapper, Order, GetOrderResponseDto);
-      createMap(mapper, Order, CreateOrderRequestDto)
-      createMap(mapper, Order, CreateOrderResponseDto)
+      createMap(mapper, Order, CreateOrderRequestDto);
+      createMap(mapper, Order, CreateOrderResponseDto);
     };
   }
 }

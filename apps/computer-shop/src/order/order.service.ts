@@ -15,6 +15,9 @@ import { ProductService } from '../product/product.service';
 import { DiscountService } from '../discount/discount.service';
 import { StatusService } from '../status/status.service';
 import { CatalogItemService } from '../catalog-item/catalog-item.service';
+import { OrderPublisher } from './order.publisher';
+import { PdfResponseContract } from '../../../../libs/common/src/contract/pdf-data-contract';
+import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
 
 @Injectable()
 export class OrderService {
@@ -27,6 +30,8 @@ export class OrderService {
     private statusService: StatusService,
     private productService: ProductService,
     private catalogItemService: CatalogItemService,
+    private readonly orderPublisher: OrderPublisher,
+    private readonly amqpConnection: AmqpConnection,
   ) {}
 
   public async create(dto: CreateOrderRequestDto) {
@@ -49,7 +54,9 @@ export class OrderService {
       if (dto.discountId) {
         await order.$set('discount', dto.discountId);
       }
-      const status = await this.statusService.getOne('1ae303b2-efe5-4e12-9db9-10cdb96a9567')
+      const status = await this.statusService.getOne(
+        '1ae303b2-efe5-4e12-9db9-10cdb96a9567',
+      );
       if (status) {
         await order.$set('status', status.id);
       }
@@ -74,7 +81,9 @@ export class OrderService {
   }
 
   public async getOne(id: string) {
-    const order = await this.orderRepository.findByPk(id, { include: { all: true } });
+    const order = await this.orderRepository.findByPk(id, {
+      include: { all: true },
+    });
     if (!order) {
       throw new NotFoundException('order', id);
     }
@@ -110,5 +119,41 @@ export class OrderService {
       return totalPrice - discountPrice;
     }
     return totalPrice;
+  }
+
+  public async savePdf(id: string) {
+    const data = await this.orderRepository.findByPk(id, {
+      include: { all: true },
+    });
+    return this.orderPublisher.requestOrderPdf(data);
+  }
+
+  public async savePdfRpc(id: string) {
+    const data = await this.orderRepository.findByPk(id, {
+      include: { all: true },
+    });
+    const response = await this.amqpConnection.request<PdfResponseContract>({
+      exchange: 'pdf-service-rpc',
+      routingKey: 'request-order-pdf',
+      payload: {
+        number: data.id,
+        price: data.totalPrice,
+        items: data.items,
+        userEmail: data.user.email,
+        userId: data.user.id,
+        exchange: 'main-service-rpc',
+        routingKey: 'response-order-pdf',
+      },
+      timeout: 10000,
+    });
+    const { file } = response;
+    await this.writeFile(id, file.filename);
+  }
+
+  public async writeFile(id: string, fileName: string) {
+    const order = await this.orderRepository.findByPk(id);
+    await order.update({
+      orderFile: fileName,
+    });
   }
 }

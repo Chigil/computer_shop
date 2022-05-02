@@ -6,7 +6,6 @@ import { ValidationPipe } from '../../../libs/common/src/pipe/validation.pipe';
 async function start() {
   const PORT = process.env.COMPUTER_SHOP_PORT || 5000;
   const app = await NestFactory.create(AppModule);
-
   const config = new DocumentBuilder()
     .setTitle('Computer-shop server')
     .setDescription('Documentation REST API')

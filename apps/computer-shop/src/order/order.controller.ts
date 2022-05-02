@@ -67,4 +67,16 @@ export class OrderController {
   private delete(@Param('id', ParseUUIDPipe) id: string) {
     return this.orderService.delete(id);
   }
+
+  @ApiOperation({ summary: 'Get one order by id' })
+  @Get('/save/:id')
+  async saveOrder(@Param('id', ParseUUIDPipe) id: string) {
+    return this.orderService.savePdf(id);
+  }
+
+  @ApiOperation({ summary: 'Get one order by id' })
+  @Get('/save/rpc/:id')
+  async saveOrderRpc(@Param('id', ParseUUIDPipe) id: string) {
+    return this.orderService.savePdfRpc(id);
+  }
 }
