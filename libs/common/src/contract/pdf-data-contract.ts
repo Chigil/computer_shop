@@ -1,25 +1,11 @@
 export class PdfDataContract {
-  number: string;
+  orderId: string;
   price: number;
   items: Items[];
   userEmail: string;
   userId: string;
-  exchange: string;
-  routingKey: string;
-}
-
-export class PdfDataContractRequest {
-  id: string;
-  totalPrice: number;
-  items: Items[];
-  exchange: string;
-  routingKey: string;
-  user: User;
-}
-
-class User {
-  email: string;
-  id: string;
+  exchange?: string;
+  routingKey?: string;
 }
 
 class Items {
@@ -29,13 +15,9 @@ class Items {
 
 export class PdfResponseContract {
   id?: string;
-  file: File;
+  filename: string;
 }
 
 export type FileResponse = {
   filename: string;
 };
-
-export class File {
-  filename: string;
-}

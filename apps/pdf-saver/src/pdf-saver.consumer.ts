@@ -1,11 +1,14 @@
-import { RabbitSubscribe } from '@golevelup/nestjs-rabbitmq';
+import { RabbitRPC, RabbitSubscribe } from '@golevelup/nestjs-rabbitmq';
 import { Injectable } from '@nestjs/common';
 import { PdfSaverService } from './pdf-saver.service';
 import { PdfSaverPublisher } from './pdf-saver.publisher';
-import { PdfDataContract } from '../../../libs/common/src/contract/pdf-data-contract';
+import {
+  FileResponse,
+  PdfDataContract,
+} from '../../../libs/common/src/contract/pdf-data-contract';
 
 @Injectable()
-export class MessagingServicePubSub {
+export class MessagingService {
   constructor(
     private readonly pdfSaverService: PdfSaverService,
     private readonly pdfSaverPublisher: PdfSaverPublisher,
@@ -16,14 +19,25 @@ export class MessagingServicePubSub {
     routingKey: 'request-order-pdf',
     queue: 'pdf-queue',
   })
-  public async pdfConsumer(msg: PdfDataContract) {
-    const file = await this.pdfSaverService.generateOrderPdf(msg);
-    const { exchange, routingKey, number } = msg;
+  public async pdfConsumer(message: PdfDataContract) {
+    const file: FileResponse = await this.pdfSaverService.generateOrderPdf(
+      message,
+    );
+    const { exchange, routingKey, orderId } = message;
     return this.pdfSaverPublisher.publishResponse(
       exchange,
       routingKey,
-      file,
-      number,
+      file.filename,
+      orderId,
     );
+  }
+
+  @RabbitRPC({
+    exchange: 'pdf-service-rpc',
+    routingKey: 'request-order-pdf',
+    queue: 'pdf-queue-rpc',
+  })
+  public async rpcHandler(msg: PdfDataContract) {
+    return this.pdfSaverService.generateOrderPdf(msg);
   }
 }
