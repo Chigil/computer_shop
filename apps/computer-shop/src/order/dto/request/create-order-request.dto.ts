@@ -18,7 +18,7 @@ export class CreateOrderRequestDto {
   @IsUUID('all', { message: 'Must be UUID' })
   public readonly discountId?: string;
 
-  @ApiProperty({ example: CatalogItem })
+  @ApiProperty({ example: '111'})
   @IsOptional()
   @IsArray({ message: 'Must be a array' })
   public readonly items?: string[];

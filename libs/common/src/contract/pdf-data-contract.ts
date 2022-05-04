@@ -21,3 +21,7 @@ export class PdfResponseContract {
 export type FileResponse = {
   filename: string;
 };
+
+export class File {
+  filename: string;
+};
