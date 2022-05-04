@@ -1,19 +1,24 @@
 import { Injectable } from '@nestjs/common';
-import { PdfDataContract } from '../../../libs/common/src/contract/pdf-data-contract';
+import {
+  FileResponse,
+  PdfDataContract,
+} from '../../../libs/common/src/contract/pdf-data-contract';
 import fs = require('fs');
 import Handlebars = require('handlebars');
 import pdf = require('html-pdf');
 
 @Injectable()
 export class PdfSaverService {
-  public async generateOrderPdf(msg: PdfDataContract): Promise<object> {
+  public async generateOrderPdf(msg: PdfDataContract): Promise<FileResponse> {
     const html = PdfSaverService.render(process.env.PDF_SAVER_FILE_PATH, msg);
-    const fileName = `${process.env.PDF_SAVER_FILE_NAME}order_${msg.number}`;
-    return await new Promise<object>((resolve, reject) => {
+    const fileName = `${process.env.PDF_SAVER_FILE_NAME}order_${msg.orderId}`;
+    return await new Promise<FileResponse>((resolve, reject) => {
       pdf
         .create(html)
-        .toFile(`./${fileName}.pdf`, (err: object, res: object) => {
-          if (err) reject(err);
+        .toFile(`./${fileName}.pdf`, (err: object, res: FileResponse) => {
+          if (err) {
+            reject(err);
+          }
           resolve(res);
         });
     });

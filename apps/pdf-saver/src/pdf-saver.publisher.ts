@@ -8,9 +8,9 @@ export class PdfSaverPublisher {
   public async publishResponse(
     exchange: string,
     routingKey: string,
-    file: object,
+    filename: string,
     id: string,
   ) {
-    return this.amqpConnection.publish(exchange, routingKey, { file, id });
+    return this.amqpConnection.publish(exchange, routingKey, { filename, id });
   }
 }

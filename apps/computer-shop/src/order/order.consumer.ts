@@ -14,8 +14,8 @@ export class OrderConsumerService {
     routingKey: 'response-order-pdf',
     queue: 'main-queue',
   })
-  public async orderConsumerPubSub(msg: PdfResponseContract) {
-    const { id, file } = msg;
-    await this.orderService.writeFile(id, file.filename);
+  public async orderConsumerPubSub(message: PdfResponseContract) {
+    const { id, filename } = message;
+    await this.orderService.writeFile(id, filename);
   }
 }

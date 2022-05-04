@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  StreamableFile,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Order } from './model/order.model';
 import { CreateOrderRequestDto } from './dto/request/create-order-request.dto';
@@ -16,12 +21,8 @@ import { DiscountService } from '../discount/discount.service';
 import { StatusService } from '../status/status.service';
 import { CatalogItemService } from '../catalog-item/catalog-item.service';
 import { OrderPublisher } from './order.publisher';
-import {
-  FileResponse,
-  PdfDataContractRequest,
-} from '../../../../libs/common/src/contract/pdf-data-contract';
-import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
-import { plainToClass } from '@nestjs/class-transformer';
+import { PdfDataContract } from '../../../../libs/common/src/contract/pdf-data-contract';
+import { createReadStream } from 'fs';
 
 @Injectable()
 export class OrderService {
@@ -35,7 +36,6 @@ export class OrderService {
     private productService: ProductService,
     private catalogItemService: CatalogItemService,
     private readonly orderPublisher: OrderPublisher,
-    private readonly amqpConnection: AmqpConnection,
   ) {}
 
   public async create(dto: CreateOrderRequestDto) {
@@ -124,12 +124,25 @@ export class OrderService {
     }
     return totalPrice;
   }
+  // public async createFileData(id){
+  //
+  // }
 
   public async savePdf(id: string) {
     const data = await this.orderRepository.findByPk(id, {
       include: { all: true },
     });
-    const result = plainToClass(PdfDataContractRequest, data);
+    if (data.orderFile) {
+      const file = createReadStream(data.orderFile);
+      return new StreamableFile(file);
+    }
+    const result: PdfDataContract = {
+      orderId: data.id,
+      price: data.totalPrice,
+      items: data.items,
+      userEmail: data.user.email,
+      userId: data.user.id,
+    };
     return this.orderPublisher.requestOrderPdf(result);
   }
 
@@ -137,26 +150,26 @@ export class OrderService {
     const data = await this.orderRepository.findByPk(id, {
       include: { all: true },
     });
-    const response = await this.amqpConnection.request<FileResponse>({
-      exchange: 'pdf-service-rpc',
-      routingKey: 'request-order-pdf',
-      payload: {
-        number: data.id,
-        price: data.totalPrice,
-        items: data.items,
-        userEmail: data.user.email,
-        userId: data.user.id,
-      },
-      timeout: 10000,
-    });
+    if (data.orderFile) {
+      const file = createReadStream(data.orderFile);
+      return new StreamableFile(file);
+    }
+    const result: PdfDataContract = {
+      orderId: data.id,
+      price: data.totalPrice,
+      items: data.items,
+      userEmail: data.user.email,
+      userId: data.user.id,
+    };
+    const response = await this.orderPublisher.requestOrderPdfRpc(result);
     const { filename } = response;
     await this.writeFile(id, filename);
   }
 
-  public async writeFile(id: string, fileName: string) {
+  public async writeFile(id: string, filename: string) {
     const order = await this.orderRepository.findByPk(id);
     await order.update({
-      orderFile: fileName,
+      orderFile: filename,
     });
   }
 }
