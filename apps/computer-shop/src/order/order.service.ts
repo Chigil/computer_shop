@@ -16,8 +16,12 @@ import { DiscountService } from '../discount/discount.service';
 import { StatusService } from '../status/status.service';
 import { CatalogItemService } from '../catalog-item/catalog-item.service';
 import { OrderPublisher } from './order.publisher';
-import { PdfResponseContract } from '../../../../libs/common/src/contract/pdf-data-contract';
+import {
+  FileResponse,
+  PdfDataContractRequest,
+} from '../../../../libs/common/src/contract/pdf-data-contract';
 import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
+import { plainToClass } from '@nestjs/class-transformer';
 
 @Injectable()
 export class OrderService {
@@ -125,14 +129,15 @@ export class OrderService {
     const data = await this.orderRepository.findByPk(id, {
       include: { all: true },
     });
-    return this.orderPublisher.requestOrderPdf(data);
+    const result = plainToClass(PdfDataContractRequest, data);
+    return this.orderPublisher.requestOrderPdf(result);
   }
 
   public async savePdfRpc(id: string) {
     const data = await this.orderRepository.findByPk(id, {
       include: { all: true },
     });
-    const response = await this.amqpConnection.request<PdfResponseContract>({
+    const response = await this.amqpConnection.request<FileResponse>({
       exchange: 'pdf-service-rpc',
       routingKey: 'request-order-pdf',
       payload: {
@@ -141,13 +146,11 @@ export class OrderService {
         items: data.items,
         userEmail: data.user.email,
         userId: data.user.id,
-        exchange: 'main-service-rpc',
-        routingKey: 'response-order-pdf',
       },
       timeout: 10000,
     });
-    const { file } = response;
-    await this.writeFile(id, file.filename);
+    const { filename } = response;
+    await this.writeFile(id, filename);
   }
 
   public async writeFile(id: string, fileName: string) {

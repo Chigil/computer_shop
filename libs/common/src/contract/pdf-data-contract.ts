@@ -26,11 +26,16 @@ class Items {
   title: string;
   id: string;
 }
+
 export class PdfResponseContract {
-  id: string;
+  id?: string;
   file: File;
 }
 
-class File {
+export type FileResponse = {
+  filename: string;
+};
+
+export class File {
   filename: string;
 }

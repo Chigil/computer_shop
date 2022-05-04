@@ -13,6 +13,6 @@ export class MessagingServiceRpc {
     queue: 'pdf-queue-rpc',
   })
   public async rpcHandler(msg: PdfDataContract) {
-    return { file: await this.pdfSaverService.generateOrderPdf(msg) };
+    return this.pdfSaverService.generateOrderPdf(msg);
   }
 }
