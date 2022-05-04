@@ -10,12 +10,18 @@ import { CreateDiscountResponseDto } from './dto/response/create-discount-respon
 export class DiscountService {
   constructor(
     @InjectModel(Discount) private discountRepository: typeof Discount,
-  ) {}
+  ) {
+  }
 
   public async create(
     dto: CreateDiscountRequestDto,
   ): Promise<CreateDiscountResponseDto> {
     const discount = await this.discountRepository.create(dto);
+    if (dto.amount > 100)
+      throw new HttpException(
+        'Discount must not exceed 99% ',
+        HttpStatus.BAD_REQUEST,
+      );
     if (discount) {
       return discount;
     }
@@ -24,15 +30,15 @@ export class DiscountService {
 
   public async getAll() {
     const discounts = await this.discountRepository.findAll({
-      include: { all: true },
+      include: { all: true, nested: true },
     });
     return discounts;
   }
 
   public async getOne(id: string) {
-    const discount = await this.discountRepository.findByPk(id);
+    const discount = await this.discountRepository.findByPk(id, { include: { all: true, nested: true } });
     if (!discount) {
-      return new NotFoundException('discount', id);
+      throw new NotFoundException('discount', id);
     }
     return discount;
   }

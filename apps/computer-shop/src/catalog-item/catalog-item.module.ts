@@ -9,5 +9,6 @@ import { CatalogItemProfile } from './catalog-item.profile';
   controllers: [CatalogItemController],
   providers: [CatalogItemService, CatalogItemProfile],
   imports: [SequelizeModule.forFeature([CatalogItem])],
+  exports: [CatalogItemService],
 })
 export class CatalogItemModule {}

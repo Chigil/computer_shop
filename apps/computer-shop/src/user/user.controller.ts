@@ -22,6 +22,7 @@ import { SuccessOperationDto } from '../../../../libs/common/src/dto/success-ope
 
 @ApiTags('User')
 @Controller('user')
+@Role('ADMIN')
 export class UserController {
   constructor(private userService: UserService) {}
 
@@ -37,11 +38,10 @@ export class UserController {
 
   @ApiOperation({ summary: 'Get all users' })
   @ApiResponse({ status: 200, type: [GetUserResponseDto] })
-  @Role('ADMIN')
-  @Get()
+  @Post('all')
   @UseInterceptors(MapInterceptor(User, GetUserResponseDto, { isArray: true }))
-  private getAll() {
-    return this.userService.getAll();
+  private getAll(@Body() getUserResponseDto: GetUserResponseDto) {
+    return this.userService.getAll(getUserResponseDto);
   }
 
   @ApiOperation({ summary: 'Get one user by id' })
@@ -54,6 +54,7 @@ export class UserController {
 
   @ApiOperation({ summary: 'Update user' })
   @ApiResponse({ status: 201, type: UpdateUserRequestDto })
+  @UseInterceptors(MapInterceptor(User, CreateUserResponseDto))
   @Patch(':id')
   private update(
     @Param('id', ParseUUIDPipe) id: string,

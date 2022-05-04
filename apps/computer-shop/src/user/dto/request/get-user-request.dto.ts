@@ -2,8 +2,9 @@ import { ApiProperty } from '@nestjs/swagger';
 import { AutoMap } from '@automapper/classes';
 import { Role } from '../../../role/model/role.model';
 import { LoyaltyProgram } from '../../../loyalty-program/model/loyalty-program.model';
+import { GetAllDto } from '../../../../../../libs/common/src/dto/get-all.dto';
 
-export class GetUserResponseDto {
+export class GetUserRequestDto extends GetAllDto {
   @ApiProperty({
     example: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
     description: 'UUID user',

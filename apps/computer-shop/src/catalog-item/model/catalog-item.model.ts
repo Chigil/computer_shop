@@ -25,6 +25,7 @@ export class CatalogItem extends Model<
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   })
+  @AutoMap()
   id: string;
 
   @AutoMap()

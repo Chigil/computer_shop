@@ -14,6 +14,7 @@ import { SetService } from '../set/set.service';
 import { ProductService } from '../product/product.service';
 import { DiscountService } from '../discount/discount.service';
 import { StatusService } from '../status/status.service';
+import { CatalogItemService } from '../catalog-item/catalog-item.service';
 
 @Injectable()
 export class OrderService {
@@ -25,22 +26,36 @@ export class OrderService {
     private setService: SetService,
     private statusService: StatusService,
     private productService: ProductService,
+    private catalogItemService: CatalogItemService,
   ) {}
 
   public async create(dto: CreateOrderRequestDto) {
-    const order = await this.orderRepository.create(dto);
+    const order = await this.orderRepository.create();
     if (order) {
-      const discount = await this.discountService.getOne(dto.discountId);
       const user = await this.userService.getOne(dto.userId);
-      const status = await this.statusService.getOne(dto.statusId);
-      await order.$set('discount', discount.id);
-      await order.$set('status', status.id);
+      const catalogItem = await this.catalogItemService.findAllById(dto.items);
+      const sets = [];
+      const products = [];
+      catalogItem.forEach((item) => {
+        if (item.kit) {
+          sets.push(item.kit);
+        }
+        if (item.product) {
+          products.push(item.product);
+        }
+      });
+      const price = await this.calculatePrice(sets, products, dto.discountId);
+
+      if (dto.discountId) {
+        await order.$set('discount', dto.discountId);
+      }
+      const status = await this.statusService.getOne('1ae303b2-efe5-4e12-9db9-10cdb96a9567')
+      if (status) {
+        await order.$set('status', status.id);
+      }
       await order.$set('user', user.id);
-      const price = await this.updatePrice(
-        dto.sets,
-        dto.products,
-        discount.amount,
-      );
+      await order.$set('items', dto.items);
+
       await order.update({ totalPrice: price });
       await order.save();
       return order;
@@ -59,13 +74,14 @@ export class OrderService {
   }
 
   public async getOne(id: string) {
-    const order = await this.orderRepository.findByPk(id);
+    const order = await this.orderRepository.findByPk(id, { include: { all: true } });
     if (!order) {
-      return new NotFoundException('order', id);
+      throw new NotFoundException('order', id);
     }
+    return order;
   }
 
-  public async update(id: string, dto: CreateOrderRequestDto) {
+  public async update(id: string, dto) {
     const order = await this.orderRepository.findByPk(id);
     await order.update(dto);
     await order.save();
@@ -80,26 +96,17 @@ export class OrderService {
     return { success: false };
   }
 
-  public async updatePrice(
-    setId: string[],
-    productIds: string[],
-    discount?: number,
-  ) {
-    const set = await this.setService.findAllById(setId);
-    const products = await this.productService.findAllById(productIds);
-    return OrderService.calculatePrice(products, set, discount);
-  }
-
-  private static calculatePrice(
+  private async calculatePrice(
     products?: Product[],
     sets?: Set[],
-    discount?: number,
+    discountId?: string,
   ) {
     const productsPrice = products.reduce((n, { price }) => n + price, 0);
     const setsPrice = sets.reduce((n, { price }) => n + price, 0);
     const totalPrice = productsPrice + setsPrice;
-    if (discount) {
-      const discountPrice = (totalPrice * discount) / 100;
+    if (discountId) {
+      const { amount } = await this.discountService.getOne(discountId);
+      const discountPrice = (totalPrice * amount) / 100;
       return totalPrice - discountPrice;
     }
     return totalPrice;

@@ -27,6 +27,7 @@ export class SetController {
   @ApiOperation({ summary: 'Create set' })
   @ApiResponse({ status: 201, type: Set })
   @Role('ADMIN')
+  @UseInterceptors(MapInterceptor(Set, CreateSetRequestDto))
   @Post()
   private create(@Body() createSetDto: CreateSetRequestDto) {
     return this.setService.create(createSetDto);
@@ -42,6 +43,7 @@ export class SetController {
 
   @ApiOperation({ summary: 'Get one set by id' })
   @ApiResponse({ status: 200, type: GetSetResponseDto })
+  @UseInterceptors(MapInterceptor(Set, GetSetResponseDto))
   @Get(':id')
   private getOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.setService.getOne(id);
@@ -49,6 +51,7 @@ export class SetController {
 
   @ApiOperation({ summary: 'Update set' })
   @ApiResponse({ status: 200, type: GetSetResponseDto })
+  @UseInterceptors(MapInterceptor(Set, CreateSetRequestDto))
   @Role('ADMIN')
   @Patch(':id')
   private update(

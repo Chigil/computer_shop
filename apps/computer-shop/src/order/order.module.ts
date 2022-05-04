@@ -9,6 +9,7 @@ import { ProductModule } from '../product/product.module';
 import { SetModule } from '../set/set.module';
 import { DiscountModule } from '../discount/discount.module';
 import { StatusModule } from '../status/status.module';
+import { CatalogItemModule } from '../catalog-item/catalog-item.module';
 
 @Module({
   providers: [OrderService, OrderProfile],
@@ -20,6 +21,7 @@ import { StatusModule } from '../status/status.module';
     SetModule,
     DiscountModule,
     StatusModule,
+    CatalogItemModule,
   ],
 })
 export class OrderModule {}

@@ -2,6 +2,10 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { NotFoundException } from '../../../../libs/common/src/exeption/not-found.exception';
 import { InjectModel } from '@nestjs/sequelize';
 import { Status } from './model/status.model';
+import { search } from '../../../../libs/common/src/utility/search';
+import { paginate } from '../../../../libs/common/src/utility/paginate';
+import { sort } from '../../../../libs/common/src/utility/sort';
+import { GetStatusRequestDto } from './dto/request/get-status-request.dto';
 
 @Injectable()
 export class StatusService {
@@ -18,9 +22,12 @@ export class StatusService {
     throw new HttpException('Not created', HttpStatus.BAD_REQUEST);
   }
 
-  public async getAll() {
+  public async getAll(body: GetStatusRequestDto) {
     const statuses = await this.statusRepository.findAll({
       include: { all: true },
+      where: search(body.filter),
+      ...paginate(body.pagination),
+      ...sort(body.sorting),
     });
     return statuses;
   }

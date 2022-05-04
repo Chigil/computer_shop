@@ -4,7 +4,7 @@ import { CreateUserRequestDto } from '../user/dto/request/create-user-request.dt
 import { AuthService } from './auth.service';
 import { Public } from '../../../../libs/common/src/decorators/public.decorators';
 
-@ApiTags('Авторизация')
+@ApiTags('Authorization')
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}

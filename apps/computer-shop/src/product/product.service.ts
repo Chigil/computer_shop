@@ -37,8 +37,9 @@ export class ProductService {
   public async getOne(id: string) {
     const product = await this.productRepository.findByPk(id);
     if (!product) {
-      return new NotFoundException('product', id);
+      throw new NotFoundException('product', id);
     }
+    return product;
   }
 
   public async update(id: string, dto: CreateProductRequestDto) {

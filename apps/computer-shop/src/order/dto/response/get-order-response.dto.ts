@@ -4,6 +4,7 @@ import { GetUserResponseDto } from '../../../user/dto/response/get-user-response
 import { GetDiscountResponseDto } from '../../../discount/dto/response/get-discount-response.dto';
 import { GetCatalogItemResponseDto } from '../../../catalog-item/dto/response/get-catalog-item-response.dto';
 import { GetStatusResponseDto } from '../../../status/dto/response/get-status-response.dto';
+import { IsOptional } from 'class-validator';
 
 export class GetOrderResponseDto {
   @AutoMap()
@@ -21,8 +22,9 @@ export class GetOrderResponseDto {
   @ApiProperty({
     description: 'Discount',
   })
+  @IsOptional()
   @AutoMap(() => GetDiscountResponseDto)
-  public readonly discount: GetDiscountResponseDto;
+  public readonly discount?: GetDiscountResponseDto;
 
   @ApiProperty({
     description: 'CatalogItem',
