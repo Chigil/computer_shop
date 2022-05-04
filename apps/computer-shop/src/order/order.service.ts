@@ -124,6 +124,9 @@ export class OrderService {
     }
     return totalPrice;
   }
+  // public async createFileData(id){
+  //
+  // }
 
   public async savePdf(id: string) {
     const data = await this.orderRepository.findByPk(id, {
