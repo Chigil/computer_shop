@@ -20,5 +20,5 @@ export const rabbitConfig = () =>
         type: 'direct',
       },
     ],
-    uri: 'amqp://guest:guest@localhost:5672',
+    uri: process.env.RABBIT_MQ_URI || 'amqp://guest:guest@localhost:5672' ,
   });
