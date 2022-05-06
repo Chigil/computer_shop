@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  StreamableFile,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Order } from './model/order.model';
 import { CreateOrderRequestDto } from './dto/request/create-order-request.dto';
@@ -15,6 +20,9 @@ import { ProductService } from '../product/product.service';
 import { DiscountService } from '../discount/discount.service';
 import { StatusService } from '../status/status.service';
 import { CatalogItemService } from '../catalog-item/catalog-item.service';
+import { OrderPublisher } from './order.publisher';
+import { PdfDataContract } from '../../../../libs/common/src/contract/pdf-data-contract';
+import { createReadStream } from 'fs';
 
 @Injectable()
 export class OrderService {
@@ -27,6 +35,7 @@ export class OrderService {
     private statusService: StatusService,
     private productService: ProductService,
     private catalogItemService: CatalogItemService,
+    private readonly orderPublisher: OrderPublisher,
   ) {}
 
   public async create(dto: CreateOrderRequestDto) {
@@ -49,10 +58,15 @@ export class OrderService {
       if (dto.discountId) {
         await order.$set('discount', dto.discountId);
       }
-      const status = await this.statusService.getOne('1ae303b2-efe5-4e12-9db9-10cdb96a9567')
-      if (status) {
-        await order.$set('status', status.id);
+      let status = await this.statusService.getByValue(
+        'Added, in progress'
+      );
+      if (!status) {
+        status = await this.statusService.create({
+          name: 'Added, in progress'
+        })
       }
+      await order.$set('status', status.id);
       await order.$set('user', user.id);
       await order.$set('items', dto.items);
 
@@ -74,7 +88,9 @@ export class OrderService {
   }
 
   public async getOne(id: string) {
-    const order = await this.orderRepository.findByPk(id, { include: { all: true } });
+    const order = await this.orderRepository.findByPk(id, {
+      include: { all: true },
+    });
     if (!order) {
       throw new NotFoundException('order', id);
     }
@@ -110,5 +126,50 @@ export class OrderService {
       return totalPrice - discountPrice;
     }
     return totalPrice;
+  }
+
+  public async savePdf(id: string) {
+    const data = await this.orderRepository.findByPk(id, {
+      include: { all: true },
+    });
+    if (data.orderFile) {
+      const file = createReadStream(data.orderFile);
+      return new StreamableFile(file);
+    }
+    const result: PdfDataContract = {
+      orderId: data.id,
+      price: data.totalPrice,
+      items: data.items,
+      userEmail: data.user.email,
+      userId: data.user.id,
+    };
+    return this.orderPublisher.requestOrderPdf(result);
+  }
+
+  public async savePdfRpc(id: string) {
+    const data = await this.orderRepository.findByPk(id, {
+      include: { all: true },
+    });
+    if (data.orderFile) {
+      const file = createReadStream(data.orderFile);
+      return new StreamableFile(file);
+    }
+    const result: PdfDataContract = {
+      orderId: data.id,
+      price: data.totalPrice,
+      items: data.items,
+      userEmail: data.user.email,
+      userId: data.user.id,
+    };
+    const response = await this.orderPublisher.requestOrderPdfRpc(result);
+    const { filename } = response;
+    await this.writeFile(id, filename);
+  }
+
+  public async writeFile(id: string, filename: string) {
+    const order = await this.orderRepository.findByPk(id);
+    await order.update({
+      orderFile: filename,
+    });
   }
 }

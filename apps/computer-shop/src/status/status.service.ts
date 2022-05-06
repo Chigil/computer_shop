@@ -49,6 +49,10 @@ export class StatusService {
     return status;
   }
 
+  public async getByValue(name: string) {
+    return await this.statusRepository.findOne({ where: { name } });
+  }
+
   public async delete(id: string) {
     const deleted = await this.statusRepository.destroy({
       where: { id: id },

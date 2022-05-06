@@ -31,6 +31,7 @@ import { RoleGuard } from './auth/guards/role.guard';
 import { CatalogItem } from './catalog-item/model/catalog-item.model';
 import { StatusModule } from './status/status.module';
 import { Status } from './status/model/status.model';
+import { rabbitConfig } from '../../../libs/common/src/rabbit-config/rabbit-config';
 
 @Module({
   controllers: [],
@@ -45,6 +46,7 @@ import { Status } from './status/model/status.model';
     },
   ],
   imports: [
+    rabbitConfig(),
     ConfigModule.forRoot({
       envFilePath: '.env',
     }),

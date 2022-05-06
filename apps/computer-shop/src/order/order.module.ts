@@ -10,9 +10,12 @@ import { SetModule } from '../set/set.module';
 import { DiscountModule } from '../discount/discount.module';
 import { StatusModule } from '../status/status.module';
 import { CatalogItemModule } from '../catalog-item/catalog-item.module';
+import { rabbitConfig } from '../../../../libs/common/src/rabbit-config/rabbit-config';
+import { OrderConsumerService } from './order.consumer';
+import { OrderPublisher } from './order.publisher';
 
 @Module({
-  providers: [OrderService, OrderProfile],
+  providers: [OrderService, OrderProfile, OrderConsumerService, OrderPublisher],
   controllers: [OrderController],
   imports: [
     SequelizeModule.forFeature([Order]),
@@ -22,6 +25,7 @@ import { CatalogItemModule } from '../catalog-item/catalog-item.module';
     DiscountModule,
     StatusModule,
     CatalogItemModule,
+    rabbitConfig(),
   ],
 })
 export class OrderModule {}

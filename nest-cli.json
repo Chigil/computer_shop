@@ -17,15 +17,6 @@
         "tsConfigPath": "apps/computer-shop/tsconfig.app.json"
       }
     },
-    "my-app": {
-      "type": "application",
-      "root": "apps/my-app",
-      "entryFile": "main",
-      "sourceRoot": "apps/my-app/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/my-app/tsconfig.app.json"
-      }
-    },
     "my-library": {
       "type": "library",
       "root": "libs/my-library",
@@ -33,6 +24,15 @@
       "sourceRoot": "libs/my-library/src",
       "compilerOptions": {
         "tsConfigPath": "libs/my-library/tsconfig.lib.json"
+      }
+    },
+    "pdf-saver": {
+      "type": "application",
+      "root": "apps/pdf-saver",
+      "entryFile": "main",
+      "sourceRoot": "apps/pdf-saver/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/pdf-saver/tsconfig.app.json"
       }
     }
   }

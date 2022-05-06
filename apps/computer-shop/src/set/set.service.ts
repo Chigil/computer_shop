@@ -42,7 +42,9 @@ export class SetService {
   }
 
   public async getOne(id: string) {
-    const set = await this.setRepository.findByPk(id, { include: { all: true }});
+    const set = await this.setRepository.findByPk(id, {
+      include: { all: true },
+    });
     return set;
   }
 

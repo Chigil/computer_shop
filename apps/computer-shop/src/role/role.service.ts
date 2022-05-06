@@ -14,13 +14,11 @@ export class RoleService {
     }
   }
 
-  async getByValue(ident: string) {
-    const role = await this.roleRepository.findOne({ where: { ident } });
-    return role;
+  public async getByValue(ident: string) {
+    return await this.roleRepository.findOne({ where: { ident } });
   }
 
   public async getAll() {
-    const roles = await this.roleRepository.findAll();
-    return roles;
+    return await this.roleRepository.findAll();
   }
 }
