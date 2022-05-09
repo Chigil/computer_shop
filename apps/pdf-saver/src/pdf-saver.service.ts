@@ -6,16 +6,18 @@ import {
 import fs = require('fs');
 import Handlebars = require('handlebars');
 import pdf = require('html-pdf');
+import path = require('path');
 
 @Injectable()
 export class PdfSaverService {
   public async generateOrderPdf(msg: PdfDataContract): Promise<FileResponse> {
-    const html = PdfSaverService.render(process.env.PDF_SAVER_FILE_PATH, msg);
-    const fileName = `${process.env.PDF_SAVER_FILE_NAME}order_${msg.orderId}`;
+    const filePath = path.resolve(__dirname, '../../../',process.env.PDF_SAVER_FILE_HTML_NAME);
+    const html = PdfSaverService.render(filePath, msg);
+    const fileName = `order_${msg.orderId}`;
     return await new Promise<FileResponse>((resolve, reject) => {
       pdf
         .create(html)
-        .toFile(`./${fileName}.pdf`, (err: object, res: FileResponse) => {
+        .toFile(`../static/${fileName}.pdf`, (err: object, res: FileResponse) => {
           if (err) {
             reject(err);
           }
