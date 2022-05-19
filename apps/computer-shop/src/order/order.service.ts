@@ -59,11 +59,11 @@ export class OrderService {
         await order.$set('discount', dto.discountId);
       }
       let status = await this.statusService.getByValue(
-        'Added, in progress'
+        'Added. In processing'
       );
       if (!status) {
         status = await this.statusService.create({
-          name: 'Added, in progress'
+          name: 'Added. In processing'
         })
       }
       await order.$set('status', status.id);

@@ -69,7 +69,7 @@ import { rabbitConfig } from '../../../libs/common/src/rabbit-config/rabbit-conf
         CatalogItem,
         Status,
       ],
-      autoLoadModels: true,
+      autoLoadModels: false,
     }),
     AutomapperModule.forRoot({
       strategyInitializer: sequelize(),

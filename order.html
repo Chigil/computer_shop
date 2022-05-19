@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+</head>
+<body>
+<h2>Ваш заказ №: {{ number }}</h2>
+<h3>email: {{ userEmail }}</h3>
+<h3>Личный номер: {{ userId }}</h3>
+<h2>Товар:</h2>
+{{#items}}
+<p>{{title}} № {{id}}</p>
+{{/items}}
+<h2>На сумму: {{ price }}</h2>
+</body>
+<html>
